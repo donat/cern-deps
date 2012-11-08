@@ -1,0 +1,1 @@
+Placeholder of the cern dependency analysis plugin, if legal issues are solved.
