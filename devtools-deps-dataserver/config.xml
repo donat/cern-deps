@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!DOCTYPE beans PUBLIC "-//Spring/Spring Mapping DTD//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="oracle_data_source"
+		class="org.springframework.jdbc.datasource.SingleConnectionDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="password" value="trac3C13nT" />
+		<property name="username" value="TRACE_DEPS_CLIENT" />
+		<property name="url"
+			value="jdbc:oracle:thin:@(DESCRIPTION= (ADDRESS= (PROTOCOL=TCP) (HOST=acccon1-v) (PORT=10121) )(ADDRESS= (PROTOCOL=TCP) (HOST=acccon2-v) (PORT= 10121))(LOAD_BALANCE=off)(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=acccon_s.cern.ch)(FAILOVER_MODE=(TYPE=SELECT)(METHOD=BASIC))))" />
+	</bean>
+
+<!-- 	<bean id="oracle_data_source" -->
+<!-- 		class="org.springframework.jdbc.datasource.SingleConnectionDataSource"> -->
+<!-- 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" /> -->
+<!-- 		<property name="password" value="trac3TH15" /> -->
+<!-- 		<property name="username" value="trace_dependencies" /> -->
+<!-- 		<property name="url" -->
+<!-- 			value="jdbc:oracle:thin:@( DESCRIPTION= (ADDRESS= (PROTOCOL=TCP) (HOST=dbsrvg3305.cern.ch) (PORT=10121) ) (ENABLE=BROKEN) (CONNECT_DATA= (SID=DEVDB11) ))" /> -->
+<!-- 	</bean> -->
+
+	<bean id="jdbc_template" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg ref="oracle_data_source" />
+	</bean>
+
+	<bean id="oracle_utils" class="cern.devtools.depanalysis.bean.impl.OracleUtils">
+		<constructor-arg ref="jdbc_template" />
+	</bean>
+
+
+	<bean id="database_dao" class="cern.devtools.depanalysis.bean.impl.OracleDatabaseDao">
+		<constructor-arg ref="oracle_utils" />
+	</bean>
+
+	<bean id="artifact_finder" class="cern.devtools.depanalysis.bean.impl.ArtifactFinderImpl">
+		<!-- Produce only pro jars -->
+		<constructor-arg index="0" value="true" />
+		<!-- Check, if the files exist just form the location paths based on the 
+			content of the repository.xml -->
+		<constructor-arg index="1" value="false" />
+	</bean>
+
+	<bean id="dependency_extractor"
+		class="cern.devtools.depanalysis.bean.impl.DependencyExtractorImpl">
+		<constructor-arg ref="database_dao" />
+		<!-- <constructor-arg> -->
+		<!-- <list> -->
+		<!-- <ref local="java_processor" /> -->
+		<!-- </list> -->
+		<!-- </constructor-arg> -->
+	</bean>
+
+	<bean id="dependency_service"
+		class="cern.devtools.depanalysis.bean.impl.DependencyServiceImpl" destroy-method="close">
+		<constructor-arg index="0" ref="database_dao" />
+		<constructor-arg index="1" ref="controller" />
+	</bean>
+
+	<bean id="dependency_service_rmi" class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<property name="serviceName" value="dependency_service" />
+		<property name="service" ref="dependency_service" />
+		<property name="registryPort" value="18080" />
+		<property name="serviceInterface"
+			value="cern.devtools.depanalysis.bean.DependencyService" />
+	</bean>
+
+	<bean id="controller" class="cern.devtools.depanalysis.bean.impl.ControllerImpl">
+		<constructor-arg index="0" ref="artifact_finder" />
+		<constructor-arg index="1" ref="dependency_extractor" />
+		<constructor-arg index="2">
+			<map>
+				<entry key="interactive" value="false" />
+				<entry key="schedule" value="false" />
+				<entry key="schedule_delay_ms" value="3000" />
+				<entry key="schedule_interval_ms" value="14400000" />
+			</map>
+		</constructor-arg>
+
+	</bean>
+</beans>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cp3:CP3Repo xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cp3="http://inf.mit.bme.hu/donat/incquery-deps/cp3model">
+<items xsi:type="cp3:CP3Project" id="16" name="japc-ext-cmw" classes="17 20"/>
+<items xsi:type="cp3:CP3Project" id="1" name="japc" classes="2 6 9"/>
+<items xsi:type="cp3:CP3Project" id="11" name="accsoft-gui-alarms" classes="12"/>
+<items xsi:type="cp3:CP3Class" id="17" name="CmwParameterFactory" projects="16" methods="19 18" fields=""/>
+<items xsi:type="cp3:CP3Class" id="2" name="ParameterFactory" projects="1" methods="3 4 5" fields=""/>
+<items xsi:type="cp3:CP3Class" id="20" name="CmwParameter" projects="16" methods="21 23 22" fields=""/>
+<items xsi:type="cp3:CP3Class" id="6" name="Parameter" projects="1" methods="7 8" fields=""/>
+<items xsi:type="cp3:CP3Class" id="9" name="ParameterValue" projects="1" methods="10" fields=""/>
+<items xsi:type="cp3:CP3Class" id="12" name="CommandPanel" projects="11" methods="13 14 15" fields=""/>
+<items xsi:type="cp3:CP3Method" id="3" name="ParameterFactory" classes="2" />
+<items xsi:type="cp3:CP3Method" id="4" name="newInstance" classes="2" />
+<items xsi:type="cp3:CP3Method" id="5" name="newParameter" classes="2" />
+<items xsi:type="cp3:CP3Method" id="7" name="getValue" classes="6" />
+<items xsi:type="cp3:CP3Method" id="8" name="setValue" classes="6" />
+<items xsi:type="cp3:CP3Method" id="10" name="getString" classes="9" />
+<items xsi:type="cp3:CP3Method" id="13" name="CommandPanel" classes="12" />
+<items xsi:type="cp3:CP3Method" id="14" name="setDeviceName" classes="12" />
+<items xsi:type="cp3:CP3Method" id="15" name="handleReset" classes="12" />
+<items xsi:type="cp3:CP3Method" id="19" name="newParameter" classes="17" />
+<items xsi:type="cp3:CP3Method" id="18" name="CmwParameterFactory" classes="17" />
+<items xsi:type="cp3:CP3Method" id="21" name="CmwParameter" classes="20" />
+<items xsi:type="cp3:CP3Method" id="23" name="setValue" classes="20" />
+<items xsi:type="cp3:CP3Method" id="22" name="getValue" classes="20" />
+<deps type="1" from="18" to="3"/>
+<deps type="5" from="20" to="6"/>
+<deps type="4" from="12" to="2"/>
+<deps type="1" from="14" to="8"/>
+<deps type="4" from="17" to="2"/>
+<deps type="4" from="20" to="6"/>
+<deps type="5" from="17" to="2"/>
+<deps type="2" from="19" to="5"/>
+<deps type="4" from="12" to="6"/>
+<deps type="1" from="15" to="7"/>
+<deps type="1" from="14" to="4"/>
+<deps type="1" from="14" to="5"/>
+<deps type="1" from="15" to="5"/>
+<deps type="1" from="15" to="4"/>
+</cp3:CP3Repo>

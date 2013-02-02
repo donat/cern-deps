@@ -1,0 +1,6 @@
+**/bin/**/*
+**/src-gen/**/*
+**/**/*.class
+/build
+/target
+/commonbuild-full-pro.repomodel
