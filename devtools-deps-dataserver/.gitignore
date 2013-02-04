@@ -4,3 +4,7 @@
 /build
 /target
 /commonbuild-full-pro.repomodel
+**src/test/config/*-oracledev.xml
+**src/java/config/*
+sampleprojects/bin/*
+
