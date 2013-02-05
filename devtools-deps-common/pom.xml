@@ -1,0 +1,116 @@
+<!--
+  © Copyright 2013 CERN. This software is distributed under the terms of the GNU General Public Licence version 3 (GPL
+  Version 3), copied verbatim in the file "COPYING". In applying this licence, CERN does not waive the privileges and
+  immunities granted to it by virtue of its status as an Intergovernmental Organization or submit itself to any
+  jurisdiction.
+  
+  If you modify this Program, or any covered work, by linking or combining it with the Eclipse Integrated Development
+  Environment Plugin libraries (or a modified version of these libraries), containing parts covered by the terms of EPL
+  (Eclipse Public licence), the licensors of this Program grant you additional permission to convey the resulting work.
+  Corresponding Source for a non-source form of such a combination shall include the source code for the parts of
+  Eclipse Integrated Development Environment Plugin libraries used as well as that of the covered work.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>cern</groupId>
+		<artifactId>parent-pom</artifactId>
+		<version>1.0.5-SNAPSHOT</version>
+	</parent>
+
+	<groupId>cern.devtools.deps</groupId>
+	<artifactId>devtools-deps-common</artifactId>
+	<version>2.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>devtools-deps-common</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<neo4j.version>1.7.1</neo4j.version>
+	</properties>
+
+	<!-- Enable spring data -->
+	<repositories>
+		<repository>
+			<id>spring-snapshot</id>
+			<name>Spring Snapshot Repository</name>
+			<url>http://artifacts/content/repositories/spring-snapshot/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<!-- Add dependency to Spring Data -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-neo4j</artifactId>
+			<version>2.1.0.RC3</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j-kernel</artifactId>
+			<version>${neo4j.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j-cypher-dsl</artifactId>
+			<version>1.7</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- EMF dependencies -->
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>emf-commons</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>emf-ecore</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>emf-ecore-change</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>emf-ecore-xmi</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>cern.accsoft.commons</groupId>
+			<artifactId>accsoft-commons-util</artifactId>
+			<version>1.14.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-proxy</artifactId>
+			<version>1.0</version>
+		</dependency>
+	</dependencies>
+</project>
