@@ -12,6 +12,5 @@ src/java/config/ctx-server-dev.xml
 src/java/config/ctx-server-pro.xml
 
 # binaries
-**src/java/config/*
 sampleprojects/bin/*
 
