@@ -10,21 +10,12 @@
  * Corresponding Source for a non-source form of such a combination shall include the source code for the parts of
  * Eclipse Integrated Development Environment Plugin libraries used as well as that of the covered work.
  **********************************************************************************************************************/
-package cern.devtools.depanalysis.springdata.repos;
+package cern.devtools.depanalysis;
 
-import java.util.Collection;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import org.springframework.data.neo4j.annotation.Query;
-import org.springframework.data.neo4j.repository.GraphRepository;
-
-import cern.devtools.depanalysis.domain.neo4j.DependencyRelation;
-import cern.devtools.depanalysis.domain.neo4j.MethodNode;
-
-public interface MethodRepository extends GraphRepository<MethodNode> {
-	
-	@Query("start method=node({0}) match method<-[d:DEPENDS_ON]-incoming where d.type='METHOD_CALL' return d ")
-	Collection<DependencyRelation> findIncomingMethodCallRelationships(MethodNode m);
-	
-	@Query("start method=node({0}) match method<-[d:DEPENDS_ON]-incoming where d.type='METHOD_OVERRIDE' return d ")
-	Collection<DependencyRelation> findIncomingMethodOverrideRelationships(MethodNode m);
+public class ServerNeo4j {
+	public static void main(String[] args) {
+		new ClassPathXmlApplicationContext("classpath:/config/ctx-server-graph.xml");
+	}
 }

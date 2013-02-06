@@ -1,10 +1,17 @@
+# don't store the generated elements
 **/bin/**/*
 **/src-gen/**/*
 **/**/*.class
 /build
 /target
 /commonbuild-full-pro.repomodel
-**src/test/config/*-oracledev.xml
+
+# cern infrasturcture-related descriptors
+src/test/config/*-oracledev.xml
+src/java/config/ctx-server-dev.xml
+src/java/config/ctx-server-pro.xml
+
+# binaries
 **src/java/config/*
 sampleprojects/bin/*
 
