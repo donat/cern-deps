@@ -15,7 +15,6 @@ package cern.devtools.deps.domain.impl;
 import java.io.Serializable;
 import java.util.Collection;
 
-import cern.accsoft.commons.util.StringUtils;
 import cern.devtools.deps.domain.CodeElement;
 import cern.devtools.deps.domain.Dependency;
 import cern.devtools.deps.domain.DependencyType;
@@ -23,23 +22,39 @@ import cern.devtools.deps.domain.TransitiveDependency;
 
 public class TransitiveDependencyImpl extends DependencyImpl implements TransitiveDependency, Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	private final Collection<Dependency> transitiveFrom;
+    private static final long serialVersionUID = 1L;
 
-	public TransitiveDependencyImpl(DependencyType type, CodeElement from, CodeElement to, Collection<Dependency> transitiveFrom) {
-		super(type, from, to);
-		this.transitiveFrom = transitiveFrom;
-	}
+    private final Collection<Dependency> transitiveFrom;
 
-	@Override
-	public Collection<Dependency> getTransitiveFrom() {
-		return transitiveFrom;
-	}
-	
-	@Override
-	public String toString() {
-		String trans = StringUtils.arrayToDelimitedString(getTransitiveFrom().toArray(), " ");
-		return String.format("TransDependency(type=%s, from=%s, to=%s, trans=[%s])", getType(), getFrom(), getTo(), trans);
-	}
+    public TransitiveDependencyImpl(DependencyType type, CodeElement from, CodeElement to,
+            Collection<Dependency> transitiveFrom) {
+        super(type, from, to);
+        this.transitiveFrom = transitiveFrom;
+    }
+
+    @Override
+    public Collection<Dependency> getTransitiveFrom() {
+        return transitiveFrom;
+    }
+
+    @Override
+    public String toString() {
+        String trans = arrayToDelimitedString(getTransitiveFrom().toArray(), " ");
+        return String.format("TransDependency(type=%s, from=%s, to=%s, trans=[%s])", getType(), getFrom(), getTo(),
+                trans);
+    }
+
+    private static String arrayToDelimitedString(Object[] arr, String delim) {
+        if ((arr == null || arr.length == 0)) {
+            return "";
+        }
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) {
+                sb.append(delim);
+            }
+            sb.append(arr[i]);
+        }
+        return sb.toString();
+    }
 }
