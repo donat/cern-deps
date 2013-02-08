@@ -135,24 +135,6 @@
 			<version>5.1</version>
 		</dependency>
 
-		<!-- Utility: Helper classes for multiple purpose: string join, send mail, 
-			etc. -->
-		<!-- <dependency> -->
-		<!-- <groupId>cern.accsoft.commons</groupId> -->
-		<!-- <artifactId>accsoft-commons-util</artifactId> -->
-		<!-- <version>1.14.0</version> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>cern.accsoft.commons</groupId> -->
-		<!-- <artifactId>accsoft-commons-io</artifactId> -->
-		<!-- <version>0.11.4</version> -->
-		<!-- <exclusions> -->
-		<!-- <exclusion> -->
-		<!-- <groupId>org.springframework</groupId> -->
-		<!-- <artifactId>spring</artifactId> -->
-		<!-- </exclusion> -->
-		<!-- </exclusions> -->
-		<!-- </dependency> -->
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
