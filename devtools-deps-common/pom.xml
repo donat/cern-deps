@@ -90,12 +90,23 @@
 			<version>1.0</version>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<sourceDirectory>src/java</sourceDirectory>
 		<testSourceDirectory>src/test</testSourceDirectory>
 		<outputDirectory>target/classes</outputDirectory>
-    	<testOutputDirectory>target/test-classes</testOutputDirectory>
+		<testOutputDirectory>target/test-classes</testOutputDirectory>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 
 </project>

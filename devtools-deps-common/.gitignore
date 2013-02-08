@@ -1,3 +1,4 @@
 # all generated class files
 build/*
 target/*
+.settings/*

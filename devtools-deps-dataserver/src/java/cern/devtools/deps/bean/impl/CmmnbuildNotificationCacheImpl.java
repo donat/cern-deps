@@ -23,7 +23,8 @@ import java.util.Collection;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
-import cern.accsoft.commons.util.StringUtils;
+import org.springframework.util.StringUtils;
+
 import cern.devtools.deps.bean.CmmnbuildNotificationCache;
 
 public class CmmnbuildNotificationCacheImpl implements CmmnbuildNotificationCache {

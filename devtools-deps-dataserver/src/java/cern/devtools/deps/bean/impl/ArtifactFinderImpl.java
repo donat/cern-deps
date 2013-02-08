@@ -32,7 +32,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import cern.accsoft.commons.util.OSUtils;
 import cern.devtools.deps.bean.ArtifactDescriptor;
 import cern.devtools.deps.bean.ArtifactFinder;
 import cern.devtools.deps.bean.DepBeanException;
@@ -376,9 +375,9 @@ public final class ArtifactFinderImpl implements ArtifactFinder {
 	 */
 	private static final String determinePcropsDist(String repoDirLinux, String repoDirWindows) {
 		String repo = null;
-		if (OSUtils.IS_WINDOWS) {
+		if (BeanUtils.IS_WINDOWS) {
 			repo = repoDirWindows;
-		} else if (OSUtils.IS_LINUX) {
+		} else if (BeanUtils.IS_LINUX) {
 			repo = repoDirLinux;
 		} else {
 			throw new RuntimeException("ArtifactFinderImpl - unsopported platform.");

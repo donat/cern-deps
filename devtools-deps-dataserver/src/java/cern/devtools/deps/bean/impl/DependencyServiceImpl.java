@@ -28,9 +28,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
+import org.neo4j.helpers.Pair;
 
-import cern.accsoft.commons.util.OSUtils;
-import cern.accsoft.commons.util.value.Pair;
 import cern.devtools.deps.bean.Controller;
 import cern.devtools.deps.bean.DatabaseDao;
 import cern.devtools.deps.bean.DepBeanException;
@@ -139,7 +138,7 @@ public class DependencyServiceImpl implements DependencyService {
 		try {
 			// Obtain commonbuild root.
 			String path;
-			if (OSUtils.IS_LINUX) {
+			if (BeanUtils.IS_LINUX) {
 				path = ConstantStore.PCROPS_LINUX_LOC;
 			} else {
 				path = ConstantStore.PCROPS_WINDOWS_LOC;
@@ -197,7 +196,7 @@ public class DependencyServiceImpl implements DependencyService {
 				releaseLog = parseReleaseLog();
 			}
 
-			Pair<String, String> key = Pair.newInstance(p.getContainingFolders(), version);
+			Pair<String, String> key = Pair.of(p.getContainingFolders(), version);
 			String committer = releaseLog.get(key);
 			if (committer == null) {
 				// If committer not found then something is not OK => exception.
@@ -254,7 +253,7 @@ public class DependencyServiceImpl implements DependencyService {
 				String cf = m.group(1);
 				String ver = m.group(2);
 				String releaser = m.group(3);
-				result.put(Pair.newInstance(cf, ver), releaser);
+				result.put(Pair.of(cf, ver), releaser);
 			}
 		}
 		return result;

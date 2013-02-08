@@ -12,6 +12,7 @@
  **********************************************************************************************************************/
 package cern.devtools.deps.bean.impl;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -176,5 +177,52 @@ public class BeanUtils {
 		// By default, return false.
 		return false;
 	}
+	
+
+    public static final boolean IS_WINDOWS = System.getProperty("os.name").startsWith("Win");
+    
+    public static final boolean IS_LINUX = System.getProperty("os.name").startsWith("Linux");
+
+//    public static String arrayToCommaDelimitedString(String[] arr) {
+//        if ((arr == null || arr.length == 0)) {
+//            return "";
+//        }
+//        StringBuffer sb = new StringBuffer();
+//        for (int i = 0; i < arr.length; i++) {
+//            if (i > 0) {
+//                sb.append(",");
+//            }
+//            sb.append(arr[i]);
+//        }
+//        return sb.toString();   
+//    }
+//
+//    public static String[] commaDelimitedListToStringArray(String line) {
+//        if (str == null) {
+//            return new String[0];
+//        }
+//        if (delimiter == null) {
+//            return new String[] { str };
+//        }
+//        List result = new ArrayList();
+//        if ("".equals(delimiter)) {
+//            for (int i = 0; i < str.length(); i++) {
+//                result.add(str.substring(i, i + 1));
+//            }
+//        } else {
+//            int pos = 0;
+//            int delPos = 0;
+//            while ((delPos = str.indexOf(delimiter, pos)) != -1) {
+//                result.add(str.substring(pos, delPos));
+//                pos = delPos + delimiter.length();
+//            }
+//            if (str.length() > 0 && pos <= str.length()) {
+//                // Add rest of String, but not in case of empty input.
+//                result.add(str.substring(pos));
+//            }
+//        }
+//        return toStringArray(result);
+//    }
+    
 
 }
