@@ -16,11 +16,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestServer {
 	public static void main(String[] args) throws Exception {
-		/* ClassPathXmlApplicationContext context = */new ClassPathXmlApplicationContext(
-				"classpath:/config/ctx-test-service-emf.xml");
-
-		// DependencyService service = (DependencyService) context.getBean("dependency_service");
-		// System.out.println(service.getCompactedServerModelFor(Arrays.asList("projectA")));
+		new ClassPathXmlApplicationContext("classpath:/config/ctx-test-service-oracledev.xml");
 
 	}
 }

@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +77,7 @@ public class CmmnbuildServiceTest {
 	 * @throws Exception
 	 */
 	@Test
-	//@Ignore
+	@Ignore
 	public void test() throws Exception {
 		// Call the function under test
 		cmmnbuildService.notifyIncomingJarDependencies("dcsikos", "ApiProduct", "1.0.0", "2.0.0", "PRO");

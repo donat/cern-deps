@@ -17,8 +17,8 @@ import static cern.devtools.depanalysis.bean.CmmnbuildNotificationCache.KEY_OLD_
 import static cern.devtools.depanalysis.bean.CmmnbuildNotificationCache.KEY_PRODUCT_NAME;
 import static cern.devtools.depanalysis.bean.CmmnbuildNotificationCache.KEY_RELEASER_NAME;
 import static cern.devtools.depanalysis.bean.CmmnbuildNotificationCache.KEY_RELEASE_TYPE;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;

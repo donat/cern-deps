@@ -31,7 +31,7 @@ public abstract class AbstractBeanTest {
 
 	@Before
 	public void setup() {
-		context = new ClassPathXmlApplicationContext("classpath:/config/ctx-test-discovery-neo4j.xml");
+		context = new ClassPathXmlApplicationContext("classpath:/config/ctx-test-discovery-oracledev.xml");
 	}
 
 	@After

@@ -12,9 +12,7 @@
  **********************************************************************************************************************/
 package cern.devtools.depanalysis.bean.impl;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
@@ -119,6 +117,6 @@ public class BeanUtilsTest {
 		assertFalse(BeanUtils.endsWithDollarNumber("anything$"));
 		assertFalse(BeanUtils.endsWithDollarNumber("anything"));
 		assertFalse(BeanUtils.endsWithDollarNumber("anything$foo"));
-		assertFalse(BeanUtils.endsWithDollarNumber("anything$0$foo"));
-	}
+        assertFalse(BeanUtils.endsWithDollarNumber("anything$0$foo"));
+    }
 }

@@ -19,13 +19,13 @@ import cern.devtools.depanalysis.bean.DepBeanException;
 import cern.devtools.depanalysis.bean.DependencyExtractor;
 
 public class TestServerWithAllProJars {
-	public static void main(String[] args) throws DepBeanException {
-		
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:/config/ctx-test-service-oracledev.xml");
-		
-		ArtifactFinder finder = (ArtifactFinder) context.getBean("artifact_finder");
-		DependencyExtractor extractor = (DependencyExtractor) context.getBean("dependency_extractor");
-		// execute analysis
-		//extractor.executeAnalysis(finder.findArtifacts());
-	}
+    public static void main(String[] args) throws DepBeanException {
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                "classpath:/config/ctx-test-service-oracledev.xml");
+        ArtifactFinder finder = (ArtifactFinder) context.getBean("artifact_finder");
+        DependencyExtractor extractor = (DependencyExtractor) context.getBean("dependency_extractor");
+        // execute analysis
+        extractor.executeAnalysis(finder.findArtifacts());
+    }
 }

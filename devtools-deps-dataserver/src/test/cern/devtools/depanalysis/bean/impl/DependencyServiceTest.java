@@ -12,8 +12,8 @@
  **********************************************************************************************************************/
 package cern.devtools.depanalysis.bean.impl;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -26,7 +26,6 @@ import java.util.LinkedList;
 import org.junit.Test;
 
 import cern.devtools.depanalysis.bean.Controller;
-import cern.devtools.depanalysis.bean.Controller.DependencyUpdateListener;
 import cern.devtools.depanalysis.bean.DatabaseDao;
 import cern.devtools.depanalysis.bean.DepBeanException;
 import cern.devtools.depanalysis.bean.DependencyService;

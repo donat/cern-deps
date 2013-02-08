@@ -36,53 +36,53 @@ import cern.devtools.depanalysis.domain.Product;
 import cern.devtools.depanalysis.domain.creation.DomainObjectCreator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/config/ctx-test-dbdao-neo4j.xml")
+@ContextConfiguration("classpath:/config/ctx-test-dbdao-oracledev.xml")
 @Transactional
 public class DatabaseDaoTest {
 
-	@Autowired
-	private DatabaseDao db;
+    @Autowired
+    private DatabaseDao db;
 
-	@Autowired
-	DomainObjectCreator creator;
+    @Autowired
+    DomainObjectCreator creator;
 
-	private static final String PRODUCT_PATH = "/tmp/testproduct.jar";
+    private static final String PRODUCT_PATH = "/tmp/testproduct.jar";
 
-	@Before
-	public void init() throws DatabaseException {
-		Product p = getProduct();
-		db.saveProduct(p);
-	}
+    @Before
+    public void init() throws DatabaseException {
+        Product p = getProduct();
+        db.saveProduct(p);
+    }
 
-	public Product getProduct() {
-		Product p = creator.createProduct("name", "1.0.0", "test/testproduct", PRODUCT_PATH);
-		ApiClass ac = creator.createApiClass("MyClass", EnumSet.noneOf(Modifiers.class));
-		Method m = creator.createMethod("cern.example.MyClass#foo()", EnumSet.of(Modifiers.STATIC));
-		Field f = creator.createField("cern.example.MyClass.FIELD", EnumSet.noneOf(Modifiers.class));
-		ac.getMethods().add(m);
-		m.setApiClass(ac);
-		ac.getFields().add(f);
-		f.setApiClass(ac);
-		p.getClasses().add(ac);
-		ac.setProduct(p);
-		return p;
-	}
+    public Product getProduct() {
+        Product p = creator.createProduct("name", "1.0.0", "test/testproduct", PRODUCT_PATH);
+        ApiClass ac = creator.createApiClass("MyClass", EnumSet.noneOf(Modifiers.class));
+        Method m = creator.createMethod("cern.example.MyClass#foo()", EnumSet.of(Modifiers.STATIC));
+        Field f = creator.createField("cern.example.MyClass.FIELD", EnumSet.noneOf(Modifiers.class));
+        ac.getMethods().add(m);
+        m.setApiClass(ac);
+        ac.getFields().add(f);
+        f.setApiClass(ac);
+        p.getClasses().add(ac);
+        ac.setProduct(p);
+        return p;
+    }
 
-	@Test
-	public void findProduct() throws DatabaseException {
-		// check existing data without internals
-		Product product = db.findProduct(getProduct(), false);
-		assertNotNull(product);
+    @Test
+    public void findProduct() throws DatabaseException {
+        // check existing data without internals
+        Product product = db.findProduct(getProduct(), false);
+        assertNotNull(product);
 
-		// check existing data with internals
-		product = db.findProduct(creator.createProduct("name", "1.0.0", "test/testproduct", PRODUCT_PATH), true);
-		assertNotNull(product);
-		assertEquals(1, product.getClasses().size());
-		assertEquals(1, product.getClasses().iterator().next().getMethods().size());
-		assertEquals(1, product.getClasses().iterator().next().getFields().size());
+        // check existing data with internals
+        product = db.findProduct(creator.createProduct("name", "1.0.0", "test/testproduct", PRODUCT_PATH), true);
+        assertNotNull(product);
+        assertEquals(1, product.getClasses().size());
+        assertEquals(1, product.getClasses().iterator().next().getMethods().size());
+        assertEquals(1, product.getClasses().iterator().next().getFields().size());
 
-		// find non-existing product
-		product = db.findProduct(creator.createProduct(""), true);
-		assertNull(product);
-	}
+        // find non-existing product
+        product = db.findProduct(creator.createProduct(""), true);
+        assertNull(product);
+    }
 }

@@ -12,8 +12,8 @@
  **********************************************************************************************************************/
 package cern.devtools.depanalysis.bean.impl;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,43 +34,43 @@ import cern.devtools.depanalysis.domain.creation.impl.SpringDataNeo4jObjectCreat
  */
 public class DependencyFindClassUsage extends AbstractDependencyDiscoveryTest {
 
-	@Override
-	public Source from() {
-		String source = ""
-				+ "package cern.from;                                                                               \n"
-				+ "import cern.to.To;                                                                               \n"
-				+ "                                                                                                 \n"
-				+ "public class From {                                                                              \n"
-				+ "    public void from() { To to = new To(); to.to(); }                                            \n"
-				+ "}";
-		return new Source(Arrays.asList("From"), Arrays.asList(source), "cern.from");
-	}
+    @Override
+    public Source from() {
+        String source = ""
+                + "package cern.from;                                                                               \n"
+                + "import cern.to.To;                                                                               \n"
+                + "                                                                                                 \n"
+                + "public class From {                                                                              \n"
+                + "    public void from() { To to = new To(); to.to(); }                                            \n"
+                + "}";
+        return new Source(Arrays.asList("From"), Arrays.asList(source), "cern.from");
+    }
 
-	@Override
-	public Source to() {
-		String source = ""
-				+ "package cern.to;                                                                                 \n"
-				+ "                                                                                                 \n"
-				+ "public class To {                                                                                \n"
-				+ "    public void to() { System.out.println(\"to\"); }                                             \n"
-				+ "}";
-		return new Source(Arrays.asList("To"), Arrays.asList(source), "cern.to");
-	}
+    @Override
+    public Source to() {
+        String source = ""
+                + "package cern.to;                                                                                 \n"
+                + "                                                                                                 \n"
+                + "public class To {                                                                                \n"
+                + "    public void to() { System.out.println(\"to\"); }                                             \n"
+                + "}";
+        return new Source(Arrays.asList("To"), Arrays.asList(source), "cern.to");
+    }
 
-	@Override
-	public Source trans() {
-		return null;
-	}
+    @Override
+    public Source trans() {
+        return null;
+    }
 
-	@Override
-	public void test() throws Exception {
-		Collection<Dependency> result = db.findClassDependencies(new SpringDataNeo4jObjectCreator().createApiClass("cern.to.To",
-				EnumSet.noneOf(Modifiers.class)));
-		Iterator<Dependency> it = result.iterator();
-		Dependency rh = it.next();
-		assertEquals(DependencyType.CLASS_USAGE, rh.getType());
-		assertEquals("cern.from.From", ((ApiClass) rh.getFrom()).getFqName());
-		assertFalse(rh instanceof TransitiveDependency);
-		assertFalse(it.hasNext());
-	}
+    @Override
+    public void test() throws Exception {
+        Collection<Dependency> result = db.findClassDependencies(new SpringDataNeo4jObjectCreator().createApiClass(
+                "cern.to.To", EnumSet.noneOf(Modifiers.class)));
+        Iterator<Dependency> it = result.iterator();
+        Dependency rh = it.next();
+        assertEquals(DependencyType.CLASS_USAGE, rh.getType());
+        assertEquals("cern.from.From", ((ApiClass) rh.getFrom()).getFqName());
+        assertFalse(rh instanceof TransitiveDependency);
+        assertFalse(it.hasNext());
+    }
 }
