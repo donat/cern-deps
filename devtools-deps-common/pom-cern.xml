@@ -1,6 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>cern</groupId>
+		<artifactId>parent-pom</artifactId>
+		<version>1.0.5-SNAPSHOT</version>
+	</parent>
 
 	<groupId>cern.devtools.deps</groupId>
 	<artifactId>devtools-deps-common</artifactId>
@@ -95,12 +101,4 @@
 			<version>1.0</version>
 		</dependency>
 	</dependencies>
-	
-	<build>
-		<sourceDirectory>src/java</sourceDirectory>
-		<testSourceDirectory>src/test</testSourceDirectory>
-		<outputDirectory>target/classes</outputDirectory>
-    	<testOutputDirectory>target/test-classes</testOutputDirectory>
-	</build>
-
 </project>
