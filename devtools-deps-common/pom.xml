@@ -79,11 +79,6 @@
 			<version>2.7.0</version>
 		</dependency>
 		<dependency>
-			<groupId>cern.accsoft.commons</groupId>
-			<artifactId>accsoft-commons-util</artifactId>
-			<version>1.14.0</version>
-		</dependency>
-		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>persistence-api</artifactId>
 			<version>1.0.2</version>
