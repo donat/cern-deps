@@ -28,12 +28,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cern.devtools.depanalysis.bean.DatabaseDao;
 import cern.devtools.depanalysis.bean.DatabaseException;
-import cern.devtools.depanalysis.domain.ApiClass;
-import cern.devtools.depanalysis.domain.Field;
-import cern.devtools.depanalysis.domain.Method;
-import cern.devtools.depanalysis.domain.Modifiers;
-import cern.devtools.depanalysis.domain.Product;
-import cern.devtools.depanalysis.domain.creation.DomainObjectCreator;
+import cern.devtools.deps.domain.ApiClass;
+import cern.devtools.deps.domain.Field;
+import cern.devtools.deps.domain.Method;
+import cern.devtools.deps.domain.Modifiers;
+import cern.devtools.deps.domain.Product;
+import cern.devtools.deps.domain.creation.DomainObjectCreator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/config/ctx-test-dbdao-oracledev.xml")

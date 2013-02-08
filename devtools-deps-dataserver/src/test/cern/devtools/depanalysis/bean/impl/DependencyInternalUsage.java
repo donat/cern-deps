@@ -18,9 +18,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
 
-import cern.devtools.depanalysis.domain.Dependency;
-import cern.devtools.depanalysis.domain.Modifiers;
-import cern.devtools.depanalysis.domain.creation.DomainFactory;
+import cern.devtools.deps.domain.Dependency;
+import cern.devtools.deps.domain.Modifiers;
+import cern.devtools.deps.domain.creation.DomainFactory;
 
 /**
  * Checks if the framework stores the internal references in the database. 

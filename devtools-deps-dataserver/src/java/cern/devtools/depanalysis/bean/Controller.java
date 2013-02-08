@@ -12,7 +12,7 @@
  **********************************************************************************************************************/
 package cern.devtools.depanalysis.bean;
 
-import cern.devtools.depanalysis.domain.creation.DomainFactory;
+import cern.devtools.deps.domain.creation.DomainFactory;
 
 /**
  * Interface serves as top level controller component. This involves configuring the framework-wide options, such as the

@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cern.devtools.depanalysis.bean.DatabaseDao;
 import cern.devtools.depanalysis.bean.DatabaseException;
-import cern.devtools.depanalysis.domain.creation.DomainObjectCreator;
+import cern.devtools.deps.domain.creation.DomainObjectCreator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/config/ctx-test-dbdao-oracledev.xml")

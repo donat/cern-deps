@@ -21,10 +21,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import cern.devtools.depanalysis.bean.impl.ByteCodeAnalyser;
-import cern.devtools.depanalysis.domain.Modifiers;
-import cern.devtools.depanalysis.domain.creation.DomainFactory;
 import cern.devtools.depanalysis.memcomp.InMemoryClassLoader;
 import cern.devtools.depanalysis.memcomp.InMemoryCompiler;
+import cern.devtools.deps.domain.Modifiers;
+import cern.devtools.deps.domain.creation.DomainFactory;
 
 /**
  * JUnit test for class {@link ByteCodeAnalyzer}

@@ -17,8 +17,8 @@ import java.util.Collection;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
 
-import cern.devtools.depanalysis.domain.neo4j.DependencyRelation;
-import cern.devtools.depanalysis.domain.neo4j.FieldNode;
+import cern.devtools.deps.domain.neo4j.DependencyRelation;
+import cern.devtools.deps.domain.neo4j.FieldNode;
 
 public interface FieldRepository extends GraphRepository<FieldNode> {
 

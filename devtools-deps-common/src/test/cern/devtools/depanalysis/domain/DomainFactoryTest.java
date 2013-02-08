@@ -17,10 +17,11 @@ import static junit.framework.Assert.assertTrue;
 
 import org.junit.Test;
 
-import cern.devtools.depanalysis.domain.creation.DomainFactory;
-import cern.devtools.depanalysis.domain.creation.impl.EmfObjectCreator;
-import cern.devtools.depanalysis.domain.impl.ProductImpl;
-import cern.devtools.depanalysis.repomodel.RProject;
+import cern.devtools.deps.domain.Product;
+import cern.devtools.deps.domain.creation.DomainFactory;
+import cern.devtools.deps.domain.creation.impl.EmfObjectCreator;
+import cern.devtools.deps.domain.impl.ProductImpl;
+import cern.devtools.deps.repomodel.RProject;
 
 public class DomainFactoryTest {
 

@@ -18,9 +18,9 @@ import java.util.EnumSet;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import cern.devtools.depanalysis.bean.DatabaseDao;
-import cern.devtools.depanalysis.domain.Dependency;
-import cern.devtools.depanalysis.domain.Modifiers;
-import cern.devtools.depanalysis.domain.creation.impl.JavaBeanObjectCreator;
+import cern.devtools.deps.domain.Dependency;
+import cern.devtools.deps.domain.Modifiers;
+import cern.devtools.deps.domain.creation.impl.JavaBeanObjectCreator;
 
 /**
  * SDT-824

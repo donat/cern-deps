@@ -61,14 +61,14 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
-import cern.devtools.depanalysis.domain.ApiClass;
-import cern.devtools.depanalysis.domain.CodeElement;
-import cern.devtools.depanalysis.domain.DependencyType;
-import cern.devtools.depanalysis.domain.Field;
-import cern.devtools.depanalysis.domain.Method;
-import cern.devtools.depanalysis.domain.Modifiers;
-import cern.devtools.depanalysis.domain.Product;
-import cern.devtools.depanalysis.domain.creation.DomainFactory;
+import cern.devtools.deps.domain.ApiClass;
+import cern.devtools.deps.domain.CodeElement;
+import cern.devtools.deps.domain.DependencyType;
+import cern.devtools.deps.domain.Field;
+import cern.devtools.deps.domain.Method;
+import cern.devtools.deps.domain.Modifiers;
+import cern.devtools.deps.domain.Product;
+import cern.devtools.deps.domain.creation.DomainFactory;
 
 /**
  * This class holds all the direct SQL operations which is used by the {@link OracleDatabaseDao}.<p>

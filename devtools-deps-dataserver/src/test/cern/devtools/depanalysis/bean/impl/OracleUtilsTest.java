@@ -29,9 +29,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import cern.devtools.depanalysis.bean.impl.OracleUtils.Column;
 import cern.devtools.depanalysis.bean.impl.OracleUtils.Table;
-import cern.devtools.depanalysis.domain.Field;
-import cern.devtools.depanalysis.domain.Modifiers;
-import cern.devtools.depanalysis.domain.creation.DomainFactory;
+import cern.devtools.deps.domain.Field;
+import cern.devtools.deps.domain.Modifiers;
+import cern.devtools.deps.domain.creation.DomainFactory;
 
 @Ignore
 public class OracleUtilsTest {

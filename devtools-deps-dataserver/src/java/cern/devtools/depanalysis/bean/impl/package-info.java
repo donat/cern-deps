@@ -11,7 +11,7 @@ Corresponding Source for a non-source form of such a combination shall include t
 Eclipse Integrated Development Environment Plugin libraries used as well as that of the covered work.
 ***********************************************************************************************************************/
 /**
- * Contains the implementation files the interfaces in the {@link cern.devtools.depanalysis.bean} package. 
+ * Contains the implementation files the interfaces in the {@link cern.devtools.deps.bean} package. 
  * 
  * @author Donat Csikos
  */

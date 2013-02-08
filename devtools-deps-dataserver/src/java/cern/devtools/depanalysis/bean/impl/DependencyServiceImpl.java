@@ -34,14 +34,14 @@ import cern.accsoft.commons.util.value.Pair;
 import cern.devtools.depanalysis.bean.Controller;
 import cern.devtools.depanalysis.bean.Controller.DependencyUpdateListener;
 import cern.devtools.depanalysis.bean.DatabaseDao;
-import cern.devtools.depanalysis.bean.DepBeanException;
-import cern.devtools.depanalysis.bean.DependencyService;
-import cern.devtools.depanalysis.domain.ApiClass;
-import cern.devtools.depanalysis.domain.CodeElement;
-import cern.devtools.depanalysis.domain.Dependency;
-import cern.devtools.depanalysis.domain.Field;
-import cern.devtools.depanalysis.domain.Method;
-import cern.devtools.depanalysis.domain.Product;
+import cern.devtools.deps.bean.DepBeanException;
+import cern.devtools.deps.bean.DependencyService;
+import cern.devtools.deps.domain.ApiClass;
+import cern.devtools.deps.domain.CodeElement;
+import cern.devtools.deps.domain.Dependency;
+import cern.devtools.deps.domain.Field;
+import cern.devtools.deps.domain.Method;
+import cern.devtools.deps.domain.Product;
 
 /**
  * Simple implementation of the {@link DependencyService} interface.

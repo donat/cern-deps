@@ -21,7 +21,7 @@ import cern.devtools.depanalysis.bean.ArtifactDescriptor;
 import cern.devtools.depanalysis.bean.DatabaseDao;
 import cern.devtools.depanalysis.bean.DependencyExtractor;
 import cern.devtools.depanalysis.bean.impl.FileDescriptor;
-import cern.devtools.depanalysis.domain.creation.DomainFactory;
+import cern.devtools.deps.domain.creation.DomainFactory;
 
 public class TestServerWithJapc {
 	public static void main(String[] args) throws Exception {

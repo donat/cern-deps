@@ -30,11 +30,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import cern.devtools.depanalysis.domain.CodeElement;
-import cern.devtools.depanalysis.domain.Dependency;
-import cern.devtools.depanalysis.domain.DependencyType;
-import cern.devtools.depanalysis.domain.Product;
-import cern.devtools.depanalysis.domain.creation.DomainObjectCreator;
+import cern.devtools.deps.bean.DependencyService;
+import cern.devtools.deps.domain.CodeElement;
+import cern.devtools.deps.domain.Dependency;
+import cern.devtools.deps.domain.DependencyType;
+import cern.devtools.deps.domain.Product;
+import cern.devtools.deps.domain.creation.DomainObjectCreator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/config/ctx-test-service-oracledev.xml")

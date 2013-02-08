@@ -14,7 +14,7 @@ package cern.devtools.depanalysis.springdata.repos;
 
 import org.springframework.data.neo4j.repository.GraphRepository;
 
-import cern.devtools.depanalysis.domain.neo4j.DependencyRelation;
+import cern.devtools.deps.domain.neo4j.DependencyRelation;
 
 public interface DependencyRepository extends GraphRepository<DependencyRelation>{
 

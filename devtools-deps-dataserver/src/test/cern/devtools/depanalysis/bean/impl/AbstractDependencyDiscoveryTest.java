@@ -27,11 +27,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import cern.devtools.depanalysis.bean.ArtifactDescriptor;
 import cern.devtools.depanalysis.bean.DatabaseDao;
-import cern.devtools.depanalysis.bean.DepBeanException;
 import cern.devtools.depanalysis.bean.DependencyExtractor;
-import cern.devtools.depanalysis.domain.creation.DomainObjectCreator;
 import cern.devtools.depanalysis.memcomp.InMemoryClassLoader;
 import cern.devtools.depanalysis.memcomp.InMemoryCompiler;
+import cern.devtools.deps.bean.DepBeanException;
+import cern.devtools.deps.domain.creation.DomainObjectCreator;
 
 /**
  * Test framework class for testing dependency extraction mechanism.

@@ -26,16 +26,16 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-import cern.devtools.depanalysis.domain.Dependency;
-import cern.devtools.depanalysis.repomodel.RClass;
-import cern.devtools.depanalysis.repomodel.RCodeElement;
-import cern.devtools.depanalysis.repomodel.RDependency;
-import cern.devtools.depanalysis.repomodel.RField;
-import cern.devtools.depanalysis.repomodel.RMethod;
-import cern.devtools.depanalysis.repomodel.RProject;
-import cern.devtools.depanalysis.repomodel.RRepository;
-import cern.devtools.depanalysis.repomodel.RepomodelFactory;
-import cern.devtools.depanalysis.repomodel.RepomodelPackage;
+import cern.devtools.deps.domain.Dependency;
+import cern.devtools.deps.repomodel.RClass;
+import cern.devtools.deps.repomodel.RCodeElement;
+import cern.devtools.deps.repomodel.RDependency;
+import cern.devtools.deps.repomodel.RField;
+import cern.devtools.deps.repomodel.RMethod;
+import cern.devtools.deps.repomodel.RProject;
+import cern.devtools.deps.repomodel.RRepository;
+import cern.devtools.deps.repomodel.RepomodelFactory;
+import cern.devtools.deps.repomodel.RepomodelPackage;
 
 @SuppressWarnings("all")
 public class DummyModelGeneration {

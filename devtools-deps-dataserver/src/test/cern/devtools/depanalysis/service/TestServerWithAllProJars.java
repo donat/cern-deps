@@ -15,8 +15,8 @@ package cern.devtools.depanalysis.service;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import cern.devtools.depanalysis.bean.ArtifactFinder;
-import cern.devtools.depanalysis.bean.DepBeanException;
 import cern.devtools.depanalysis.bean.DependencyExtractor;
+import cern.devtools.deps.bean.DepBeanException;
 
 public class TestServerWithAllProJars {
     public static void main(String[] args) throws DepBeanException {

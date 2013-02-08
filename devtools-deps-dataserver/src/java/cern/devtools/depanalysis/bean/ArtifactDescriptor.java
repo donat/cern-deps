@@ -12,7 +12,7 @@
  **********************************************************************************************************************/
 package cern.devtools.depanalysis.bean;
 
-import cern.devtools.depanalysis.domain.Product;
+import cern.devtools.deps.domain.Product;
 
 /**
  * Descriptor for obtaining a {@link Product} with it.

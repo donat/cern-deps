@@ -24,11 +24,11 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import cern.devtools.depanalysis.domain.ApiClass;
-import cern.devtools.depanalysis.domain.Product;
-import cern.devtools.depanalysis.domain.creation.DomainFactory;
 import cern.devtools.depanalysis.memcomp.InMemoryClassLoader;
 import cern.devtools.depanalysis.memcomp.InMemoryCompiler;
+import cern.devtools.deps.domain.ApiClass;
+import cern.devtools.deps.domain.Product;
+import cern.devtools.deps.domain.creation.DomainFactory;
 
 /**
  * This test is intended to analyse if the proper structure is extracted from a jar file. 

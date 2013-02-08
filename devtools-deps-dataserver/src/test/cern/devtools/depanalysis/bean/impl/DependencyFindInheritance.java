@@ -20,12 +20,12 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 
-import cern.devtools.depanalysis.domain.ApiClass;
-import cern.devtools.depanalysis.domain.Dependency;
-import cern.devtools.depanalysis.domain.DependencyType;
-import cern.devtools.depanalysis.domain.Modifiers;
-import cern.devtools.depanalysis.domain.TransitiveDependency;
-import cern.devtools.depanalysis.domain.creation.DomainFactory;
+import cern.devtools.deps.domain.ApiClass;
+import cern.devtools.deps.domain.Dependency;
+import cern.devtools.deps.domain.DependencyType;
+import cern.devtools.deps.domain.Modifiers;
+import cern.devtools.deps.domain.TransitiveDependency;
+import cern.devtools.deps.domain.creation.DomainFactory;
 
 /**
  * Inheritance relationship between classes in two different product.

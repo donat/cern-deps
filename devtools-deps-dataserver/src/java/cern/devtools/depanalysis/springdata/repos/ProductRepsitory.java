@@ -14,7 +14,7 @@ package cern.devtools.depanalysis.springdata.repos;
 
 import org.springframework.data.neo4j.repository.GraphRepository;
 
-import cern.devtools.depanalysis.domain.neo4j.ProductNode;
+import cern.devtools.deps.domain.neo4j.ProductNode;
 
 public interface ProductRepsitory extends GraphRepository<ProductNode> {
 

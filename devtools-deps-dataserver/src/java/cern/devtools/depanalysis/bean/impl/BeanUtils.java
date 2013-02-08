@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import cern.devtools.depanalysis.domain.Method;
+import cern.devtools.deps.domain.Method;
 
 /**
  * Utility class for providing supplementary functionality for the bean implementation.

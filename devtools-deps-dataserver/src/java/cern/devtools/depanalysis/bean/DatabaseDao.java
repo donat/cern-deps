@@ -19,13 +19,13 @@ import java.util.List;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import cern.devtools.depanalysis.domain.ApiClass;
-import cern.devtools.depanalysis.domain.CodeElement;
-import cern.devtools.depanalysis.domain.Dependency;
-import cern.devtools.depanalysis.domain.DependencyType;
-import cern.devtools.depanalysis.domain.Field;
-import cern.devtools.depanalysis.domain.Method;
-import cern.devtools.depanalysis.domain.Product;
+import cern.devtools.deps.domain.ApiClass;
+import cern.devtools.deps.domain.CodeElement;
+import cern.devtools.deps.domain.Dependency;
+import cern.devtools.deps.domain.DependencyType;
+import cern.devtools.deps.domain.Field;
+import cern.devtools.deps.domain.Method;
+import cern.devtools.deps.domain.Product;
 
 /**
  * Interface for communication between the framework and the database.<p>

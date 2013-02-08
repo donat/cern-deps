@@ -12,6 +12,8 @@
  **********************************************************************************************************************/
 package cern.devtools.depanalysis.bean;
 
+import cern.devtools.deps.bean.DepBeanException;
+
 
 /**
  * Exception abstraction for representing failures in the database communication.

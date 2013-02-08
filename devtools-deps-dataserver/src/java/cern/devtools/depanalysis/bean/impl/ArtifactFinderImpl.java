@@ -35,7 +35,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import cern.accsoft.commons.util.OSUtils;
 import cern.devtools.depanalysis.bean.ArtifactDescriptor;
 import cern.devtools.depanalysis.bean.ArtifactFinder;
-import cern.devtools.depanalysis.bean.DepBeanException;
+import cern.devtools.deps.bean.DepBeanException;
 
 /**
  * Implementation of the {@link ArtifactFinder} interface for retrieving the products from the Commonbuild repository.<p>

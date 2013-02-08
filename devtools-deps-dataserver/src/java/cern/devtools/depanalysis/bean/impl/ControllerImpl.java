@@ -25,10 +25,10 @@ import cern.devtools.depanalysis.bean.ArtifactDescriptor;
 import cern.devtools.depanalysis.bean.ArtifactFinder;
 import cern.devtools.depanalysis.bean.Controller;
 import cern.devtools.depanalysis.bean.DependencyExtractor;
-import cern.devtools.depanalysis.domain.creation.DomainFactory;
-import cern.devtools.depanalysis.domain.creation.DomainObjectCreator;
-import cern.devtools.depanalysis.domain.creation.impl.EmfObjectCreator;
-import cern.devtools.depanalysis.domain.creation.impl.JavaBeanObjectCreator;
+import cern.devtools.deps.domain.creation.DomainFactory;
+import cern.devtools.deps.domain.creation.DomainObjectCreator;
+import cern.devtools.deps.domain.creation.impl.EmfObjectCreator;
+import cern.devtools.deps.domain.creation.impl.JavaBeanObjectCreator;
 
 /**
  * Implementation of the {@link Controller} interface.

@@ -20,11 +20,11 @@ import java.util.List;
 import java.util.Set;
 
 import cern.devtools.depanalysis.bean.ArtifactDescriptor;
-import cern.devtools.depanalysis.domain.ApiClass;
-import cern.devtools.depanalysis.domain.Field;
-import cern.devtools.depanalysis.domain.Method;
-import cern.devtools.depanalysis.domain.Product;
-import cern.devtools.depanalysis.domain.creation.DomainObjectCreator;
+import cern.devtools.deps.domain.ApiClass;
+import cern.devtools.deps.domain.Field;
+import cern.devtools.deps.domain.Method;
+import cern.devtools.deps.domain.Product;
+import cern.devtools.deps.domain.creation.DomainObjectCreator;
 
 /**
  * Parses all information from a product.

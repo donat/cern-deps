@@ -28,10 +28,10 @@ import org.apache.bcel.classfile.ConstantClass;
 import org.apache.bcel.classfile.ConstantUtf8;
 import org.apache.bcel.classfile.JavaClass;
 
-import cern.devtools.depanalysis.domain.Field;
-import cern.devtools.depanalysis.domain.Method;
-import cern.devtools.depanalysis.domain.Modifiers;
-import cern.devtools.depanalysis.domain.creation.DomainObjectCreator;
+import cern.devtools.deps.domain.Field;
+import cern.devtools.deps.domain.Method;
+import cern.devtools.deps.domain.Modifiers;
+import cern.devtools.deps.domain.creation.DomainObjectCreator;
 
 /**
  * A class that uses Byte Code analysis to find dependencies Based on BCEL (Byte Code Engineering Library)

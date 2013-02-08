@@ -31,6 +31,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import cern.devtools.depanalysis.bean.impl.ArtifactFinderImpl;
+import cern.devtools.deps.bean.DepBeanException;
 
 /**
  * Test artifact finding. Because svn does not accept jar files nor folders with the name 'build' the test repository is

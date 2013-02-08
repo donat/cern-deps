@@ -56,31 +56,31 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cern.devtools.depanalysis.bean.DatabaseDao;
 import cern.devtools.depanalysis.bean.DatabaseException;
-import cern.devtools.depanalysis.bean.DepBeanException;
 import cern.devtools.depanalysis.bean.DependencyExtractor;
-import cern.devtools.depanalysis.domain.ApiClass;
-import cern.devtools.depanalysis.domain.CodeElement;
-import cern.devtools.depanalysis.domain.Dependency;
-import cern.devtools.depanalysis.domain.DependencyType;
-import cern.devtools.depanalysis.domain.Field;
-import cern.devtools.depanalysis.domain.Method;
-import cern.devtools.depanalysis.domain.Modifiers;
-import cern.devtools.depanalysis.domain.Product;
-import cern.devtools.depanalysis.domain.creation.DomainFactory;
-import cern.devtools.depanalysis.domain.creation.DomainObjectCreator;
-import cern.devtools.depanalysis.domain.creation.impl.EmfObjectCreator;
-import cern.devtools.depanalysis.repomodel.RClass;
-import cern.devtools.depanalysis.repomodel.RCodeElement;
-import cern.devtools.depanalysis.repomodel.RDependency;
-import cern.devtools.depanalysis.repomodel.RField;
-import cern.devtools.depanalysis.repomodel.RMethod;
-import cern.devtools.depanalysis.repomodel.RProject;
-import cern.devtools.depanalysis.repomodel.RRepository;
-import cern.devtools.depanalysis.repomodel.RepomodelFactory;
-import cern.devtools.depanalysis.repomodel.RepomodelPackage;
 import cern.devtools.depanalysis.transformer.cp3.SubCp3ModelFinder;
 import cern.devtools.depanalysis.transformer.cp3.TransformRepoToCP3;
 import cern.devtools.depanalysis.transformer.cp3.TransformRepoToCP3withSaxParser;
+import cern.devtools.deps.bean.DepBeanException;
+import cern.devtools.deps.domain.ApiClass;
+import cern.devtools.deps.domain.CodeElement;
+import cern.devtools.deps.domain.Dependency;
+import cern.devtools.deps.domain.DependencyType;
+import cern.devtools.deps.domain.Field;
+import cern.devtools.deps.domain.Method;
+import cern.devtools.deps.domain.Modifiers;
+import cern.devtools.deps.domain.Product;
+import cern.devtools.deps.domain.creation.DomainFactory;
+import cern.devtools.deps.domain.creation.DomainObjectCreator;
+import cern.devtools.deps.domain.creation.impl.EmfObjectCreator;
+import cern.devtools.deps.repomodel.RClass;
+import cern.devtools.deps.repomodel.RCodeElement;
+import cern.devtools.deps.repomodel.RDependency;
+import cern.devtools.deps.repomodel.RField;
+import cern.devtools.deps.repomodel.RMethod;
+import cern.devtools.deps.repomodel.RProject;
+import cern.devtools.deps.repomodel.RRepository;
+import cern.devtools.deps.repomodel.RepomodelFactory;
+import cern.devtools.deps.repomodel.RepomodelPackage;
 
 /**
  * In-memory database dao.
@@ -596,7 +596,7 @@ public final class EmfDatabaseDao implements DatabaseDao {
 		return root.getRDependencies().size();
 	}
 
-	public Collection<cern.devtools.depanalysis.domain.Dependency> findClassDependencies(ApiClass element) {
+	public Collection<cern.devtools.deps.domain.Dependency> findClassDependencies(ApiClass element) {
 		// find container
 		Product p = element.getProduct();
 
@@ -727,7 +727,7 @@ public final class EmfDatabaseDao implements DatabaseDao {
 		return copier.copy(source);
 	}
 
-	public Collection<cern.devtools.depanalysis.domain.Dependency> findMethodDependencies(Method element) {
+	public Collection<cern.devtools.deps.domain.Dependency> findMethodDependencies(Method element) {
 		// find containers
 		ApiClass ac = element.getApiClass();
 		Product p = ac.getProduct();
@@ -758,7 +758,7 @@ public final class EmfDatabaseDao implements DatabaseDao {
 		return result;
 	}
 
-	public Collection<cern.devtools.depanalysis.domain.Dependency> findFieldDependencies(Field element) {
+	public Collection<cern.devtools.deps.domain.Dependency> findFieldDependencies(Field element) {
 		// find containers
 		ApiClass ac = element.getApiClass();
 		Product p = ac.getProduct();

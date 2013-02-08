@@ -14,6 +14,8 @@ package cern.devtools.depanalysis.bean;
 
 import java.util.List;
 
+import cern.devtools.deps.bean.DepBeanException;
+
 
 /**
  * Interface for retrieving artifacts from different sources.

@@ -31,24 +31,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cern.devtools.depanalysis.bean.DatabaseDao;
 import cern.devtools.depanalysis.bean.DatabaseException;
-import cern.devtools.depanalysis.domain.ApiClass;
-import cern.devtools.depanalysis.domain.CodeElement;
-import cern.devtools.depanalysis.domain.Dependency;
-import cern.devtools.depanalysis.domain.DependencyType;
-import cern.devtools.depanalysis.domain.Field;
-import cern.devtools.depanalysis.domain.Method;
-import cern.devtools.depanalysis.domain.Product;
-import cern.devtools.depanalysis.domain.neo4j.ClassNode;
-import cern.devtools.depanalysis.domain.neo4j.DependencyRelation;
-import cern.devtools.depanalysis.domain.neo4j.FieldNode;
-import cern.devtools.depanalysis.domain.neo4j.MethodNode;
-import cern.devtools.depanalysis.domain.neo4j.ProductNode;
-import cern.devtools.depanalysis.domain.neo4j.RemovedNode;
-import cern.devtools.depanalysis.domain.neo4j.TransitiveDependencyRelation;
 import cern.devtools.depanalysis.springdata.repos.ApiClassRepository;
 import cern.devtools.depanalysis.springdata.repos.FieldRepository;
 import cern.devtools.depanalysis.springdata.repos.MethodRepository;
 import cern.devtools.depanalysis.springdata.repos.ProductRepsitory;
+import cern.devtools.deps.domain.ApiClass;
+import cern.devtools.deps.domain.CodeElement;
+import cern.devtools.deps.domain.Dependency;
+import cern.devtools.deps.domain.DependencyType;
+import cern.devtools.deps.domain.Field;
+import cern.devtools.deps.domain.Method;
+import cern.devtools.deps.domain.Product;
+import cern.devtools.deps.domain.neo4j.ClassNode;
+import cern.devtools.deps.domain.neo4j.DependencyRelation;
+import cern.devtools.deps.domain.neo4j.FieldNode;
+import cern.devtools.deps.domain.neo4j.MethodNode;
+import cern.devtools.deps.domain.neo4j.ProductNode;
+import cern.devtools.deps.domain.neo4j.RemovedNode;
+import cern.devtools.deps.domain.neo4j.TransitiveDependencyRelation;
 
 public class SpringDataNeo4jDatabaseDao implements DatabaseDao {
 

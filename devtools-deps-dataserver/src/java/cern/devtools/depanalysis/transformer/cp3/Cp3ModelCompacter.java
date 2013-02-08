@@ -28,13 +28,13 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
-import cern.devtools.depanalysis.repomodel.RClass;
-import cern.devtools.depanalysis.repomodel.RCodeElement;
-import cern.devtools.depanalysis.repomodel.RDependency;
-import cern.devtools.depanalysis.repomodel.RField;
-import cern.devtools.depanalysis.repomodel.RMethod;
-import cern.devtools.depanalysis.repomodel.RProject;
-import cern.devtools.depanalysis.repomodel.RRepository;
+import cern.devtools.deps.repomodel.RClass;
+import cern.devtools.deps.repomodel.RCodeElement;
+import cern.devtools.deps.repomodel.RDependency;
+import cern.devtools.deps.repomodel.RField;
+import cern.devtools.deps.repomodel.RMethod;
+import cern.devtools.deps.repomodel.RProject;
+import cern.devtools.deps.repomodel.RRepository;
 
 public class Cp3ModelCompacter {
 	private RRepository inRepository;

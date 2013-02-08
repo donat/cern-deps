@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 
-import cern.devtools.depanalysis.repomodel.RRepository;
+import cern.devtools.deps.repomodel.RRepository;
 
 public class TransformRepoToCP3 {
 

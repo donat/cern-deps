@@ -17,8 +17,8 @@ import java.util.Collection;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
 
-import cern.devtools.depanalysis.domain.neo4j.DependencyRelation;
-import cern.devtools.depanalysis.domain.neo4j.MethodNode;
+import cern.devtools.deps.domain.neo4j.DependencyRelation;
+import cern.devtools.deps.domain.neo4j.MethodNode;
 
 public interface MethodRepository extends GraphRepository<MethodNode> {
 	
