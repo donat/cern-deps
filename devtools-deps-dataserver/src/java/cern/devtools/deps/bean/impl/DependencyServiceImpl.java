@@ -45,7 +45,7 @@ import cern.devtools.deps.domain.Product;
 /**
  * Simple implementation of the {@link DependencyService} interface.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class DependencyServiceImpl implements DependencyService {
 

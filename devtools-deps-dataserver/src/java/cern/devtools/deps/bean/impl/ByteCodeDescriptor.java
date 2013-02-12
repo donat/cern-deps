@@ -17,7 +17,7 @@ import cern.devtools.deps.bean.ArtifactDescriptor;
 /**
  * {@link ArtifactDescriptor} implementation which holds the class files in the memory. Serves only testing purposes.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class ByteCodeDescriptor implements ArtifactDescriptor {
 	/**

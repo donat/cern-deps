@@ -49,7 +49,7 @@ import cern.devtools.deps.domain.creation.DomainFactory;
  * in the {@link OracleUtils} class.
  * </p>
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public final class OracleDatabaseDao implements DatabaseDao {
 	/**

@@ -23,7 +23,7 @@ import cern.devtools.deps.bean.DepBeanException;
  * By calling the {@link #executeAnalysis(List)} method, the implementation should discover and store the internal
  * structure of all the provided plugins and then discover the dependencies between the stored items.<p>
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public interface DependencyExtractor {
 

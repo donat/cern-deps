@@ -16,7 +16,7 @@ import org.neo4j.graphdb.RelationshipType;
 
 /**
  * Relationships between nodes in the graph databases.
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  *
  */
 public enum Relationships implements RelationshipType {

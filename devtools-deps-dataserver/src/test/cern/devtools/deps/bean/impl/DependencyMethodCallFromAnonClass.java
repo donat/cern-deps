@@ -18,7 +18,7 @@ import cern.devtools.deps.domain.creation.DomainFactory;
 /**
  * Method call dependency starting from an anonymous class.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  * 
  */
 public class DependencyMethodCallFromAnonClass extends AbstractDependencyDiscoveryTest {

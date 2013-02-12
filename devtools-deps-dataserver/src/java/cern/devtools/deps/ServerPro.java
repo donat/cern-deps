@@ -17,7 +17,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * Entry point for the production server.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  * 
  */
 public class ServerPro {

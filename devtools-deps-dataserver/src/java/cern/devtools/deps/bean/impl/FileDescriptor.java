@@ -25,7 +25,7 @@ import cern.devtools.deps.bean.ArtifactDescriptor;
  * <li>containing folders: lsa/lsa-app-config</li>
  * </ul>
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class FileDescriptor implements Comparable<FileDescriptor>, ArtifactDescriptor {
 	private final String name;

@@ -24,7 +24,7 @@ Eclipse Integrated Development Environment Plugin libraries used as well as that
  * necessary, because we don't want to expose the entire API towards the clients, the only thing they have to be aware
  * is the service interface.<p>
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 package cern.devtools.deps.bean;
 

@@ -18,7 +18,7 @@ import cern.devtools.deps.domain.creation.DomainFactory;
 /**
  * Override method relationship between two different product.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  *
  */
 public class DependencyFindOverride extends AbstractDependencyDiscoveryTest {

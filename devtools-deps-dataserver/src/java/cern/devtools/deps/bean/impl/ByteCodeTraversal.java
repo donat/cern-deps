@@ -41,7 +41,7 @@ import org.apache.bcel.util.ByteSequence;
  * used for printing the bytecode in a human-readable format. But, because the library does not provide proper API for
  * this function, it was necessary to copy-paste (and clean-ul )the source code to this class.<p>
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class ByteCodeTraversal {
 	/**

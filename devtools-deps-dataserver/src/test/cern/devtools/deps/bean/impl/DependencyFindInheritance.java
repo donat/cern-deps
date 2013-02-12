@@ -18,7 +18,7 @@ import cern.devtools.deps.domain.creation.DomainFactory;
 /**
  * Inheritance relationship between classes in two different product.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class DependencyFindInheritance extends AbstractDependencyDiscoveryTest {
 

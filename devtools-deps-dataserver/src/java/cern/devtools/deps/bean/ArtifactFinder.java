@@ -20,7 +20,7 @@ import cern.devtools.deps.bean.DepBeanException;
 /**
  * Interface for retrieving artifacts from different sources.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public interface ArtifactFinder {
 	/**

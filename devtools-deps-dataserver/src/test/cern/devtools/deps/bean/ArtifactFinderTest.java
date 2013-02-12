@@ -50,7 +50,7 @@ import cern.devtools.deps.bean.impl.ArtifactFinderImpl;
  * 
  * The jar files are empty, the details of the projects are described in the xml file.<p>
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  * 
  */
 public class ArtifactFinderTest {

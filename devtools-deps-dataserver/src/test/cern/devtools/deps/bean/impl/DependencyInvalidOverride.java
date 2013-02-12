@@ -14,7 +14,7 @@ import cern.devtools.deps.domain.creation.DomainFactory;
  * Checks if the framework ignores the same method signature if there is no inheritance relationship between the
  * container classes.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  * 
  */
 public class DependencyInvalidOverride extends AbstractDependencyDiscoveryTest {

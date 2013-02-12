@@ -18,7 +18,7 @@ import cern.devtools.deps.domain.creation.DomainFactory;
 /**
  * Field reference dependency check, if the field is static.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  * 
  */
 public class DependencyStaticField extends AbstractDependencyDiscoveryTest {

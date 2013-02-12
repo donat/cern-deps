@@ -7,7 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * Abstract unit test class for defining common environment for the tests.
  * 
- * @author dcsikos
+ * @author Donat Csikos <dcsikos@cern.ch> <dcsikos@cern.ch>
  * 
  */
 public abstract class AbstractBeanTest {

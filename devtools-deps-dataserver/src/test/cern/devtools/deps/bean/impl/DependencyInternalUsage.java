@@ -13,7 +13,7 @@ import cern.devtools.deps.domain.creation.DomainFactory;
 /**
  * Checks if the framework stores the internal references in the database. 
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  *
  */
 public class DependencyInternalUsage extends AbstractDependencyDiscoveryTest {

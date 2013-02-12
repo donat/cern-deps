@@ -42,7 +42,7 @@ import cern.devtools.deps.memcomp.InMemoryCompiler;
  * products are respectively example-from, example-to and optionally example-trans.
  * <p>
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/ctx-test-discovery-oracledev.xml")
@@ -50,7 +50,7 @@ public abstract class AbstractDependencyDiscoveryTest {
     /**
      * Holder class for the details of the source code.
      * 
-     * @author Donat Csikos
+     * @author Donat Csikos <dcsikos@cern.ch>
      */
     public static class Source {
         private final List<String> names;

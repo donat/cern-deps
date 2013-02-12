@@ -18,7 +18,7 @@ import cern.devtools.deps.domain.creation.DomainFactory;
 /**
  * Test if the framework finds method calls with generics included.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  *
  */
 public class DependencyGenericMethodCall extends AbstractDependencyDiscoveryTest {

@@ -18,7 +18,7 @@ import cern.devtools.deps.domain.creation.impl.SpringDataNeo4jObjectCreator;
 /**
  * One class uses (initiates an instance) an another.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class DependencyFindClassUsage extends AbstractDependencyDiscoveryTest {
 

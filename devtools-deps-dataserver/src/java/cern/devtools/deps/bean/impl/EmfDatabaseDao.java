@@ -85,7 +85,7 @@ import cern.devtools.deps.transformer.cp3.TransformRepoToCP3withSaxParser;
 /**
  * In-memory database dao.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 @SuppressWarnings("all")
 public final class EmfDatabaseDao implements DatabaseDao {

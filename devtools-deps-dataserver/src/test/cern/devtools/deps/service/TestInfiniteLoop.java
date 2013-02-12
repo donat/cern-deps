@@ -14,7 +14,7 @@ import cern.devtools.deps.domain.creation.impl.JavaBeanObjectCreator;
  * SDT-824
  * Dependency plugin - analysis job never finishes <p>
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  *
  */
 public class TestInfiniteLoop {

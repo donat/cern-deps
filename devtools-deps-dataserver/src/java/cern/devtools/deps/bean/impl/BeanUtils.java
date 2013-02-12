@@ -22,7 +22,7 @@ import cern.devtools.deps.domain.Method;
 /**
  * Utility class for providing supplementary functionality for the bean implementation.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class BeanUtils {
 

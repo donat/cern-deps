@@ -15,7 +15,7 @@ package cern.devtools.deps.bean.impl;
 /**
  * Stores constants which is used by the system.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public interface ConstantStore {
 	/**

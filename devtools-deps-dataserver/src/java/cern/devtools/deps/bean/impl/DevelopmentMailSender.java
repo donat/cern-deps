@@ -25,7 +25,7 @@ package cern.devtools.deps.bean.impl;
 /**
  * Development mail sender which sends all the e-mails to my own e-mail address.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  * 
  */
 public class DevelopmentMailSender /*implements MailSender*/ {

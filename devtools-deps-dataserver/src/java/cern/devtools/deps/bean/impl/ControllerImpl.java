@@ -33,7 +33,7 @@ import cern.devtools.deps.domain.creation.impl.JavaBeanObjectCreator;
 /**
  * Implementation of the {@link Controller} interface.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class ControllerImpl implements Controller {
 

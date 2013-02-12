@@ -18,7 +18,7 @@ import cern.devtools.deps.bean.DepBeanException;
 /**
  * Exception abstraction for representing failures in the database communication.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class DatabaseException extends DepBeanException {
 

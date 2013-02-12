@@ -25,7 +25,7 @@ import cern.devtools.deps.bean.impl.FileDescriptor;
 /**
  * Test for exporting small model from two depending jar files.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class BasicModelGeneration {
 	public static void main(String[] args) throws Exception {

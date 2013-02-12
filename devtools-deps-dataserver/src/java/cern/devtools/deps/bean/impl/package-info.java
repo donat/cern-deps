@@ -13,6 +13,6 @@ Eclipse Integrated Development Environment Plugin libraries used as well as that
 /**
  * Contains the implementation files the interfaces in the {@link cern.devtools.deps.bean} package. 
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 package cern.devtools.deps.bean.impl;

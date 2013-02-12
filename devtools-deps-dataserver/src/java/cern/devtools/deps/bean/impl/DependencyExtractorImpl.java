@@ -40,7 +40,7 @@ import cern.devtools.deps.domain.creation.DomainObjectCreator;
  * Implementation if the {@link DependencyExtractor} interface. On instantiation it stores the database reference which
  * is used to store all both the structure of the product and the dependencies in between.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class DependencyExtractorImpl implements DependencyExtractor {
 

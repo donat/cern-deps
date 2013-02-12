@@ -36,7 +36,7 @@ import cern.devtools.deps.domain.Product;
  * The database's responsibility to find and maintain the dependencies between the element of a {@link Product}. Because
  * of this, the dependency extraction can be independent of the data representation's structure.<p>
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public interface DatabaseDao {
 

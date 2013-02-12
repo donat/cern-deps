@@ -22,7 +22,7 @@ import cern.devtools.deps.domain.creation.DomainFactory;
  * <p>
  * TODO: future work: implement JMX bean on top of this interface for monitoring the application
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public interface Controller {
 

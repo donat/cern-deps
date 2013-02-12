@@ -18,7 +18,7 @@ import java.rmi.RemoteException;
 /**
  * Simple RMI service interface which is called from the commonbuild build process.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public interface CmmnbuildService extends Remote {
 	/**

@@ -18,7 +18,7 @@ import cern.devtools.deps.domain.creation.DomainFactory;
 /**
  * Method call dependency starting from an internal class.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  * 
  */
 public class DependencyMethodCallFromInternalClass extends AbstractDependencyDiscoveryTest {

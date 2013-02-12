@@ -23,7 +23,7 @@ import cern.devtools.deps.memcomp.InMemoryCompiler;
 /**
  * This test is intended to analyse if the proper structure is extracted from a jar file. 
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  *
  */
 public class JavaStructureParserTest {

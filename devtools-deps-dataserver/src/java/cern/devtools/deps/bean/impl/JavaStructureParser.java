@@ -29,7 +29,7 @@ import cern.devtools.deps.domain.creation.DomainObjectCreator;
 /**
  * Parses all information from a product.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class JavaStructureParser {
 

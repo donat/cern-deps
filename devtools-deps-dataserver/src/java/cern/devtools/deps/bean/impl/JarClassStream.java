@@ -27,7 +27,7 @@ import cern.devtools.deps.bean.ArtifactDescriptor;
 /**
  * Helper class providing an iterable interface for accessing a jar's internal binary files as input streams.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class JarClassStream implements Iterable<InputStream> {
 
