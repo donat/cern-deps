@@ -25,7 +25,7 @@
 		</repository>
 		<repository>
 			<id>neo4j-release</id>
-			<url>http://m2.neo4j.org/content/repositories/release/</url>
+			<url>http://m2.neo4j.org/content/repositories/releases/</url>
 		</repository>
 	</repositories>
 
