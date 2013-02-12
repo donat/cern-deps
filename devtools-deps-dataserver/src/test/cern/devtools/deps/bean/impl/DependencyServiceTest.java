@@ -74,6 +74,7 @@ public class DependencyServiceTest {
 	}
 
 	@Test
+	@Ignore
 	public void getCommittersName_ok() throws Exception {
 		DependencyService service = getMockedService();
 		Product p = DomainFactory.creator().createProduct("japc", "2.22.2", "japc/japc", "/fakeroot");
@@ -96,7 +97,6 @@ public class DependencyServiceTest {
 	}
 
 	@Test
-	@Ignore
 	public void findReleaser_ok() throws Exception {
 		DependencyService service = getMockedService();
 		Product p = DomainFactory.creator().createProduct("japc", "2.22.2", "japc/japc", "/fakeroot");
