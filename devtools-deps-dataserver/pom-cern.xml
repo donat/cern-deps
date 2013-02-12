@@ -186,6 +186,12 @@
 			<resource>
 				<directory>src/res/cern</directory>
 			</resource>
+			<resource>
+        		<directory>src/java</directory>
+        		<excludes>
+        			<exclude>**/*.java</exclude>
+        		</excludes>
+      		</resource>
 		</resources>
 		
 		<testSourceDirectory>src/test</testSourceDirectory>
