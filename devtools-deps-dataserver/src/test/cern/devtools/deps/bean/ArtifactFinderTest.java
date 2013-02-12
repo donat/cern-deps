@@ -161,7 +161,7 @@ public class ArtifactFinderTest {
 	}
 
 	public String repositoryXmlContent() throws IOException {
-		InputStream repoxmlStream = ClassLoader.getSystemClassLoader().getResourceAsStream("resources/repository.xml");
+		InputStream repoxmlStream = ClassLoader.getSystemClassLoader().getResourceAsStream("repository.xml");
 		BufferedReader reader = null;
 		StringBuffer result = new StringBuffer();
 
