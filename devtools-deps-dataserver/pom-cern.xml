@@ -182,6 +182,12 @@
 
 	<build>
 		<sourceDirectory>src/java</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/res/cern</directory>
+			</resource>
+		</resources>
+		
 		<testSourceDirectory>src/test</testSourceDirectory>
 		<testResources>
 			<testResource>

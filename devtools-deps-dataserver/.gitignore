@@ -14,3 +14,6 @@ src/java/config/ctx-server-pro.xml
 # binaries
 sampleprojects/bin/*
 
+
+# neo4j local db
+test-db

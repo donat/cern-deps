@@ -10,16 +10,16 @@
 	<!-- Configure context for autowiring -->
 	<context:annotation-config />
 	<context:spring-configured />
-	<context:component-scan base-package="cern.devtools.depanalysis" />
+	<context:component-scan base-package="cern.devtools.deps" />
 
 	<!-- Oracle data backend -->
 	<bean id="jdbc_template" class="org.springframework.jdbc.core.JdbcTemplate">
 		<constructor-arg ref="oracle_data_source" />
 	</bean>
-	<bean id="oracle_utils" class="cern.devtools.depanalysis.bean.impl.OracleUtils">
+	<bean id="oracle_utils" class="cern.devtools.deps.bean.impl.OracleUtils">
 		<constructor-arg ref="jdbc_template" />
 	</bean>
-	<bean id="database_dao" class="cern.devtools.depanalysis.bean.impl.OracleDatabaseDao">
+	<bean id="database_dao" class="cern.devtools.deps.bean.impl.OracleDatabaseDao">
 		<constructor-arg ref="oracle_utils" />
 	</bean>
 
@@ -30,5 +30,5 @@
 	</bean>
 
 	<!-- Domain instance factory -->
-	<bean id="domain_creator" class="cern.devtools.depanalysis.domain.creation.impl.JavaBeanObjectCreator" />
+	<bean id="domain_creator" class="cern.devtools.deps.domain.creation.impl.JavaBeanObjectCreator" />
 </beans>

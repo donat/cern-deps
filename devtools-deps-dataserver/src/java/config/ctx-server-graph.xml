@@ -15,11 +15,11 @@
 
 	<!-- Spring data backend -->
 	<neo4j:config graphDatabaseService="graphDatabaseService" />
-	<neo4j:repositories base-package="cern.devtools.depanalysis.springdata.repos" />
+	<neo4j:repositories base-package="cern.devtools.deps.springdata.repos" />
 	<bean id="graphDatabaseService" class="org.neo4j.kernel.EmbeddedGraphDatabase" destroy-method="shutdown">
 		<constructor-arg value="test-db" />
 	</bean>
-	<bean id="database_dao" class="cern.devtools.depanalysis.bean.impl.SpringDataNeo4jDatabaseDao" />
+	<bean id="database_dao" class="cern.devtools.deps.bean.impl.SpringDataNeo4jDatabaseDao" />
 
 	<!-- Transactions are driven by annotations -->
 	<bean id="transactionManager" class="org.neo4j.kernel.impl.transaction.SpringTransactionManager">
@@ -27,10 +27,10 @@
 	</bean>
 	
 	<!-- Domain instance factory -->
-	<bean id="domain_creator" class="cern.devtools.depanalysis.domain.creation.impl.SpringDataNeo4jObjectCreator" />
+	<bean id="domain_creator" class="cern.devtools.deps.domain.creation.impl.SpringDataNeo4jObjectCreator" />
 
 	<!-- Development mail sending bean, which sends all the mails to the dcsikos@cern.ch address. -->
-	<bean id="mail_sender" class="cern.devtools.depanalysis.bean.impl.DevelopmentMailSender" />
+	<bean id="mail_sender" class="cern.devtools.deps.bean.impl.DevelopmentMailSender" />
 
 	<!-- Include common properties -->
 	<import resource="ctx-common.xml" />

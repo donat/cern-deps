@@ -5,16 +5,16 @@
 	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 
-	<bean id="artifact_finder" class="cern.devtools.depanalysis.bean.impl.ArtifactFinderImpl">
+	<bean id="artifact_finder" class="cern.devtools.deps.bean.impl.ArtifactFinderImpl">
 		<!-- Produce only pro jars -->
 		<constructor-arg index="0" value="true" />
 		<!-- Check, if the files exist just form the location paths based on the content of the repository.xml -->
 		<constructor-arg index="1" value="false" />
 	</bean>
 
-	<bean id="dependency_extractor" class="cern.devtools.depanalysis.bean.impl.DependencyExtractorImpl" />
+	<bean id="dependency_extractor" class="cern.devtools.deps.bean.impl.DependencyExtractorImpl" />
 
-	<bean id="dependency_service" class="cern.devtools.depanalysis.bean.impl.DependencyServiceImpl" destroy-method="close">
+	<bean id="dependency_service" class="cern.devtools.deps.bean.impl.DependencyServiceImpl" destroy-method="close">
 		<constructor-arg index="0" ref="database_dao" />
 		<constructor-arg index="1" ref="controller" />
 	</bean>
@@ -23,10 +23,10 @@
 		<property name="serviceName" value="dependency_service" />
 		<property name="service" ref="dependency_service" />
 		<property name="registryPort" value="18080" />
-		<property name="serviceInterface" value="cern.devtools.depanalysis.bean.DependencyService" />
+		<property name="serviceInterface" value="cern.devtools.deps.bean.DependencyService" />
 	</bean>
 
-	<bean id="controller" class="cern.devtools.depanalysis.bean.impl.ControllerImpl">
+	<bean id="controller" class="cern.devtools.deps.bean.impl.ControllerImpl">
 		<constructor-arg index="0" ref="artifact_finder" />
 		<constructor-arg index="1" ref="dependency_extractor" />
 		<constructor-arg index="2">
@@ -39,12 +39,12 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="cmmnbuild_service_rmi" class="org.springframework.remoting.rmi.RmiServiceExporter">
-		<property name="serviceName" value="cmmnbuild_service" />
-		<property name="service" ref="cmmnbuild_service" />
-		<property name="registryPort" value="18088" />
-		<property name="serviceInterface" value="cern.devtools.depanalysis.bean.CmmnbuildService" />
-	</bean>
+<!-- 	<bean id="cmmnbuild_service_rmi" class="org.springframework.remoting.rmi.RmiServiceExporter"> -->
+<!-- 		<property name="serviceName" value="cmmnbuild_service" /> -->
+<!-- 		<property name="service" ref="cmmnbuild_service" /> -->
+<!-- 		<property name="registryPort" value="18088" /> -->
+<!-- 		<property name="serviceInterface" value="cern.devtools.deps.bean.CmmnbuildService" /> -->
+<!-- 	</bean> -->
 	
-	<bean id="commonbuild_cache" class="cern.devtools.depanalysis.bean.impl.CmmnbuildNotificationCacheImpl" />
+<!-- 	<bean id="commonbuild_cache" class="cern.devtools.deps.bean.impl.CmmnbuildNotificationCacheImpl" /> -->
 </beans>

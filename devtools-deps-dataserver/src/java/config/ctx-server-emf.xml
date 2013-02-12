@@ -10,10 +10,10 @@
 	<!-- Configure context for autowiring -->
 	<context:annotation-config />
 	<context:spring-configured />
-	<context:component-scan base-package="cern.devtools.depanalysis" />
+	<context:component-scan base-package="cern.devtools.deps" />
 
 
-	<bean id="database_dao" class="cern.devtools.depanalysis.bean.impl.EmfDatabaseDao"
+	<bean id="database_dao" class="cern.devtools.deps.bean.impl.EmfDatabaseDao"
 		factory-method="fromFile">
 		<constructor-arg index="0"
 			value="commonbuild-full-pro.repomodel" />
@@ -31,19 +31,19 @@
 
 	<!-- Domain instance factory -->
 	<bean id="domain_creator"
-		class="cern.devtools.depanalysis.domain.creation.impl.EmfObjectCreator">
+		class="cern.devtools.deps.domain.creation.impl.EmfObjectCreator">
 	</bean>
 	
-	<bean id="dependency_extractor" class="cern.devtools.depanalysis.bean.impl.DependencyExtractorImpl" />
+	<bean id="dependency_extractor" class="cern.devtools.deps.bean.impl.DependencyExtractorImpl" />
 
-	<bean id="artifact_finder" class="cern.devtools.depanalysis.bean.impl.ArtifactFinderImpl">
+	<bean id="artifact_finder" class="cern.devtools.deps.bean.impl.ArtifactFinderImpl">
 		<!-- Produce only pro jars -->
 		<constructor-arg index="0" value="true" />
 		<!-- Check, if the files exist just form the location paths based on the content of the repository.xml -->
 		<constructor-arg index="1" value="false" />
 	</bean>
 	
-	<bean id="dependency_service" class="cern.devtools.depanalysis.bean.impl.DependencyServiceImpl" destroy-method="close">
+	<bean id="dependency_service" class="cern.devtools.deps.bean.impl.DependencyServiceImpl" destroy-method="close">
 		<constructor-arg index="0" ref="database_dao" />
 		<constructor-arg index="1" ref="controller" />
 	</bean>
@@ -52,10 +52,10 @@
 		<property name="serviceName" value="dependency_service" />
 		<property name="service" ref="dependency_service" />
 		<property name="registryPort" value="18080" />
-		<property name="serviceInterface" value="cern.devtools.depanalysis.bean.DependencyService" />
+		<property name="serviceInterface" value="cern.devtools.deps.bean.DependencyService" />
 	</bean>
 
-	<bean id="controller" class="cern.devtools.depanalysis.bean.impl.ControllerImpl">
+	<bean id="controller" class="cern.devtools.deps.bean.impl.ControllerImpl">
 		<constructor-arg index="0" ref="artifact_finder" />
 		<constructor-arg index="1" ref="dependency_extractor" />
 		<constructor-arg index="2">
