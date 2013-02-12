@@ -28,7 +28,7 @@ import cern.devtools.deps.domain.Product;
 /**
  * Interface describing, how the domain objects should be instantiated.
  *
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  *
  */
 public interface DomainObjectCreator {

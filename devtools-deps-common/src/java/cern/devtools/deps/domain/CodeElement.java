@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Abstract interface of all elements which is stored in the database.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public interface CodeElement {
 

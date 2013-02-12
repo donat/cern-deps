@@ -24,7 +24,7 @@ import cern.devtools.deps.domain.Modifiers;
 /**
  * Template class to extract common implementation details from the final classes. 
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  *
  */
 public abstract class AbstractCodeElement implements CodeElement, Serializable {

@@ -35,7 +35,7 @@ import cern.devtools.deps.domain.impl.TransitiveDependencyImpl;
 /**
  * Implementation of {@link DomainObjectCreator}; returns POJO objects.
  *
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public final class JavaBeanObjectCreator implements DomainObjectCreator {
 	@Override

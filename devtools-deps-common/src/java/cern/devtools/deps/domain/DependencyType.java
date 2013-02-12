@@ -15,7 +15,7 @@ package cern.devtools.deps.domain;
 /**
  * Enumeration containing the defined type of dependencies.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public enum DependencyType {
 	/**

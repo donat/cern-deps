@@ -25,7 +25,7 @@ import cern.devtools.deps.domain.Product;
 /**
  * Domain object representing one single java class file.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class ApiClassImpl extends AbstractCodeElement implements ApiClass {
 

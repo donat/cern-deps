@@ -17,7 +17,7 @@ import java.util.Collection;
 /**
  * Extended relation, which has a reference for the transitive dependencies.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public interface TransitiveDependency extends Dependency {
 

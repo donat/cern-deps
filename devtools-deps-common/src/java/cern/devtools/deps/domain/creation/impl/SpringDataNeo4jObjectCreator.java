@@ -33,7 +33,7 @@ import cern.devtools.deps.domain.neo4j.ProductNode;
 /**
  * Implementation of {@link DomainObjectCreator}; returns Neo4j graph nodes and relationships.
  *
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class SpringDataNeo4jObjectCreator implements DomainObjectCreator {
 

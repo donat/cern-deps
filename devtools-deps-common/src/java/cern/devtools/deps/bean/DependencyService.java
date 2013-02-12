@@ -24,7 +24,7 @@ import cern.devtools.deps.domain.Product;
  * Spring bean interface for remote access the dependency information. This interface should be exposed to the UI layer
  * by utilising Spring RMI.
  *
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public interface DependencyService extends Remote {
 

@@ -15,7 +15,7 @@ package cern.devtools.deps.domain;
 /**
  * Class representing one field in a java class.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public interface Field extends CodeElement {
 

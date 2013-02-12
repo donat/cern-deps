@@ -21,7 +21,7 @@ import cern.devtools.deps.domain.Modifiers;
 /**
  * Domain object representing a field in the class.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  * 
  */
 public class FieldImpl extends AbstractCodeElement implements Field {

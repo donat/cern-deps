@@ -39,7 +39,7 @@ import cern.devtools.deps.repomodel.RepomodelFactory;
 /**
  * Implementation of {@link DomainObjectCreator}; returns EMF implementation object.
  *
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public final class EmfObjectCreator implements DomainObjectCreator {
 

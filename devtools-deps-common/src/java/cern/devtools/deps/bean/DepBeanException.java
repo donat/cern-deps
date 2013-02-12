@@ -15,7 +15,7 @@ package cern.devtools.deps.bean;
 /**
  * Common bean exception type for propagating errors from the server towards the clients.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class DepBeanException extends Exception {
 

@@ -25,7 +25,7 @@ import cern.devtools.deps.domain.creation.impl.JavaBeanObjectCreator;
  * </p>
  * 
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  * 
  */
 public abstract class DomainFactory {

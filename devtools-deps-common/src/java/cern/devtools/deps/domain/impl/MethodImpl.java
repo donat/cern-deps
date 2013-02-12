@@ -23,7 +23,7 @@ import cern.devtools.deps.domain.Modifiers;
 /**
  * Domain object representing a method definition in the class.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class MethodImpl extends AbstractCodeElement implements Method {
 

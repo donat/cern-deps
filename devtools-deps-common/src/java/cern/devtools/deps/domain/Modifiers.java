@@ -18,7 +18,7 @@ import cern.devtools.deps.domain.creation.DomainObjectCreator;
  * The available modifiers for the {@link CodeElement} instances. Used in the {@link DomainObjectCreator} for
  * instantiating different {@link CodeElement} entities.
  *
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public enum Modifiers {
 

@@ -18,7 +18,7 @@ package cern.devtools.deps.domain;
  * <p>The dependency relation is a 2-ary relation: (source,target). The type of the source and target (getFrom and getTo methods)
  * is defined by the getType() method.</p>
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  *
  */
 public interface Dependency {

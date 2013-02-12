@@ -17,7 +17,7 @@ import java.util.Collection;
 /**
  * Class representing a java project.
  *
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public interface Product extends CodeElement {
 	/**

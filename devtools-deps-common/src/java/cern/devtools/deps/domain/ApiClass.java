@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Domain object representing a java class.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public interface ApiClass extends CodeElement {
 

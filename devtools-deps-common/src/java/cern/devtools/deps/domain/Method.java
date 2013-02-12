@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Interface representing a simple Method object from a .class file.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public interface Method extends CodeElement {
 

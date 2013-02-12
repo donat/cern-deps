@@ -23,7 +23,7 @@ import cern.devtools.deps.domain.Product;
 /**
  * Domain class describing a java product
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class ProductImpl extends AbstractCodeElement implements Product {
 
