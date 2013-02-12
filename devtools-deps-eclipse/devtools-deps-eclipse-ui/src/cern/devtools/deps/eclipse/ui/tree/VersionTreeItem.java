@@ -14,7 +14,7 @@ import cern.devtools.deps.eclipse.ui.LoggingUtil;
  * TreeItem represents a specific version of a product. Must have a {@link Product} instance in the parent node. The
  * {@link #getValue()} should return the version string.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class VersionTreeItem extends GenericTreeItem<String> {
 

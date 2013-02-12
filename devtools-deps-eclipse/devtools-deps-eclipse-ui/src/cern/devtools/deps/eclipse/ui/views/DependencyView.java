@@ -43,7 +43,7 @@ import cern.devtools.deps.eclipse.ui.tree.TreeItemAdapterFactory;
 /**
  * View for displaying queried dependencies.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class DependencyView extends ViewPart {
 

@@ -84,7 +84,7 @@ public class JavaDepsHandler extends AbstractHandler {
     /**
      * executes the dependency query on a new thread using Eclipse Job API.
      * 
-     * @author Donat Csikos
+     * @author Donat Csikos <dcsikos@cern.ch>
      */
     final class QueryDependenciesJob extends Job {
         public QueryDependenciesJob(String name) {
@@ -139,7 +139,7 @@ public class JavaDepsHandler extends AbstractHandler {
      * Helper class for listening {@link QueryDependenciesJob} execution to finish. If finished, it displays the result
      * of the query on the UI thread.
      * 
-     * @author Donat Csikos
+     * @author Donat Csikos <dcsikos@cern.ch>
      */
     final class ShowQueryResults extends JobChangeAdapter {
         @Override

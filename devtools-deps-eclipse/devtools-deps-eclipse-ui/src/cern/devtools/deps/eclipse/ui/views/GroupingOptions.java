@@ -9,7 +9,7 @@ package cern.devtools.deps.eclipse.ui.views;
 /**
  * The available groupings for {@link DependencyView#treeViewer}.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  * 
  */
 public enum GroupingOptions {

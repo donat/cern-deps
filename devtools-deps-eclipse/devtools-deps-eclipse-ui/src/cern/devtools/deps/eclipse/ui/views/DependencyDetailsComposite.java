@@ -46,7 +46,7 @@ import cern.devtools.deps.eclipse.ui.tree.VersionTreeItem;
 /**
  * Composite SWT widget for displaying the preferences for a selected element in the {@link DependencyView} view.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public final class DependencyDetailsComposite extends Composite {
 
@@ -59,7 +59,7 @@ public final class DependencyDetailsComposite extends Composite {
 	 * item.
 	 * </p>
 	 * 
-	 * @author Donat Csikos
+	 * @author Donat Csikos <dcsikos@cern.ch>
 	 */
 	public static class DetailsChangeListener implements ISelectionChangedListener {
 

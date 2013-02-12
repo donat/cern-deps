@@ -25,7 +25,7 @@ import cern.devtools.deps.eclipse.ui.Images;
  * More information about the working mechanism is described in the {@link TreeItem}
  * </p>
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class TreeItemAdapterFactory implements IAdapterFactory {
 	private IWorkbenchAdapter adapter = new IWorkbenchAdapter() {

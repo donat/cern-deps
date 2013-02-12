@@ -14,7 +14,7 @@ import cern.devtools.deps.eclipse.ui.Images;
 /**
  * Action provided by the view to change the result's grouping.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  * 
  */
 public class GroupResultAction extends Action {

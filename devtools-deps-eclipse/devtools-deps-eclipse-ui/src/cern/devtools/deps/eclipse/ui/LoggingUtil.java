@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Display;
 /**
  * Small utility class holding logging functions. Provides unified way of logging exceptions in the client code.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class LoggingUtil {
 

@@ -10,7 +10,7 @@ package cern.devtools.deps.eclipse.ui.tree;
 /**
  * TreeItem with a single object contained inside. 
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  *
  * @param <T> The type of the held object to return in the {@link #getValue()} method.
  */

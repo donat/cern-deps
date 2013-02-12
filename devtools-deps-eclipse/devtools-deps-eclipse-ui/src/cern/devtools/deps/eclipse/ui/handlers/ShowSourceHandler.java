@@ -37,7 +37,7 @@ import cern.devtools.deps.eclipse.ui.tree.TreeItemType;
 /**
  * Opens the internal browser and shows the source code of a selected item from the "Incoming dependencies view".
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public final class ShowSourceHandler extends AbstractHandler {
 

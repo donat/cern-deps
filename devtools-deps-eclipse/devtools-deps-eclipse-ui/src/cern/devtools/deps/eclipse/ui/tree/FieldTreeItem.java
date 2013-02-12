@@ -10,7 +10,7 @@ import cern.devtools.deps.domain.Field;
 
 /**
  * TreeItem represents an {@link Field}.
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  *
  */
 public class FieldTreeItem extends GenericTreeItem<Field> {

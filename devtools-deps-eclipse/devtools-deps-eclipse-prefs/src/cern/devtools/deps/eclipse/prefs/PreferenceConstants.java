@@ -17,7 +17,7 @@ import cern.devtools.deps.eclipse.internal.Activator;
 /**
  * Constant definitions for plug-in preferences
  * 
- * @author dcsikos
+ * @author Donat Csikos <dcsikos@cern.ch> <dcsikos@cern.ch>
  */
 public class PreferenceConstants {
 

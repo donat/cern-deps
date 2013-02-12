@@ -10,7 +10,7 @@ package cern.devtools.deps.eclipse.ui.tree;
 /**
  * TreeItem represents a java source package. The {@link #getValue()} should return the package name.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class PackageTreeItem extends GenericTreeItem<String> {
 

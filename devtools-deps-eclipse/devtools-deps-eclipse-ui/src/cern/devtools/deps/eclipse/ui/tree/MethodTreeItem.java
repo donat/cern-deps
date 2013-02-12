@@ -11,7 +11,7 @@ import cern.devtools.deps.domain.Method;
 /**
  * TreeItem represents an {@link Method}.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class MethodTreeItem extends GenericTreeItem<Method> {
 	private final String representedVersion;

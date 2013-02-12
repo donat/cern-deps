@@ -11,7 +11,7 @@ import cern.devtools.deps.domain.ApiClass;
 /**
  * TreeItem represents an {@link ApiClass}.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  *
  */
 public class ApiClassTreeItem extends GenericTreeItem<ApiClass> {

@@ -10,7 +10,7 @@ import cern.devtools.deps.domain.DependencyType;
 
 /**
  * TreeItem represents an {@link DependencyType}.
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  *
  */
 public class DependencyTypeTreeItem extends GenericTreeItem<DependencyType> {

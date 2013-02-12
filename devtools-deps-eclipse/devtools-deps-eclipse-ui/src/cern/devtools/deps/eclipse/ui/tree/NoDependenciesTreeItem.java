@@ -12,7 +12,7 @@ import cern.devtools.deps.domain.CodeElement;
  * TreeItem represents a node which is displayed when there is no dependency for the queried code element. The
  * constructor stores the queried object.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class NoDependenciesTreeItem extends GenericTreeItem<CodeElement> {
 

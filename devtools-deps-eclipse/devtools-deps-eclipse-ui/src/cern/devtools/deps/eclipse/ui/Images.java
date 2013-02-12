@@ -20,7 +20,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * the {@link #descriptor()} method, which allows the clients to access the images itself, not just the paths.
  * </p>
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  * 
  */
 public enum Images {

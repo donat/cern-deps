@@ -45,7 +45,7 @@ import cern.devtools.deps.eclipse.ui.views.DependencyView;
  * The concrete implementations provides a necessary data for displaying a represented items.
  * </p>
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public abstract class TreeItem implements IAdaptable {
 

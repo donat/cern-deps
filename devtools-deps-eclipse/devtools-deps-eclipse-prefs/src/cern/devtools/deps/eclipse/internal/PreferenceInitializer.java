@@ -20,7 +20,7 @@ import cern.devtools.deps.eclipse.prefs.PreferenceConstants;
 /**
  * Class used to initialise default preference values.
  * 
- * @author dcsikos
+ * @author Donat Csikos <dcsikos@cern.ch> <dcsikos@cern.ch>
  */
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
 

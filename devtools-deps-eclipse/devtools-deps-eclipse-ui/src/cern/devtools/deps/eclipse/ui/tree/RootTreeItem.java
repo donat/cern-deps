@@ -10,7 +10,7 @@ import cern.devtools.deps.domain.CodeElement;
 
 /**
  * Root tree item.
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  *
  */
 public class RootTreeItem extends GenericTreeItem<CodeElement> {

@@ -24,7 +24,7 @@ import org.eclipse.ui.IStorageEditorInput;
  * It retrieves a static, non-changeable view of the returned source code. The goal is to display the source code
  * natively in the eclipse source code editor.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class ImmutableStringEditorInput implements IStorageEditorInput {
 	/**

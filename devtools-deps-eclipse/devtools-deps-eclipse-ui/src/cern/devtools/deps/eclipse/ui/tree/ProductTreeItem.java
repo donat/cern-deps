@@ -16,7 +16,7 @@ import cern.devtools.deps.eclipse.ui.LoggingUtil;
 /**
  * TreeItem represents an {@link Product}.
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class ProductTreeItem extends GenericTreeItem<Product> {
 

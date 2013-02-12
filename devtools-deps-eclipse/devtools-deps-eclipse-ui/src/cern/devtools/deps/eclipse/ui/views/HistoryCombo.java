@@ -28,7 +28,7 @@ import cern.devtools.deps.domain.Dependency;
  * results from the dependency queries and the box empties it.
  * <p>
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class HistoryCombo extends Composite {
 
