@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+<extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="cern.devtools.deps.eclipse.internal.PreferencePage"
+            id="cern.devtools.deps.eclipse.ui.preferences.PreferencePage"
+            name="Dependency Analysis">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="cern.devtools.deps.eclipse.internal.PreferenceInitializer">
+      </initializer>
+   </extension>
+</plugin>

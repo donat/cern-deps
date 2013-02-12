@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="cern.devtools.deps.eclipse.javaDepsHandler"
+            name="Show Incoming Dependencies">
+      </command>
+      <command
+            id="cern.devtools.deps.eclipse.commands.showsource"
+            name="Show Pro source">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="cern.devtools.deps.eclipse.ui.handlers.JavaDepsHandler"
+            commandId="cern.devtools.deps.eclipse.javaDepsHandler">
+      </handler>
+      <handler
+            class="cern.devtools.deps.eclipse.ui.handlers.ShowSourceHandler"
+            commandId="cern.devtools.deps.eclipse.commands.showsource">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:cern.devtools.deps.eclipse.views.dependencyview.popup">
+         <command
+               commandId="cern.devtools.deps.eclipse.commands.showsource"
+               icon="src/icons/graph.gif"
+               label="Show source"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:#CompilationUnitEditorContext?after=additions">
+         <command
+               commandId="cern.devtools.deps.eclipse.javaDepsHandler"
+               icon="src/icons/graph.png"
+               label="Show Incoming Dependencies"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
+         <command
+               commandId="cern.devtools.deps.eclipse.javaDepsHandler"
+               icon="src/icons/graph.png"
+               label="Show Incoming Jar Dependencies"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="cern.devtools.deps.eclipse.views.dependencyviewcat"
+            class="cern.devtools.deps.eclipse.ui.views.DependencyView"
+            icon="src/icons/graph.gif"
+            id="cern.devtools.eclipse.dependency.views.result"
+            name="Incoming dependencies"
+            restorable="false">
+      </view>
+      <category
+            id="cern.devtools.deps.eclipse.views.dependencyviewcat"
+            name="Dependency Management">
+      </category>
+   </extension>
+   
+</plugin>

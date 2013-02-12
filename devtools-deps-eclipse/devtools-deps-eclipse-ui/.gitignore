@@ -1,0 +1,6 @@
+# remove all binaries
+bin
+target
+
+# remove lib folder content
+lib/*.jar
