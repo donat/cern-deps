@@ -45,7 +45,7 @@ import cern.devtools.deps.memcomp.InMemoryCompiler;
  * @author Donat Csikos
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/config/ctx-test-discovery-oracledev.xml")
+@ContextConfiguration("classpath:/ctx-test-discovery-oracledev.xml")
 public abstract class AbstractDependencyDiscoveryTest {
     /**
      * Holder class for the details of the source code.

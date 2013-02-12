@@ -24,7 +24,7 @@ import cern.devtools.deps.domain.Product;
 import cern.devtools.deps.domain.creation.DomainObjectCreator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/config/ctx-test-dbdao-oracledev.xml")
+@ContextConfiguration("classpath:/ctx-test.xml")
 @Transactional
 public class DatabaseDaoTest {
 

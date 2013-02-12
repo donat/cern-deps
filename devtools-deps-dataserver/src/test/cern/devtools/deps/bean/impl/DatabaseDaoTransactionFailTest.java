@@ -16,7 +16,7 @@ import cern.devtools.deps.bean.DatabaseException;
 import cern.devtools.deps.domain.creation.DomainObjectCreator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/config/ctx-test-dbdao-oracledev.xml")
+@ContextConfiguration("classpath:/ctx-test.xml")
 public class DatabaseDaoTransactionFailTest {
 
 	@Autowired

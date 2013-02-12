@@ -7,7 +7,7 @@
 /commonbuild-full-pro.repomodel
 
 # cern infrasturcture-related descriptors
-src/test/config/*-oracledev.xml
+src/testres/common/*-oracledev.xml
 src/java/config/ctx-server-dev.xml
 src/java/config/ctx-server-pro.xml
 

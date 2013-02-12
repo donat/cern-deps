@@ -19,24 +19,13 @@
 		http://www.springframework.org/schema/data/neo4j http://www.springframework.org/schema/data/neo4j/spring-neo4j-2.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<!-- Configure context for autowiring -->
-	<context:annotation-config />
-	<context:spring-configured />
-	<context:component-scan base-package="cern.devtools.depanalysis" />
+	<bean id="dependency_extractor" class="cern.devtools.deps.bean.impl.DependencyExtractorImpl" />
 
-	<!-- Spring data backend -->
-	<neo4j:config graphDatabaseService="graphDatabaseService" />
-	<neo4j:repositories base-package="cern.devtools.depanalysis.springdata.repos" />
-	<bean id="graphDatabaseService" class="org.neo4j.test.ImpermanentGraphDatabase" />
-	<bean id="database_dao" class="cern.devtools.depanalysis.bean.impl.SpringDataNeo4jDatabaseDao" />
-
-	<!-- Transactions are driven by annotations -->
-	<tx:annotation-driven mode="proxy" />
-	<bean id="transactionManager" class="org.neo4j.kernel.impl.transaction.SpringTransactionManager">
-		<constructor-arg ref="graphDatabaseService" />
+	<bean id="artifact_finder" class="cern.devtools.deps.bean.impl.ArtifactFinderImpl">
+		<!-- Produce only pro jars -->
+		<constructor-arg index="0" value="true" />
+		<!-- Check, if the files exist just form the location paths based on the content of the repository.xml -->
+		<constructor-arg index="1" value="false" />
 	</bean>
-
-	<!-- Domain instance factory -->
-	<bean id="domain_creator" class="cern.devtools.depanalysis.domain.creation.impl.SpringDataNeo4jObjectCreator" />
 	
 </beans>
