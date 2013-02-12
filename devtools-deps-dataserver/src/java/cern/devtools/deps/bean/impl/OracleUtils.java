@@ -77,14 +77,14 @@ import cern.devtools.deps.domain.creation.DomainFactory;
  * file. It tries to map the tables, columns for the SQL operations and tries to a basic level validation over the
  * operations (e.g. in the {@link #checkProvidedColumns(Table, Column...)}).<p>
  * 
- * @author Donat Csikos
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public final class OracleUtils {
 
 	/**
 	 * Enumeration, which contains all columns which present in the database.
 	 * 
-	 * @author Donat Csikos
+	 * @author Donat Csikos <dcsikos@cern.ch>
 	 */
 	public enum Column {
 		// Columns in the Classes table.
@@ -181,7 +181,7 @@ public final class OracleUtils {
 	 * The parameters are used to maintain database naming and validation SQL query creation.
 	 * </p>
 	 * 
-	 * @author Donat Csikos
+	 * @author Donat Csikos <dcsikos@cern.ch>
 	 */
 	public enum Table {
 		/**
