@@ -5,7 +5,7 @@
 
 	<groupId>cern.devtools.deps</groupId>
 	<artifactId>devtools-deps-dataserver</artifactId>
-	<version>2.0.0-SNAPSHOT</version>
+	<version>3.0.0-SNAPSHOT</version>
 	<name>devtools-deps-dataserver</name>
 	<packaging>jar</packaging>
 
@@ -62,13 +62,6 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-neo4j</artifactId>
 			<version>${spring.data.neo4j.version}</version>
-			<exclusions>
-				<!-- TODO: find the artifact in some repo -->
-				<exclusion>
-					<groupId>org.neo4j</groupId>
-					<artifactId>neo4j-cypher-dsl</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.neo4j</groupId>
@@ -161,14 +154,11 @@
 			<artifactId>emf-ecore-xmi</artifactId>
 			<version>2.7.0</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>hu.bme.incquery.deps</groupId>
 			<artifactId>cp3model</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-		
-		
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
@@ -231,43 +221,5 @@
 				</executions>
 			</plugin>
 		</plugins>
-
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.codehaus.mojo
-										</groupId>
-										<artifactId>
-											build-helper-maven-plugin
-										</artifactId>
-										<versionRange>
-											[1.1,)
-										</versionRange>
-										<goals>
-											<goal>add-test-source</goal>
-											<goal>add-source</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 </project>
