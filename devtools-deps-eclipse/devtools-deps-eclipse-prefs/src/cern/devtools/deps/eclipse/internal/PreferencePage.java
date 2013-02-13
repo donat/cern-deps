@@ -24,7 +24,7 @@ import cern.devtools.deps.eclipse.prefs.PreferenceConstants;
  * 
  * Right now it is used for storing the connection string for the rmi server.
  * 
- * @author Donat Csikos <dcsikos@cern.ch> <dcsikos@cern.ch>
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class PreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 

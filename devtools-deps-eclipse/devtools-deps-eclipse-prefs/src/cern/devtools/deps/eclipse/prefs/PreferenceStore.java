@@ -17,7 +17,7 @@ import cern.devtools.deps.eclipse.internal.Activator;
 /**
  * Returns composite values from the plug-in's preference store.
  * 
- * @author Donat Csikos <dcsikos@cern.ch> <dcsikos@cern.ch>
+ * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class PreferenceStore {
 
