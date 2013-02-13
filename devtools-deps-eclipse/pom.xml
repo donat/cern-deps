@@ -17,6 +17,8 @@
 	<modules>
 		<module>devtools-deps-eclipse-prefs</module>
 		<module>devtools-deps-eclipse-ui</module>
+		<module>devtools-deps-eclipse-feature</module>
+		<module>devtools-deps-eclipse-updatesite</module>
 	</modules>
 
 	<repositories>
@@ -77,6 +79,7 @@
 					<version>${maven.depplugin.version}</version>
 				</plugin>
 			</plugins>
+			
 		</pluginManagement>
 	</build>
 </project>
