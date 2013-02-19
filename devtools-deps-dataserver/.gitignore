@@ -17,3 +17,10 @@ sampleprojects/bin/*
 
 # neo4j local db
 test-db
+
+# emf model stores
+*.repomodel
+*.cp3model
+
+# sample jar files
+jarrepo/*.jar

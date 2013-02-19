@@ -16,6 +16,6 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class ServerEmf {
 	public static void main(String[] args) {
-	    new FileSystemXmlApplicationContext("ctx-server-emf.xml");
+	    new FileSystemXmlApplicationContext("conf/ctx-server-emf.xml");
 	}
 }

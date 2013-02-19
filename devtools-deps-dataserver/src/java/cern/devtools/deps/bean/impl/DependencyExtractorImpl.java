@@ -69,7 +69,6 @@ public class DependencyExtractorImpl implements DependencyExtractor {
 
 	public void executeAnalysis(List<? extends ArtifactDescriptor> artifacts) throws DatabaseException {
 
-		Measurement.getInstance().registerStartTime();
 
 		Iterator<? extends ArtifactDescriptor> it = artifacts.iterator();
 		while (it.hasNext()) {
@@ -87,17 +86,18 @@ public class DependencyExtractorImpl implements DependencyExtractor {
 			}
 		}
 
-		Measurement.getInstance().setProductNum(artifacts.size());
-
 		// 1) Analyze the new artifacts.
 		findAndStoreStructures(artifacts);
 
 		// 2) Find dependencies.
 		findArtifactsDependencies(artifacts);
-		Measurement.getInstance().registerEndTime();
-		Measurement.getInstance().setDepsNum(db.getNumOfDeps());
-		
 
+		try {
+            db.flush("");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 	}
 
 	/**
