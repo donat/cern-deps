@@ -20,6 +20,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -917,13 +918,19 @@ public class RClass extends RCodeElement implements ApiClass {
 		return result.toString();
 	}
 
+	private RProject prnt;
+	
 	@Override
 	public RProject getProduct() {
+	    if (prnt != null) {
+	        return prnt;
+	    }
 		return getRProject();
 	}
 
 	@Override
 	public void setProduct(Product p) {
+	    prnt = (RProject)p;
 		setRProject((RProject)p);
 		
 	}

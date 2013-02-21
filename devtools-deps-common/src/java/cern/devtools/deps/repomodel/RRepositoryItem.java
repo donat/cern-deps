@@ -12,6 +12,8 @@
  **********************************************************************************************************************/
 package cern.devtools.deps.repomodel;
 
+import java.io.Serializable;
+
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
@@ -37,8 +39,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * @model kind="class" abstract="true"
  * @generated
  */
-public abstract class RRepositoryItem extends EObjectImpl implements EObject {
+public abstract class RRepositoryItem extends EObjectImpl implements EObject, Serializable {
 	/**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
 	 * The default value of the '{@link #getUuid() <em>Uuid</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

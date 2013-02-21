@@ -796,29 +796,8 @@ public final class EmfDatabaseDao implements DatabaseDao {
     // final SubCp3ModelFinder sc;
 
     public Object findCp3ModelForDirectDeps(List<String> projects) {
-        throw new RuntimeException("Not implemented yet");
-        // return sc.findSubModel(projects);
-
-        // try {
-        // // 1. save necessary repomodel to the disk.
-        // Set<RProject> resProjects = findProjectsToRetrieve(projects);
-        // URI tmpFileUri = URI.createFileURI("tmp.repomodel");
-        // Resource tmpRes = resource.getResourceSet().createResource(tmpFileUri);
-        //
-        // addProjectsToResource(resProjects, tmpRes);
-        // ((XMLResourceImpl) tmpRes).setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
-        // tmpRes.save(Collections.EMPTY_MAP);
-        //
-        // // 2. compact it wit the transformer.
-        // TransformRepoToCP3.transform("tmp.repomodel", "tmp.cp3model");
-        //
-        // // 3. return the file URI to the client.
-        // String path = new File("tmp.cp3model").getAbsolutePath().replace("\\", "/");
-        // return new java.net.URI("file:/" + path);
-        //
-        // } catch (Exception e) {
-        // throw new RuntimeException(e);
-        // }
+        SubModelFinder finder = new SubModelFinder(repoModelRes, cp3Modelres);
+        return finder.findSubModel(projects);
     }
 
     private void addProjectsToResource(Set<RProject> projects, Resource targetResource) {

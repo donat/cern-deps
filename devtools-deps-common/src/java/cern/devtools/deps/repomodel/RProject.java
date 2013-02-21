@@ -461,5 +461,13 @@ public class RProject extends RCodeElement implements Product {
 	public Collection<ApiClass> getClasses() {
 		return getRClasses();
 	}
+	
+	/* (non-Javadoc)
+	 * @see cern.devtools.deps.repomodel.RCodeElement#getDisplayName()
+	 */
+	@Override
+	public String getDisplayName() {
+	    return getName();
+	}
 
 } // RProject

@@ -14,12 +14,15 @@ package cern.devtools.deps.repomodel;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -107,7 +110,7 @@ public abstract class RCodeElement extends RRepositoryItem implements CodeElemen
 	 * @generated
 	 */
 	protected RCodeElement() {
-		super();
+	    super();
 	}
 
 	/**
@@ -372,7 +375,6 @@ public abstract class RCodeElement extends RRepositoryItem implements CodeElemen
 		for (String v : versions) {
 			getVersions().add(v);
 		}
-		
 	}
 
 } // RCodeElement

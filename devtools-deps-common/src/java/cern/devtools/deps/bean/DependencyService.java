@@ -15,6 +15,7 @@ package cern.devtools.deps.bean;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Collection;
+import java.util.List;
 
 import cern.devtools.deps.domain.CodeElement;
 import cern.devtools.deps.domain.Dependency;
@@ -72,4 +73,7 @@ public interface DependencyService extends Remote {
 	 * @throws DepBeanException If an error happens during the execution.
 	 */
 	public void reportClientActivation(String user, String host) throws DepBeanException, RemoteException;
+	
+	
+	public Object getCompactedServerModelFor(List<String> projects) throws DepBeanException, RemoteException;
 }

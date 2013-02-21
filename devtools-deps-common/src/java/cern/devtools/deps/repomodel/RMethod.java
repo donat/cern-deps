@@ -552,13 +552,20 @@ public class RMethod extends RCodeElement implements Method {
 		return result.toString();
 	}
 
+	
+	private RClass prnt;
+	
 	@Override
 	public ApiClass getApiClass() {
+	    if (prnt != null) {
+            return prnt;
+        }
 		return getRClass();
 	}
 
 	@Override
 	public void setApiClass(ApiClass ac) {
+	    prnt = (RClass) ac;
 		setRClass((RClass)ac);
 	}
 

@@ -26,7 +26,6 @@ public class TransformRepoToCP3withSaxParser {
 		saxParser.parse(new File(fromFile), new Cp3StructureExtractor(details));
 		saxParser.parse(new File(fromFile), new Cp3DepsExtractor(details));
 		details.write();
-
 	}
 
 	public static void main(String[] args) throws Exception {

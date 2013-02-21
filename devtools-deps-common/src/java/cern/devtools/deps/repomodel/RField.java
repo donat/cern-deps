@@ -355,14 +355,20 @@ public class RField extends RCodeElement implements Field {
 		result.append(')');
 		return result.toString();
 	}
+	
+	private RClass prnt;
 
 	@Override
 	public ApiClass getApiClass() {
+	    if (prnt != null) {
+            return prnt;
+        }
 		return getRClass();
 	}
 
 	@Override
 	public void setApiClass(ApiClass apiClass) {
+	    prnt = (RClass) apiClass;
 		setRClass((RClass) apiClass);
 	}
 

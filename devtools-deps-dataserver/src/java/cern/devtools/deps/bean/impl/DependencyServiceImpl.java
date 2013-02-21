@@ -18,7 +18,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -31,10 +30,10 @@ import org.apache.log4j.Logger;
 import org.neo4j.helpers.Pair;
 
 import cern.devtools.deps.bean.Controller;
+import cern.devtools.deps.bean.Controller.DependencyUpdateListener;
 import cern.devtools.deps.bean.DatabaseDao;
 import cern.devtools.deps.bean.DepBeanException;
 import cern.devtools.deps.bean.DependencyService;
-import cern.devtools.deps.bean.Controller.DependencyUpdateListener;
 import cern.devtools.deps.domain.ApiClass;
 import cern.devtools.deps.domain.CodeElement;
 import cern.devtools.deps.domain.Dependency;
@@ -266,7 +265,7 @@ public class DependencyServiceImpl implements DependencyService {
 		controller.removeDependencyUpdateListener(listener);
 	}
 
-	public Object getCompactedServerModelFor(List<String> projects) throws DepBeanException, RemoteException {
+	public Object getCompactedServerModelFor(List<String> projects) {
 		return db.findCp3ModelForDirectDeps(projects);
 	}
 

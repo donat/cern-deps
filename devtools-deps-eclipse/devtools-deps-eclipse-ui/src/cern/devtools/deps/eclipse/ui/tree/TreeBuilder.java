@@ -225,6 +225,7 @@ public class TreeBuilder {
 		});
 
 		for (final Product p : productList) {
+		    System.out.println("a");
 			// Gather the different package names from the result.
 			Set<String> packageSet = new HashSet<String>();
 			for (ApiClass ac : p.getClasses()) {
