@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Dependency Plugin Preferences
 Bundle-SymbolicName: cern.devtools.deps.eclipse.prefs;singleton:=true
-Bundle-Version: 3.0.0.v20130212
+Bundle-Version: 3.0.0.v20130327
 Bundle-Activator: cern.devtools.deps.eclipse.internal.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime

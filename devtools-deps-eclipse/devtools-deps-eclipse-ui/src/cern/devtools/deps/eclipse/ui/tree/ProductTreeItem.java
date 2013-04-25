@@ -39,7 +39,7 @@ public class ProductTreeItem extends GenericTreeItem<Product> {
 	public Collection<String> getCommitters() {
 		if (committers == null) {
 			try {
-				committers = Activator.getDefault().getDependencyService().getCommittersName(super.value);
+				committers = Activator.getDefault().getDependencyRMIService().getCommittersName(super.value);
 			} catch (Exception e) {
 				LoggingUtil.logWarn(e.getMessage());
 				committers = null;

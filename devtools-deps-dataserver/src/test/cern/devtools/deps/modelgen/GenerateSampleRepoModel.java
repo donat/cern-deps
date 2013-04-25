@@ -8,7 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import cern.devtools.deps.bean.ArtifactDescriptor;
 import cern.devtools.deps.bean.DependencyExtractor;
 import cern.devtools.deps.bean.impl.EmfDatabaseDao;
-import cern.devtools.deps.bean.impl.FileDescriptor;
+import cern.devtools.deps.bean.impl.CmmnbuildArtifactDescriptor;
 
 public class GenerateSampleRepoModel {
 	public static void main(String[] args) throws Exception {
@@ -16,11 +16,11 @@ public class GenerateSampleRepoModel {
 				"classpath:/config/ctx-test-discovery-emf.xml");
 		
 		
-		FileDescriptor ad1 = new FileDescriptor("japc", "1.0.0",
+		CmmnbuildArtifactDescriptor ad1 = new CmmnbuildArtifactDescriptor("japc", "1.0.0",
 				"sampleprojects/bin/japc.jar", "japc/japc");
-		FileDescriptor ad2 = new FileDescriptor("accsoft-gui-alarms", "1.0.0",
+		CmmnbuildArtifactDescriptor ad2 = new CmmnbuildArtifactDescriptor("accsoft-gui-alarms", "1.0.0",
 				"sampleprojects/bin/accsoft-gui-alarms.jar", "accsoft/gui/accsoft-gui-alarms");
-		FileDescriptor ad3 = new FileDescriptor("japc-ext-cmw", "1.0.0",
+		CmmnbuildArtifactDescriptor ad3 = new CmmnbuildArtifactDescriptor("japc-ext-cmw", "1.0.0",
 				"sampleprojects/bin/japc-ext-cmw.jar", "japc/japc-ext-remote");
 
 		List<ArtifactDescriptor> lad = new LinkedList<ArtifactDescriptor>();

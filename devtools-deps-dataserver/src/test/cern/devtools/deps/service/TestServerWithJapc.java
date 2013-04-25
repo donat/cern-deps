@@ -8,7 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import cern.devtools.deps.bean.ArtifactDescriptor;
 import cern.devtools.deps.bean.DatabaseDao;
 import cern.devtools.deps.bean.DependencyExtractor;
-import cern.devtools.deps.bean.impl.FileDescriptor;
+import cern.devtools.deps.bean.impl.CmmnbuildArtifactDescriptor;
 import cern.devtools.deps.domain.creation.DomainFactory;
 
 public class TestServerWithJapc {
@@ -17,10 +17,10 @@ public class TestServerWithJapc {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				"classpath:/config/ctx-test-service.xml");
 
-		FileDescriptor ad1 = new FileDescriptor("japc-value", "2.11.0",
+		CmmnbuildArtifactDescriptor ad1 = new CmmnbuildArtifactDescriptor("japc-value", "2.11.0",
 				"\\\\cs-ccr-nfsdev\\pcrops\\dist\\japc\\japc-value\\2.11.0\\build\\dist\\japc-value.jar",
 				"japc/japc-value");
-		FileDescriptor ad2 = new FileDescriptor("japc", "2.22.1",
+		CmmnbuildArtifactDescriptor ad2 = new CmmnbuildArtifactDescriptor("japc", "2.22.1",
 				"\\\\cs-ccr-nfsdev\\pcrops\\dist\\japc\\japc\\2.22.1\\build\\dist\\japc.jar", "japc/japc");
 
 		List<ArtifactDescriptor> lad = new LinkedList<ArtifactDescriptor>();

@@ -20,7 +20,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import cern.devtools.deps.bean.ArtifactDescriptor;
 import cern.devtools.deps.bean.DependencyExtractor;
 import cern.devtools.deps.bean.impl.EmfDatabaseDao;
-import cern.devtools.deps.bean.impl.FileDescriptor;
+import cern.devtools.deps.bean.impl.CmmnbuildArtifactDescriptor;
 
 public class ServiceProviderFrameworkGeneration {
 
@@ -32,9 +32,9 @@ public class ServiceProviderFrameworkGeneration {
 		DependencyExtractor extractor = (DependencyExtractor) context.getBean("dependency_extractor");
 
 		List<ArtifactDescriptor> artifacts = new LinkedList<ArtifactDescriptor>();	
-		artifacts.add(new FileDescriptor("service", "1.0.0", "C:/opt/workspace/eclipse4/service-provider-framework/service.jar", ""));
-		artifacts.add(new FileDescriptor("client", "1.0.0", "C:/opt/workspace/eclipse4/service-provider-framework/client.jar", ""));
-		artifacts.add(new FileDescriptor("impl", "1.0.0", "C:/opt/workspace/eclipse4/service-provider-framework/impl.jar", ""));
+		artifacts.add(new CmmnbuildArtifactDescriptor("service", "1.0.0", "C:/opt/workspace/eclipse4/service-provider-framework/service.jar", ""));
+		artifacts.add(new CmmnbuildArtifactDescriptor("client", "1.0.0", "C:/opt/workspace/eclipse4/service-provider-framework/client.jar", ""));
+		artifacts.add(new CmmnbuildArtifactDescriptor("impl", "1.0.0", "C:/opt/workspace/eclipse4/service-provider-framework/impl.jar", ""));
 		
 		extractor.executeAnalysis(artifacts);
 		

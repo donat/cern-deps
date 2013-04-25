@@ -46,7 +46,7 @@ public class LoggingUtil {
 
 		// Display a warning message
 		MessageDialog.openWarning(Display.getDefault().getActiveShell(), "Error",
-				message + "\nReason is: " + e.getMessage() + ".");
+				message);
 
 		// Store the error message in the eclipse log.
 		Activator

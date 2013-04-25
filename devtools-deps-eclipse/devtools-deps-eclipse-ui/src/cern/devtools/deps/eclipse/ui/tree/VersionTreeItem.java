@@ -39,7 +39,7 @@ public class VersionTreeItem extends GenericTreeItem<String> {
 		if (releaser == null) {
 			try {
 				Product product = ((ProductTreeItem) this.getParent()).getValue();
-				releaser = Activator.getDefault().getDependencyService().findReleaser(product, value);
+				releaser = Activator.getDefault().getDependencyRMIService().findReleaser(product, value);
 			} catch (Exception e) {
 				LoggingUtil.logWarn(e.getMessage());
 				releaser = null;

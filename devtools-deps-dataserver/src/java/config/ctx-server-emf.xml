@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:neo4j="http://www.springframework.org/schema/data/neo4j"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:neo4j="http://www.springframework.org/schema/data/neo4j"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		http://www.springframework.org/schema/data/neo4j http://www.springframework.org/schema/data/neo4j/spring-neo4j-2.0.xsd
@@ -10,17 +10,13 @@
 	<!-- Configure context for autowiring -->
 	<context:annotation-config />
 	<context:spring-configured />
-	<context:component-scan base-package="cern.devtools.deps" />
+	<context:component-scan base-package="cern.devtools.depanalysis" />
 
 
 	<bean id="database_dao" class="cern.devtools.deps.bean.impl.EmfDatabaseDao"
 		factory-method="fromFile">
-		<constructor-arg index="0"
-			value="commonbuild-full-pro.repomodel" />
-
-		<constructor-arg index="1"
-			value="commonbuild-full-pro.cp3model" />
-
+		<constructor-arg index="0" value="db.repomodel" />
+		<constructor-arg index="1" value="db.cp3model" />
 	</bean>
 
 	<!-- Transactions are driven by annotations TODO -->
@@ -33,17 +29,15 @@
 	<bean id="domain_creator"
 		class="cern.devtools.deps.domain.creation.impl.EmfObjectCreator">
 	</bean>
-	
+
 	<bean id="dependency_extractor" class="cern.devtools.deps.bean.impl.DependencyExtractorImpl" />
 
-	<bean id="artifact_finder" class="cern.devtools.deps.bean.impl.ArtifactFinderImpl">
-		<!-- Produce only pro jars -->
-		<constructor-arg index="0" value="true" />
-		<!-- Check, if the files exist just form the location paths based on the content of the repository.xml -->
-		<constructor-arg index="1" value="false" />
+	<bean id="artifact_finder" class="cern.devtools.deps.bean.impl.LocalFsArtifactFinder">
+		<constructor-arg index="0" value="./jarrepo" />
 	</bean>
-	
-	<bean id="dependency_service" class="cern.devtools.deps.bean.impl.DependencyServiceImpl" destroy-method="close">
+
+	<bean id="dependency_service" class="cern.devtools.deps.bean.impl.DependencyServiceImpl"
+		destroy-method="close">
 		<constructor-arg index="0" ref="database_dao" />
 		<constructor-arg index="1" ref="controller" />
 	</bean>
@@ -61,11 +55,26 @@
 		<constructor-arg index="2">
 			<map>
 				<entry key="interactive" value="false" />
-				<entry key="schedule" value="false" />
-				<entry key="schedule_delay_ms" value="10" />
+				<entry key="schedule" value="true" />
+				<entry key="schedule_delay_ms" value="1" />
 				<entry key="schedule_interval_ms" value="7200000" />
 				<entry key="commonbuild_test_schedule" value="true" />
 			</map>
 		</constructor-arg>
+	</bean>
+
+	<bean id="jetty_resource_handler" class="org.mortbay.jetty.handler.ResourceHandler">
+		<property name="resourceBase" value="." />
+	</bean>
+
+	<bean id="jetty_server" class="org.mortbay.jetty.Server"
+		init-method="start" destroy-method="stop">
+		<constructor-arg index="0" value="8080"/>
+		<property name="handlers">
+			<list>
+<!-- 				<bean id="defaultHandler" class="org.mortbay.jetty.handler.DefaultHandler" /> -->
+				<ref bean="jetty_resource_handler" />
+			</list>
+		</property>
 	</bean>
 </beans>

@@ -13,7 +13,8 @@
 	<context:component-scan base-package="cern.devtools.depanalysis" />
 
 
-	<bean id="database_dao" class="cern.devtools.deps.bean.impl.EmfDatabaseDao" factory-method="fromFile">
+	<bean id="database_dao" class="cern.devtools.deps.bean.impl.EmfDatabaseDao"
+		factory-method="fromFile">
 		<constructor-arg index="0" value="db.repomodel" />
 		<constructor-arg index="1" value="db.cp3model" />
 	</bean>
@@ -29,15 +30,13 @@
 		class="cern.devtools.deps.domain.creation.impl.EmfObjectCreator">
 	</bean>
 
-	<bean id="dependency_extractor"
-		class="cern.devtools.deps.bean.impl.DependencyExtractorImpl" />
+	<bean id="dependency_extractor" class="cern.devtools.deps.bean.impl.DependencyExtractorImpl" />
 
 	<bean id="artifact_finder" class="cern.devtools.deps.bean.impl.LocalFsArtifactFinder">
-		<constructor-arg name="containerDir" value="./jarrepo" />
+		<constructor-arg index="0" value="./jarrepo" />
 	</bean>
 
-	<bean id="dependency_service"
-		class="cern.devtools.deps.bean.impl.DependencyServiceImpl"
+	<bean id="dependency_service" class="cern.devtools.deps.bean.impl.DependencyServiceImpl"
 		destroy-method="close">
 		<constructor-arg index="0" ref="database_dao" />
 		<constructor-arg index="1" ref="controller" />
@@ -47,8 +46,7 @@
 		<property name="serviceName" value="dependency_service" />
 		<property name="service" ref="dependency_service" />
 		<property name="registryPort" value="18080" />
-		<property name="serviceInterface"
-			value="cern.devtools.deps.bean.DependencyService" />
+		<property name="serviceInterface" value="cern.devtools.deps.bean.DependencyService" />
 	</bean>
 
 	<bean id="controller" class="cern.devtools.deps.bean.impl.ControllerImpl">
@@ -63,5 +61,20 @@
 				<entry key="commonbuild_test_schedule" value="true" />
 			</map>
 		</constructor-arg>
+	</bean>
+
+	<bean id="jetty_resource_handler" class="org.mortbay.jetty.handler.ResourceHandler">
+		<property name="resourceBase" value="." />
+	</bean>
+
+	<bean id="jetty_server" class="org.mortbay.jetty.Server"
+		init-method="start" destroy-method="stop">
+		<constructor-arg index="0" value="8080"/>
+		<property name="handlers">
+			<list>
+<!-- 				<bean id="defaultHandler" class="org.mortbay.jetty.handler.DefaultHandler" /> -->
+				<ref bean="jetty_resource_handler" />
+			</list>
+		</property>
 	</bean>
 </beans>

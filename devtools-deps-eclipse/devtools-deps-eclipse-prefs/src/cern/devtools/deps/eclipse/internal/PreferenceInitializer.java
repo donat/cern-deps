@@ -31,7 +31,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
      */
     public void initializeDefaultPreferences() {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-        store.setDefault(PreferenceConstants.P_SERVER_HOSTNAME, "localhost");
+        store.setDefault(PreferenceConstants.P_SERVER_HOSTNAME, "cs-ccr-ap1");
         store.setDefault(PreferenceConstants.P_SERVER_PORT, "18080");
         store.setDefault(PreferenceConstants.P_SERVICE_NAME, "dependency_service");
     }

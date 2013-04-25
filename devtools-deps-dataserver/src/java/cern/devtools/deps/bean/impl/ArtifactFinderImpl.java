@@ -66,12 +66,17 @@ public final class ArtifactFinderImpl implements ArtifactFinder {
 		private String name;
 		private Date releaseDate;
 		private String version;
+		private String link; // PRO, DEV, NEXT, null
 
 		// Indicates, that the execution is at the <jar> tag, and jar location can be read in the characters function.
 		boolean in_jar = false;
 		// Same as the in_jar, but here we want to know save the release time information.
 		boolean in_release = false;
-
+		
+		List<String> depNames = new LinkedList<String>();
+		List<String> depversions = new LinkedList<String>();
+ 	
+		
 		@Override
 		public void characters(char[] ch, int start, int length) throws SAXException {
 			if (in_release) {
@@ -102,31 +107,38 @@ public final class ArtifactFinderImpl implements ArtifactFinder {
 					Properties p = new Properties();
 					p.put("name", name);
 					p.put("version", version);
+					if(link != null) {
+					    p.put("link", link);					    
+					}
 					p.put("directory", directory);
 					p.put("jarPath", jarpath);
 					if (releaseDate != null) {
 						p.put("relaseDate", releaseDate);
 					}
-
+					p.put("depNames", depNames);
+					p.put("depVersions", depversions);
 					descriptorData.add(p);
 				}
+				link = null;
 				name = null;
 				version = null;
 				directory = null;
 				releaseDate = null;
 				isPro = false;
 				jarpath = null;
+				depNames = new LinkedList<String>();
+				depversions = new LinkedList<String>();
 			} else if (qName.equals("releaseDate")) {
 				in_release = false;
 			} else if (qName.equals("jar")) {
 				in_jar = false;
-			}
+			} 
 		}
 
 		public List<Properties> getDescriptors() {
 			return descriptorData;
 		}
-
+ 
 		@Override
 		public void startDocument() throws SAXException {
 			descriptorData = new LinkedList<Properties>();
@@ -138,6 +150,7 @@ public final class ArtifactFinderImpl implements ArtifactFinder {
 				for (int i = 0; i < attributes.getLength(); ++i) {
 					name = attributes.getValue("name");
 					version = attributes.getValue("version");
+					link = attributes.getValue("link");
 					directory = attributes.getValue("directory");
 
 					String link = attributes.getValue("link");
@@ -149,8 +162,14 @@ public final class ArtifactFinderImpl implements ArtifactFinder {
 			} else if (qName.equals("releaseDate")) {
 				in_release = true;
 			}
-			if (qName.equals("jar")) {
+			else if (qName.equals("jar")) {
 				in_jar = true;
+			}
+			else if (qName.equals("dep")) {
+			    String depName = attributes.getValue("product");
+			    String depVersion = attributes.getValue("version");
+			    depNames.add(depName);
+			    depversions.add(depVersion);
 			}
 		}
 	}
@@ -234,7 +253,7 @@ public final class ArtifactFinderImpl implements ArtifactFinder {
 
 		// Extract the descriptors.
 		LOG.debug("ArfifactFinderImpl executed at " + new Date() + ".");
-		List<FileDescriptor> result = null;
+		List<CmmnbuildArtifactDescriptor> result = null;
 		if (checkFilesExist) {
 			result = findCheckedArtifacts();
 		} else {
@@ -270,9 +289,10 @@ public final class ArtifactFinderImpl implements ArtifactFinder {
 	 * @return The found artifacts.
 	 * @throws DepBeanException If the repository.xml is not exist or well formed.
 	 */
-	private List<FileDescriptor> findCheckedArtifacts() throws DepBeanException {
+	@SuppressWarnings("unchecked")
+    private List<CmmnbuildArtifactDescriptor> findCheckedArtifacts() throws DepBeanException {
 		try {
-			List<FileDescriptor> result = new LinkedList<FileDescriptor>();
+			List<CmmnbuildArtifactDescriptor> result = new LinkedList<CmmnbuildArtifactDescriptor>();
 
 			List<Properties> buildDirs = parseRepoXml();
 
@@ -289,9 +309,24 @@ public final class ArtifactFinderImpl implements ArtifactFinder {
 					for (String jfn : shortJarFileNames) {
 						String name = (String) props.get("name");
 						String version = (String) props.get("version");
+						Object linkO = props.get("link");
+						String link = null;
+						if (linkO != null) {
+						    link = (String) linkO;
+						}
 						String jarPath = jarDir + File.separator + jfn;
 						String containingFolders = props.getProperty("directory");
-						FileDescriptor np = new FileDescriptor(name, version, jarPath, containingFolders);
+						
+						CmmnbuildArtifactDescriptor np = new CmmnbuildArtifactDescriptor(name, version, jarPath, containingFolders,link, new LinkedList<ArtifactDescriptor>()) {
+                        };
+						
+						List<String> depNames = (List<String>) props.get("depNames");
+		                List<String> depVersions = (List<String>) props.get("depVersions");
+		                for (int i = 0; i < depNames.size(); ++i) {
+		                    UnresolvedArtifactDescriptor uad = new UnresolvedArtifactDescriptor(depNames.get(i), depVersions.get(i));
+		                    np.getReferencedArtifacts().add(uad);
+		                }
+						
 						result.add(np);
 					}
 				}
@@ -309,20 +344,36 @@ public final class ArtifactFinderImpl implements ArtifactFinder {
 	 * @return List of found descriptors.
 	 * @throws DepBeanException If the repository.xml is not exist or well formed.
 	 */
-	private List<FileDescriptor> findUncheckedArtifacts() throws DepBeanException {
+	@SuppressWarnings("unchecked")
+    private List<CmmnbuildArtifactDescriptor> findUncheckedArtifacts() throws DepBeanException {
 		try {
 
 			// Parse repository.xml and get the jar location data out of it.
-			List<FileDescriptor> result = new LinkedList<FileDescriptor>();
+			List<CmmnbuildArtifactDescriptor> result = new LinkedList<CmmnbuildArtifactDescriptor>();
 			List<Properties> descriptorData = parseRepoXml();
 
 			// Gets information from descriptor
 			for (Properties props : descriptorData) {
 				String name = (String) props.get("name");
 				String version = (String) props.get("version");
+				Object linkO = props.get("link");
+                String link = null;
+                if (linkO != null) {
+                    link = (String) linkO;
+                }
 				String containingFolders = props.getProperty("directory");
 				String jarPath = dirPcropsDist + containingFolders + File.separator + props.get("jarPath");
-				FileDescriptor np = new FileDescriptor(name, version, jarPath, containingFolders);
+				CmmnbuildArtifactDescriptor np = new CmmnbuildArtifactDescriptor(name, version, jarPath, containingFolders,link, new LinkedList<ArtifactDescriptor>()) {
+                };
+
+				List<String> depNames = (List<String>) props.get("depNames");
+				List<String> depVersions = (List<String>) props.get("depVersions");
+				for (int i = 0; i < depNames.size(); ++i) {
+				    UnresolvedArtifactDescriptor uad = new UnresolvedArtifactDescriptor(depNames.get(i), depVersions.get(i));
+				    np.getReferencedArtifacts().add(uad);
+				}
+				
+				
 				result.add(np);
 			}
 			return result;

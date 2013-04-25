@@ -24,6 +24,7 @@ import hu.bme.incquery.deps.cp3model.Cp3modelPackage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -136,14 +137,24 @@ public class SubCp3ModelFinder {
 			Resource out = getNextResource();
 			out.getContents().add(subRepo);
 			out.save(saveOptions(out));
-
-			return new File(out.getURI().toFileString()).getAbsolutePath();
+			
+			
+			
+			return getHttpAddress(out);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public Object findSubModel(List<String> projects) {
+	private String getHttpAddress(Resource out) throws UnknownHostException {
+	    String file = out.getURI().toFileString().replace('\\', '/');
+	    String port = "8080";
+	    String host = java.net.InetAddress.getLocalHost().getHostName();
+	    
+	    return "http://" + host + ":" + port + "/" + file ;
+    }
+
+    public Object findSubModel(List<String> projects) {
 		try {
 			if (inResource == null) {
 				loadCp3Model();

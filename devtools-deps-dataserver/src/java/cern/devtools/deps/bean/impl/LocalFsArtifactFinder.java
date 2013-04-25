@@ -47,7 +47,7 @@ public class LocalFsArtifactFinder implements ArtifactFinder {
             String name = jar.getName().substring(0, jar.getName().length()-4);
             String version = "1.0.0";
             String containingFolders = dir.getAbsolutePath();
-            FileDescriptor jarDesc = new FileDescriptor(name, version, jar.getAbsolutePath(), containingFolders);
+            CmmnbuildArtifactDescriptor jarDesc = new CmmnbuildArtifactDescriptor(name, version, jar.getAbsolutePath(), containingFolders);
             foundJars.add(jarDesc);
         }
 

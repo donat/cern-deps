@@ -8,7 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import cern.devtools.deps.bean.ArtifactDescriptor;
 import cern.devtools.deps.bean.DatabaseDao;
 import cern.devtools.deps.bean.DependencyExtractor;
-import cern.devtools.deps.bean.impl.FileDescriptor;
+import cern.devtools.deps.bean.impl.CmmnbuildArtifactDescriptor;
 import cern.devtools.deps.domain.creation.DomainFactory;
 
 public class TestServerWithCmw {
@@ -17,9 +17,9 @@ public class TestServerWithCmw {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				"classpath:/config/ctx-test-service.xml");
 
-		FileDescriptor ad1 = new FileDescriptor("cmw-rda", "2.9.7",
+		CmmnbuildArtifactDescriptor ad1 = new CmmnbuildArtifactDescriptor("cmw-rda", "2.9.7",
 				"\\\\cs-ccr-nfsdev\\pcrops\\dist\\cmw\\cmw-rda\\2.9.7\\build\\dist\\cmw-rda.jar", "cmw/cmw-rda");
-		FileDescriptor ad2 = new FileDescriptor("japc-ext-cmwrda", "2.13.0",
+		CmmnbuildArtifactDescriptor ad2 = new CmmnbuildArtifactDescriptor("japc-ext-cmwrda", "2.13.0",
 				"\\\\cs-ccr-nfsdev\\pcrops\\dist\\japc\\japc-ext-cmwrda\\2.13.0\\build\\dist\\japc-ext-cmwrda.jar",
 				"japc/japc-ext-cmwrda");
 

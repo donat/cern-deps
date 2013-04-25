@@ -81,15 +81,18 @@ public class DependencyExtractorImpl implements DependencyExtractor {
 				it.remove();
 			}
 			// Also remove if the artifact does not exist.
-			else if (!new File(ad.getJarPath()).exists() && ad instanceof FileDescriptor) {
+			else if (!new File(ad.getJarPath()).exists() && ad instanceof CmmnbuildArtifactDescriptor) {
 				it.remove();
 			}
 		}
 
-		// 1) Analyze the new artifacts.
+		// 2) Resolve commonbuild dependencies.
+		resolveDependencies(artifacts);
+		
+		// 2) Analyse the new artifacts.
 		findAndStoreStructures(artifacts);
 
-		// 2) Find dependencies.
+		// 1) Find dependencies.
 		findArtifactsDependencies(artifacts);
 
 		try {
@@ -100,7 +103,16 @@ public class DependencyExtractorImpl implements DependencyExtractor {
         }
 	}
 
-	/**
+	private void resolveDependencies(List<? extends ArtifactDescriptor> artifacts) {
+       if (!artifacts.isEmpty() && artifacts.get(0) instanceof CmmnbuildArtifactDescriptor) {
+           new CommonbuildDependencyResolver(artifacts).resolve();
+       }
+           
+               
+        
+    }
+
+    /**
 	 * Retrieves the jar file, extract it's structure and store it in the database.
 	 * 
 	 * @param ad

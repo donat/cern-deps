@@ -4,7 +4,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/devtools-deps-common/src/gen"
     editorDirectory="/devtools-deps-common.editor/src/gen" modelPluginID="cern.devtools.depanalysis.common"
     modelName="Repomodel" suppressInterfaces="true" importerID="org.eclipse.emf.importer.ecore"
-    copyrightFields="false">
+    containmentProxies="true" copyrightFields="false">
   <foreignModel>repomodel.ecore</foreignModel>
   <genPackages prefix="Repomodel" basePackage="cern.devtools.depanalysis" disposableProviderFactory="true"
       contentTypeIdentifier="" ecorePackage="repomodel.ecore#/">

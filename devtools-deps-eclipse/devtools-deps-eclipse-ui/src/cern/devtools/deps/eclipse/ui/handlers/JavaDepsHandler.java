@@ -2,13 +2,11 @@
  * © Copyright 2013 CERN. This software is distributed under the terms of the GNU General Public Licence version 3 (GPL
  * Version 3), copied verbatim in the file "COPYING". In applying this licence, CERN does not waive the privileges and
  * immunities granted to it by virtue of its status as an Intergovernmental Organization or submit itself to any
- * jurisdiction.
- * 
- * If you modify this Program, or any covered work, by linking or combining it with the Eclipse Integrated Development
- * Environment Plugin libraries (or a modified version of these libraries), containing parts covered by the terms of EPL
- * (Eclipse Public licence), the licensors of this Program grant you additional permission to convey the resulting work.
- * Corresponding Source for a non-source form of such a combination shall include the source code for the parts of
- * Eclipse Integrated Development Environment Plugin libraries used as well as that of the covered work.
+ * jurisdiction. If you modify this Program, or any covered work, by linking or combining it with the Eclipse Integrated
+ * Development Environment Plugin libraries (or a modified version of these libraries), containing parts covered by the
+ * terms of EPL (Eclipse Public licence), the licensors of this Program grant you additional permission to convey the
+ * resulting work. Corresponding Source for a non-source form of such a combination shall include the source code for
+ * the parts of Eclipse Integrated Development Environment Plugin libraries used as well as that of the covered work.
  **********************************************************************************************************************/
 package cern.devtools.deps.eclipse.ui.handlers;
 
@@ -29,13 +27,9 @@ import java.util.Map;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
@@ -54,10 +48,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.ui.progress.UIJob;
 
 import cern.devtools.deps.domain.ApiClass;
 import cern.devtools.deps.domain.CodeElement;
@@ -68,14 +59,11 @@ import cern.devtools.deps.domain.Modifiers;
 import cern.devtools.deps.domain.Product;
 import cern.devtools.deps.domain.creation.DomainFactory;
 import cern.devtools.deps.eclipse.ui.Activator;
-import cern.devtools.deps.eclipse.ui.LoggingUtil;
-import cern.devtools.deps.eclipse.ui.views.DependencyView;
 
 /**
  * An action handler that finds a fully qualified Java element corresponding to the selected element in the workspace
  * (Projects, classes, methods and field) and executes the dependency analysis query.
  * <p>
- * 
  * This was inspired by the excellent tutorials http://www.vogella.de/articles/EclipseJDT/article.html
  * 
  * @author Lars Vogel, Vito Baggiolini, Donat Csikos
@@ -84,97 +72,9 @@ public class JavaDepsHandler extends AbstractHandler {
 
     private static final String ON_DEMAND_IMPORTS = "on_demand_imports_exist";
 
-    private CodeElement objectToAnalyse;
+    CodeElement objectToAnalyse;
 
-    private Collection<Dependency> dependencies;
-
-    /**
-     * executes the dependency query on a new thread using Eclipse Job API.
-     * 
-     * @author Donat Csikos <dcsikos@cern.ch>
-     */
-    final class QueryDependenciesJob extends Job {
-        public QueryDependenciesJob(String name) {
-            super(name);
-        }
-
-        @Override
-        protected final IStatus run(IProgressMonitor monitor) {
-            try {
-
-                // Run the query in an arbitrary thread to make it cancellable.
-                Thread workerThread = new Thread() {
-                    @SuppressWarnings("unchecked")
-                    public void run() {
-                        try {
-                            Object o = Activator.getDefault().getDependencyService()
-                                    .getIncomingDependencies(objectToAnalyse);
-                            dependencies = (Collection<Dependency>) o;
-                        } catch (Exception e) {
-                            throw new OperationCanceledException(e.getMessage());
-                        }
-                    }
-                };
-
-                // Start the thread.
-                workerThread.start();
-
-                do {
-                    Thread.sleep(200);
-
-                    // If the job was cancelled, then interrupt the worker thread.
-                    if (monitor.isCanceled()) {
-                        workerThread.interrupt();
-                        return Status.CANCEL_STATUS;
-                    }
-                    // Otherwise check if the job is finished.
-                    else if (!workerThread.isAlive()) {
-                        return Status.OK_STATUS;
-                    }
-                } while (true);
-
-            } catch (InterruptedException e) {
-                dependencies = null;
-                // On error display a warn message.
-                LoggingUtil.warnAndLog(e);
-                return Status.CANCEL_STATUS;
-            }
-        }
-    }
-
-    /**
-     * Helper class for listening {@link QueryDependenciesJob} execution to finish. If finished, it displays the result
-     * of the query on the UI thread.
-     * 
-     * @author Donat Csikos <dcsikos@cern.ch>
-     */
-    final class ShowQueryResults extends JobChangeAdapter {
-        @Override
-        public void done(IJobChangeEvent ce) {
-            final IStatus status = ce.getResult();
-            UIJob showResults = new UIJob("Query dependencies") {
-
-                @Override
-                public IStatus runInUIThread(IProgressMonitor monitor) {
-                    // If the graph finished successfully, then display the results.
-                    if (status.equals(Status.OK_STATUS)) {
-                        try {
-                            // DependencyView.updateDependecies(objectToAnalyse, dependencies);
-                            IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-                            DependencyView view = (DependencyView) window.getActivePage().showView(DependencyView.ID);
-                            view.displayNewDependency(objectToAnalyse, dependencies);
-                            PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-                                    .showView(DependencyView.ID);
-                        } catch (PartInitException e) {
-                            LoggingUtil.warnAndLog("The plugin could not open the 'Incoming dependencies' view.", e);
-                        }
-                    }
-                    return Status.OK_STATUS;
-                }
-            };
-            showResults.schedule();
-        }
-    }
+    Collection<Dependency> dependencies;
 
     /**
      * Helper method, joins the strings putting the specified character between the elements
@@ -241,16 +141,19 @@ public class JavaDepsHandler extends AbstractHandler {
                 ICompilationUnit comp = findCompilationUnit(event);
                 objectToAnalyse = fullyQualify(comp, (ITextSelection) sel);
             }
-            startQueryAndDisplayResult();
         } catch (Exception e) {
             // unexpected event: display warning
             MessageDialog.openError(HandlerUtil.getActiveShell(event), "Dependency Analysis Error",
-                    "Query dependencies failed. More information available in the error log.");
+                    "Please select a valid resource (class, method, field, project)");
             Status log = new Status(IStatus.WARNING, Activator.PLUGIN_ID, e.getMessage());
             Activator.getDefault().getLog().log(log);
             e.printStackTrace();
+            objectToAnalyse = null;
         }
 
+        if (objectToAnalyse != null) {
+            startQueryAndDisplayResult();
+        }
         return null;
     }
 
@@ -529,9 +432,9 @@ public class JavaDepsHandler extends AbstractHandler {
      */
     private void startQueryAndDisplayResult() {
         // create long-running job for displaying dependencies
-        Job showDepsJob = new QueryDependenciesJob("Query dependencies");
+        QueryDependenciesJob showDepsJob = new QueryDependenciesJob(this, "Query dependencies");
         // when job is done, display results on the UI thread
-        showDepsJob.addJobChangeListener(new ShowQueryResults());
+        showDepsJob.addJobChangeListener(showDepsJob);
         // set job as long running and make it execute
         showDepsJob.setPriority(Job.LONG);
         showDepsJob.schedule();

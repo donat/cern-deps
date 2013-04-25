@@ -20,7 +20,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import cern.devtools.deps.bean.ArtifactDescriptor;
 import cern.devtools.deps.bean.DependencyExtractor;
 import cern.devtools.deps.bean.impl.EmfDatabaseDao;
-import cern.devtools.deps.bean.impl.FileDescriptor;
+import cern.devtools.deps.bean.impl.CmmnbuildArtifactDescriptor;
 
 /**
  * Test for exporting small model from two depending jar files.
@@ -34,10 +34,10 @@ public class BasicModelGeneration {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				"classpath:/config/ctx-test-emf.xml");
 
-		ArtifactDescriptor ad1 = new FileDescriptor("devtools-deps-example-service", "1.0.0",
+		ArtifactDescriptor ad1 = new CmmnbuildArtifactDescriptor("devtools-deps-example-service", "1.0.0",
 				"/C:/opt/workspace/eclipse/devtools-deps-example-service/dist/devtools-deps-example-service.jar",
 				"ignore");
-		ArtifactDescriptor ad2 = new FileDescriptor("devtools-deps-example-impl", "1.0.0",
+		ArtifactDescriptor ad2 = new CmmnbuildArtifactDescriptor("devtools-deps-example-impl", "1.0.0",
 				"/C:/opt/workspace/eclipse/devtools-deps-example-impl/dist/devtools-deps-example-impl.jar", "ignore");
 		List<ArtifactDescriptor> lad = new LinkedList<ArtifactDescriptor>();
 		lad.add(ad1);

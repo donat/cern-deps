@@ -53,7 +53,7 @@ public class JarClassStream implements Iterable<InputStream> {
 	}
 
 	public static JarClassStream fromDescriptor(ArtifactDescriptor ad) throws IOException {
-		if (ad instanceof FileDescriptor) {
+		if (ad instanceof CmmnbuildArtifactDescriptor) {
 			return new JarClassStream(getJarFileContents(ad.getJarPath()));
 		} else if (ad instanceof ByteCodeDescriptor) {
 			return new JarClassStream(getBinaryContents((ByteCodeDescriptor) ad));
