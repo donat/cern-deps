@@ -14,18 +14,6 @@
 		<neo4j.version>1.7.1</neo4j.version>
 	</properties>
 
-	<!-- Enable spring data -->
-	<repositories>
-		<repository>
-			<id>spring-snapshot</id>
-			<name>Spring Snapshot Repository</name>
-			<url>http://artifacts/content/repositories/spring-snapshot/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
 	<dependencies>
 		<!-- Add dependency to Spring Data -->
 		<dependency>
