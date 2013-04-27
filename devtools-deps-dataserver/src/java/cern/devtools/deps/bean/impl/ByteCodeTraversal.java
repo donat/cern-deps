@@ -375,5 +375,7 @@ public class ByteCodeTraversal {
 				}
 			}
 		}
+		
+		bytes.close();
 	}
 }

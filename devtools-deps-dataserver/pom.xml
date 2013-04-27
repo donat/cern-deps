@@ -15,6 +15,8 @@
 		<neo4j.version>1.7</neo4j.version>
 		<spring.data.neo4j.version>2.1.0.RELEASE</spring.data.neo4j.version>
 		<slf4j.version>1.6.1</slf4j.version>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
 	</properties>
 
 	<repositories>
@@ -105,7 +107,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -192,13 +194,13 @@
 				<directory>src/res/ext</directory>
 			</resource>
 			<resource>
-        		<directory>src/java</directory>
-        		<excludes>
-        			<exclude>**/*.java</exclude>
-        		</excludes>
-      		</resource>
+				<directory>src/java</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
 		</resources>
-		
+
 		<testSourceDirectory>src/test</testSourceDirectory>
 		<testResources>
 			<testResource>
@@ -214,7 +216,7 @@
 				<directory>src/testres/common</directory>
 			</testResource>
 		</testResources>
-		
+
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -236,6 +238,6 @@
 			</plugin>
 		</plugins>
 	</build>
-	
-	
+
+
 </project>

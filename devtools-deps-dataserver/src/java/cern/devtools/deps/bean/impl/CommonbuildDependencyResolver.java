@@ -31,7 +31,7 @@ public class CommonbuildDependencyResolver {
                 CmmnbuildArtifactDescriptor cd = ((CmmnbuildArtifactDescriptor) d);
                 List<ArtifactDescriptor> refs = cd.getReferencedArtifacts();
 
-                for ()
+              //  for ()
             }
         }
     }

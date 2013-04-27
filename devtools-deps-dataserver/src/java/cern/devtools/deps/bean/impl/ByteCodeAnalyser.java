@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,11 +25,13 @@ import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.Constant;
 import org.apache.bcel.classfile.ConstantClass;
 import org.apache.bcel.classfile.ConstantUtf8;
+import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.JavaClass;
+import org.apache.bcel.generic.Type;
 
-import cern.devtools.deps.domain.Field;
-import cern.devtools.deps.domain.Method;
-import cern.devtools.deps.domain.Modifiers;
+import cern.devtools.depanalysis.repomodel.RField;
+import cern.devtools.depanalysis.repomodel.RMethod;
+import cern.devtools.depanalysis.repomodel.RModifier;
 import cern.devtools.deps.domain.creation.DomainObjectCreator;
 
 /**
@@ -70,11 +71,15 @@ public class ByteCodeAnalyser {
 	 * Creates a new ByteCodeAnalyser, which automatically discovers the structure of the passed .class file and
 	 * provides an interface for accessing the internal structure.
 	 * 
-	 * @param creator domain object implementation creator
-	 * @param classStream .class file in input stream format.
-	 * @param deepScan performs dependency information extracting which is accessible through
-	 *        CodeElement.transientMetadata().
-	 * @throws IOException if .class file parsing failed.
+	 * @param creator
+	 *            domain object implementation creator
+	 * @param classStream
+	 *            .class file in input stream format.
+	 * @param deepScan
+	 *            performs dependency information extracting which is accessible through
+	 *            CodeElement.transientMetadata().
+	 * @throws IOException
+	 *             if .class file parsing failed.
 	 */
 	private ByteCodeAnalyser(DomainObjectCreator creator, InputStream classStream, boolean deepScan) throws IOException {
 		this.creator = creator;
@@ -85,7 +90,8 @@ public class ByteCodeAnalyser {
 	/**
 	 * Starts byte code analysis.
 	 * 
-	 * @throws IOException If the class file is not accessible.
+	 * @throws IOException
+	 *             If the class file is not accessible.
 	 */
 	public void analyse() throws IOException {
 		this.classParser = new ClassParser(classStream, "");
@@ -106,22 +112,39 @@ public class ByteCodeAnalyser {
 	 * 
 	 * @return The defined methods in the class file.
 	 */
-	public List<Field> getFields() {
-		List<Field> result = new LinkedList<Field>();
+	public List<RField> getFields() {
+		List<RField> result = new LinkedList<RField>();
 		org.apache.bcel.classfile.Field[] fields = getJavaClass().getFields();
-		for (org.apache.bcel.classfile.Field f : fields) {
-			String signature = getJavaClass().getClassName();
-			signature += "." + f.getName();
+		for (Field f : fields) {
+			String name = f.getName();
+			String signature = getJavaClass().getClassName() + "." + name;
+			String type = f.getType().getSignature();
+			List<RModifier> modifiers = new LinkedList<RModifier>();
 
-			EnumSet<Modifiers> modifiers = null;
 			if (f.isPrivate()) {
-				modifiers = EnumSet.of(Modifiers.PRIVATE);
-			} else {
-				modifiers = EnumSet.noneOf(Modifiers.class);
+				modifiers.add(RModifier.PRIVATE);
+			}
+			if (f.isProtected()) {
+				modifiers.add(RModifier.PROTECTED);
+			}
+			if (f.isPublic()) {
+				modifiers.add(RModifier.PUBLIC);
+			}
+			if (f.isStatic()) {
+				modifiers.add(RModifier.STATIC);
+			}
+			if (f.isFinal()) {
+				modifiers.add(RModifier.FINAL);
+			}
+			if (f.isVolatile()) {
+				modifiers.add(RModifier.VOLATILE);
+			}
+			if (f.isTransient()) {
+				modifiers.add(RModifier.TRANSIENT);
 			}
 
-			Field fi = creator.createField(signature, modifiers);
-			result.add(fi);
+			RField rf = creator.createField(name, signature, type, modifiers);
+			result.add(rf);
 		}
 		return result;
 	}
@@ -149,10 +172,10 @@ public class ByteCodeAnalyser {
 	 * 
 	 * @return all defined methods in a binary format.
 	 */
-	public List<Method> getMethods() {
+	public List<RMethod> getMethods() {
 		// Get BCEL methods, sets up result container and the analyser class.
 		org.apache.bcel.classfile.Method[] bma = getJavaClass().getMethods();
-		List<Method> result = new LinkedList<Method>();
+		List<RMethod> result = new LinkedList<RMethod>();
 		ByteCodeTraversal bt = new ByteCodeTraversal(javaClass);
 
 		// Find called methods and referenced fields, if deepScan is set to true.
@@ -165,29 +188,57 @@ public class ByteCodeAnalyser {
 		}
 
 		// Create new method instance for every original method.
-		for (org.apache.bcel.classfile.Method bm : bma) {
-			// Setup modifiers.
-			EnumSet<Modifiers> modifiers = EnumSet.noneOf(Modifiers.class);
-			if (bm.isStatic()) {
-				modifiers.add(Modifiers.STATIC);
+		for (org.apache.bcel.classfile.Method m : bma) {
+			String name = m.getName();
+			String signature = getJavaClass().getClassName().replace(".", "/") + "." + m.getName() + ":"
+					+ m.getSignature();
+			String returnType = m.getReturnType().getSignature();
+			List<String> argumentTypes = new LinkedList<>();
+			for (Type argType : m.getArgumentTypes()) {
+				argumentTypes.add(argType.getSignature());
 			}
-			if (!bm.isPublic()) {
-				modifiers.add(Modifiers.PRIVATE);
+			List<RModifier> modifiers = new LinkedList<>();
+
+			if (m.isAbstract()) {
+				modifiers.add(RModifier.ABSTRACT);
 			}
+			if (m.isFinal()) {
+				modifiers.add(RModifier.FINAL);
+			}
+			if (m.isNative()) {
+				modifiers.add(RModifier.NATIVE);
+			}
+			if (m.isPrivate()) {
+				modifiers.add(RModifier.PRIVATE);
+			}
+			if (m.isProtected()) {
+				modifiers.add(RModifier.PROTECTED);
+			}
+			if (m.isPublic()) {
+				modifiers.add(RModifier.PUBLIC);
+			}
+			if (m.isStatic()) {
+				modifiers.add(RModifier.STATIC);
+			}
+			if (m.isSynchronized()) {
+				modifiers.add(RModifier.SYNCHRONIZED);
+			}
+
+			RMethod rm = creator.createMethod(name, signature, returnType, argumentTypes, modifiers);
 
 			// Creates domain model instance.
-			Method m = creator.createMethod(
-					getJavaClass().getClassName().replace(".", "/") + "." + bm.getName() + ":" + bm.getSignature(),
-					modifiers);
+			// Method m = creator.createMethod(
+			// getJavaClass().getClassName().replace(".", "/") + "." + m.getName() + ":" + m.getSignature(),
+			// modifiers);
 
 			// Setup called methods and referenced fields.
-			if (deepScan && bm.getCode() != null) {
-				m.getReferencedFields().addAll(bt.calledMethods(bm));
-				m.getReferencedMethods().addAll(bt.referencedFields(bm));
+			if (deepScan && m.getCode() != null) {
+				rm.getReferencedMethods().addAll(bt.calledMethods(m));
+				rm.getReferencedMethods().addAll(bt.referencedFields(m));
 			}
 
 			// Finally add it to the result set.
-			result.add(m);
+			result.add(rm);
 		}
 		return result;
 	}
@@ -251,15 +302,31 @@ public class ByteCodeAnalyser {
 	 * 
 	 * @return Set of the class' modifiers.
 	 */
-	public EnumSet<Modifiers> getModifiers() {
-		EnumSet<Modifiers> result = EnumSet.noneOf(Modifiers.class);
+	public List<RModifier> getModifiers() {
+		List<RModifier> result = new LinkedList<>();
 		// anonymous classes have a dollar sign and a number at the end of their names
 		if (BeanUtils.endsWithDollarNumber(getJavaClass().getClassName())) {
-			result.add(Modifiers.ANONYMOUS);
+			result.add(RModifier.ANONYMOUS);
 		}
-		if (getJavaClass().isPrivate()) {
-			result.add(Modifiers.PRIVATE);
+		if (javaClass.isPrivate()) {
+			result.add(RModifier.PRIVATE);
 		}
+		if (javaClass.isProtected()) {
+			result.add(RModifier.PROTECTED);
+		}
+		if (javaClass.isPublic()) {
+			result.add(RModifier.PUBLIC);
+		}
+		if (javaClass.isAbstract()) {
+			result.add(RModifier.ABSTRACT);
+		}
+		if (javaClass.isStatic()) {
+			result.add(RModifier.STATIC);
+		}
+		if (javaClass.isFinal()) {
+			result.add(RModifier.FINAL);
+		}
+
 		return result;
 	}
 
@@ -268,10 +335,13 @@ public class ByteCodeAnalyser {
 	 * provided arguments, then performs the analization and finally returns the {@link ByteCodeAnalyser} instance.
 	 * 
 	 * @param creator
-	 * @param classStream The class stream.
-	 * @param deepScan true, if the caller needs the externally referenced items.
+	 * @param classStream
+	 *            The class stream.
+	 * @param deepScan
+	 *            true, if the caller needs the externally referenced items.
 	 * @return The {@link ByteCodeAnalyser} instance which holds the results.
-	 * @throws IOException If the class stream is not accessible or not well-formed.
+	 * @throws IOException
+	 *             If the class stream is not accessible or not well-formed.
 	 */
 	public static ByteCodeAnalyser analyseClassStream(DomainObjectCreator creator, InputStream classStream,
 			boolean deepScan) throws IOException {

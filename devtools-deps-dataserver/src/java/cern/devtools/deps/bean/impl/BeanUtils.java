@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import cern.devtools.deps.domain.Method;
+import cern.devtools.depanalysis.repomodel.RMethod;
 
 /**
  * Utility class for providing supplementary functionality for the bean implementation.
@@ -151,8 +151,8 @@ public class BeanUtils {
 	 * @param subclassMethod The method from the subclass.
 	 * @return <code>true</code>, if the two method overrides each other.
 	 */
-	public static boolean hasMethodsSameSignature(String superClassName, String subClassName, Method superClassMethod,
-			Method subclassMethod) {
+	public static boolean hasMethodsSameSignature(String superClassName, String subClassName, RMethod superClassMethod,
+			RMethod subclassMethod) {
 		// Disassemble the methods name
 		// if the subclass method is com.example.Foo#bar():void, than
 		// 1) subsig = {"com.example.Foo", "bar():void"}

@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import cern.devtools.depanalysis.repomodel.RModifier;
 import cern.devtools.deps.bean.impl.ByteCodeAnalyser;
-import cern.devtools.deps.domain.Modifiers;
 import cern.devtools.deps.domain.creation.DomainFactory;
 import cern.devtools.deps.memcomp.InMemoryClassLoader;
 import cern.devtools.deps.memcomp.InMemoryCompiler;
@@ -64,7 +64,7 @@ public class ByteCodeAnalyserTest {
 
 	@Test
 	public void isAnonymous() {
-		assertFalse(bca.getModifiers().contains(Modifiers.ANONYMOUS));
+		assertFalse(bca.getModifiers().contains(RModifier.ANONYMOUS));
 	}
 
 	@Test
@@ -82,7 +82,7 @@ public class ByteCodeAnalyserTest {
 	@Test
 	public void getFields() {
 		assertEquals("example.cls.samplefield", bca.getFields().get(0).getSignature());
-		assertFalse((Boolean) bca.getFields().get(0).isPrivate());
+		assertFalse((Boolean) bca.getFields().get(0).getModifiers().contains(RModifier.PRIVATE));
 	}
 
 	@Test
