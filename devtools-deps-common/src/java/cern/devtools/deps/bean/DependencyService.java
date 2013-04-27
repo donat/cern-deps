@@ -17,9 +17,9 @@ import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.List;
 
-import cern.devtools.deps.domain.CodeElement;
-import cern.devtools.deps.domain.Dependency;
-import cern.devtools.deps.domain.Product;
+import cern.devtools.depanalysis.repomodel.RComponent;
+import cern.devtools.depanalysis.repomodel.RDependency;
+import cern.devtools.depanalysis.repomodel.RProject;
 
 /**
  * Spring bean interface for remote access the dependency information. This interface should be exposed to the UI layer
@@ -37,7 +37,7 @@ public interface DependencyService extends Remote {
 	 *        format)
 	 * @return The graph of the incoming dependencies
 	 */
-	public Collection<Dependency> getIncomingDependencies(CodeElement element) throws DepBeanException, RemoteException;
+	public Collection<RDependency> getIncomingDependencies(RComponent element) throws DepBeanException, RemoteException;
 
 	/**
 	 * <p>
@@ -52,7 +52,7 @@ public interface DependencyService extends Remote {
 	 * @return The list of the committeers name.
 	 * @throws DepBeanException If an error happens during the execution.
 	 */
-	public Collection<String> getCommittersName(Product p) throws DepBeanException, RemoteException;
+	public Collection<String> getCommittersName(RProject p) throws DepBeanException, RemoteException;
 
 	/**
 	 * Returns the name of the person who released the specific version of the product; The method should extract this
@@ -63,7 +63,7 @@ public interface DependencyService extends Remote {
 	 * @return The name of the releaser.
 	 * @throws DepBeanException If an error happens during the execution.
 	 */
-	public String findReleaser(Product p, String version) throws DepBeanException, RemoteException;
+	public String findReleaser(RProject p, String version) throws DepBeanException, RemoteException;
 
 	/**
 	 * On startup every client should report the usage of the plugin by calling this function once.

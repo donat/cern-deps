@@ -17,6 +17,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="RStructural" abstract="true" eSuperTypes="#//RVersioned">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="modifiers" upperBound="-1"
         eType="#//RModifier"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="signature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="RModifier">
     <eLiterals name="PUBLIC"/>
@@ -30,6 +31,7 @@
     <eLiterals name="NATIVE" value="8"/>
     <eLiterals name="STATIC" value="9"/>
     <eLiterals name="SYNCHRONIZED" value="10"/>
+    <eLiterals name="ANONYMOUS" value="11"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RRepository" eSuperTypes="#//RComponent">
     <eStructuralFeatures xsi:type="ecore:EReference" name="projects" upperBound="-1"
@@ -74,6 +76,14 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="class" lowerBound="1" eType="#//RClass"
         eOpposite="#//RClass/methods"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="referencedFields" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" transient="true">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="referencedMethods" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" transient="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RDependency">
     <eStructuralFeatures xsi:type="ecore:EReference" name="from" lowerBound="1" eType="#//RComponent"

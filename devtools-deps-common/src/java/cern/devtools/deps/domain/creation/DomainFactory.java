@@ -12,12 +12,7 @@
  **********************************************************************************************************************/
 package cern.devtools.deps.domain.creation;
 
-import java.util.EnumSet;
-
-import cern.devtools.deps.domain.Method;
-import cern.devtools.deps.domain.Modifiers;
 import cern.devtools.deps.domain.creation.impl.EmfObjectCreator;
-import cern.devtools.deps.domain.creation.impl.JavaBeanObjectCreator;
 
 /**
  * <p>
@@ -31,7 +26,7 @@ import cern.devtools.deps.domain.creation.impl.JavaBeanObjectCreator;
 public abstract class DomainFactory {
 
 	// Default implementation.
-	private static DomainObjectCreator creator = new JavaBeanObjectCreator();
+	private static DomainObjectCreator creator = new EmfObjectCreator();
 
 	/**
 	 * @return Reference of the domain creator implementation.
@@ -49,12 +44,4 @@ public abstract class DomainFactory {
 		creator = newFactory;
 	}
 
-	// Demo.
-	public static void main(String[] args) {
-		Method method = DomainFactory.creator().createMethod("foo():void", EnumSet.noneOf(Modifiers.class));
-		System.out.println(method.getClass());
-		DomainFactory.setDomainObjectCreator(new EmfObjectCreator());
-		method = DomainFactory.creator().createMethod("foo():void", EnumSet.noneOf(Modifiers.class));
-		System.out.println(method.getClass());
-	}
 }
