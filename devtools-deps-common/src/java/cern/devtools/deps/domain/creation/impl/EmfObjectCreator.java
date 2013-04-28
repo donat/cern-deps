@@ -61,11 +61,6 @@ public final class EmfObjectCreator implements DomainObjectCreator {
 	}
 
 	@Override
-	public RProject createProject(String name) {
-		return createProject(name, "<unspecified_version>", "<unspecified_containingfolders>", "<unspecified_jarpath>");
-	}
-
-	@Override
 	public String creatorName() {
 		return "EMF";
 	}

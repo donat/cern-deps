@@ -52,7 +52,7 @@ public interface DatabaseDao {
 	 *             If the operation fails.
 	 */
 	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-	public RProject findProject(RProject RProject, boolean deep) throws DatabaseException;
+	public RProject findProjectByName(String name, boolean b) throws DatabaseException;
 
 	/**
 	 * Saves the specified RProject and updates all the referenced items. If a same RProject exists, it must merge the new
@@ -148,14 +148,5 @@ public interface DatabaseDao {
 	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 	public Collection<RDependency> findRProjectDependencies(RProject element) throws DatabaseException;
 	
-	public long getNumOfDeps();
-
-	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-	public void flush(String string) throws IOException;
-
-	@Transactional(propagation = Propagation.REQUIRED)
-	public void reset();
-
-	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-	public Object findCp3ModelForDirectDeps(List<String> projects);
+	
 }

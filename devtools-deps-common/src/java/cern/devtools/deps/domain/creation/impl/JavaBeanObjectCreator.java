@@ -98,9 +98,5 @@ public final class JavaBeanObjectCreator implements DomainObjectCreator {
 		return null;
 	}
 
-	@Override
-	public RProject createProject(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 }

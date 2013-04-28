@@ -34,12 +34,6 @@ import cern.devtools.deps.bean.Controller.DependencyUpdateListener;
 import cern.devtools.deps.bean.DatabaseDao;
 import cern.devtools.deps.bean.DepBeanException;
 import cern.devtools.deps.bean.DependencyService;
-import cern.devtools.deps.domain.ApiClass;
-import cern.devtools.deps.domain.CodeElement;
-import cern.devtools.deps.domain.Dependency;
-import cern.devtools.deps.domain.Field;
-import cern.devtools.deps.domain.Method;
-import cern.devtools.deps.domain.Product;
 
 /**
  * Simple implementation of the {@link DependencyService} interface.
@@ -263,10 +257,6 @@ public class DependencyServiceImpl implements DependencyService {
 	 */
 	public void close() {
 		controller.removeDependencyUpdateListener(listener);
-	}
-
-	public Object getCompactedServerModelFor(List<String> projects) {
-		return db.findCp3ModelForDirectDeps(projects);
 	}
 
 }

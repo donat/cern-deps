@@ -21,19 +21,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import cern.devtools.depanalysis.repomodel.RProject;
 import cern.devtools.deps.bean.ArtifactDescriptor;
 import cern.devtools.deps.bean.DatabaseDao;
 import cern.devtools.deps.bean.DatabaseException;
 import cern.devtools.deps.bean.DependencyExtractor;
-import cern.devtools.deps.domain.ApiClass;
-import cern.devtools.deps.domain.DependencyType;
-import cern.devtools.deps.domain.Field;
-import cern.devtools.deps.domain.Method;
-import cern.devtools.deps.domain.Modifiers;
-import cern.devtools.deps.domain.Product;
 import cern.devtools.deps.domain.creation.DomainObjectCreator;
 
 /**
@@ -47,7 +44,7 @@ public class DependencyExtractorImpl implements DependencyExtractor {
 	/**
 	 * Logger.
 	 */
-	private static final Logger LOG = Logger.getLogger(DependencyExtractor.class);
+	private static final Log log = LogFactory.getLog(DependencyExtractorImpl.class);
 
 	@Autowired
 	DomainObjectCreator creator;
@@ -74,7 +71,7 @@ public class DependencyExtractorImpl implements DependencyExtractor {
 		while (it.hasNext()) {
 			ArtifactDescriptor ad = it.next();
 			// First check if the product is already in the database.
-			Product p = db.findProduct(creator.createProduct(ad.getName()), false);
+			RProject p = db.findProjectByName(ad.getName(), false);
 
 			// Remove if the project with the specific version is already in the database.
 			if (p != null && p.getVersions().contains(ad.getVersion())) {
@@ -85,31 +82,19 @@ public class DependencyExtractorImpl implements DependencyExtractor {
 				it.remove();
 			}
 		}
-
-		// 2) Resolve commonbuild dependencies.
-		resolveDependencies(artifacts);
 		
-		// 2) Analyse the new artifacts.
+		// 1) Analyse the new artifacts.
 		findAndStoreStructures(artifacts);
 
-		// 1) Find dependencies.
+		// 2) Find dependencies.
 		findArtifactsDependencies(artifacts);
 
-		try {
-            db.flush("");
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
 	}
 
 	private void resolveDependencies(List<? extends ArtifactDescriptor> artifacts) {
        if (!artifacts.isEmpty() && artifacts.get(0) instanceof CmmnbuildArtifactDescriptor) {
            new CommonbuildDependencyResolver(artifacts).resolve();
        }
-           
-               
-        
     }
 
     /**
@@ -124,13 +109,8 @@ public class DependencyExtractorImpl implements DependencyExtractor {
 	 */
 	private void findAndStoreStructure(ArtifactDescriptor ad) throws IOException, DatabaseException {
 		JavaStructureParser jsp = JavaStructureParser.parseDescriptor(creator, ad, false);
-		Product p = jsp.getProduct();
-		db.saveProduct(p);
-		Measurement.getInstance().addClassesNum(p.getClasses().size());
-		for (ApiClass ac : p.getClasses()) {
-			Measurement.getInstance().addMethodsNum(ac.getMethods().size());
-			Measurement.getInstance().addFieldsNum(ac.getFields().size());
-		}
+		RProject p = jsp.getProduct();
+		db.saveProject(p);
 	}
 
 	/**
@@ -139,17 +119,12 @@ public class DependencyExtractorImpl implements DependencyExtractor {
 	 * @param artifacts
 	 */
 	private void findAndStoreStructures(List<? extends ArtifactDescriptor> artifacts) {
-		int size = artifacts.size();
 		for (ArtifactDescriptor ad : artifacts) {
-
 			try {
+				log.debug("Analize structure of " + ad);
 				findAndStoreStructure(ad);
-				int cur = artifacts.indexOf(ad) + 1;
-				LOG.info(cur + "/" + size + " Structure extracted: " + ad.getName() + "(" + ad.getVersion() + ")");
 			} catch (Exception e) {
-				LOG.warn(e);
-			} finally {
-				Measurement.getInstance().registerStructHeapSizeOnDiscovery();
+				log.warn(e);
 			}
 		}
 	}

@@ -27,7 +27,8 @@ import cern.devtools.depanalysis.repomodel.RProject;
  */
 public interface DomainObjectCreator {
 
-	RProject createProject(String name);
+	// TODO: ez csak a tesztbe kell, innen ki kell venni
+	//RProject createProject(String name);
 	
 	RProject createProject(String name, String version, String containingFolders, String jarPath);
 	
