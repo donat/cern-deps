@@ -247,12 +247,20 @@ public class RClassImpl extends RStructuralImpl implements RClass {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public String fqName() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		if (getPackage() != null) {
+			String packageName = getPackage().getName();
+			if (packageName == null || packageName.equals("")) {
+				return getName();
+			}
+			else {
+				return packageName + "." + getName();
+			}
+			
+		}
+		else return getName();
 	}
 
 	/**

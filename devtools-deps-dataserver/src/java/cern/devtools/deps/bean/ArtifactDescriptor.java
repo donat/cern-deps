@@ -12,8 +12,6 @@
  **********************************************************************************************************************/
 package cern.devtools.deps.bean;
 
-import cern.devtools.deps.domain.Product;
-
 /**
  * Descriptor for obtaining a {@link Product} with it.
  * 

@@ -14,8 +14,6 @@ package cern.devtools.deps.bean.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.log4j.Logger;
 /**
  * Method to convert binary signatures into source signatures,e.g.
  * {@code java/lang/String.subSequence:(II)Ljava/lang/CharSequence; } into
@@ -35,11 +33,6 @@ public class SignatureMapper {
 	private static final char SIG_FLOAT = 'F';
 	private static final char SIG_DOUBLE = 'D';
 
-	/**
-	 * logger
-	 */
-	private static final Logger LOG = Logger.getLogger(SignatureMapper.class);
-	
 	
 	/**
 	 * Top level method that converts the binary representation of a whole method invocation
@@ -55,6 +48,10 @@ public class SignatureMapper {
 	 * @return the full signature, e.g. 
 	 */
     public static String toSourceSignature(String binaryMethodSignature) {
+    	if (binaryMethodSignature.equals("cern/example/F$1.this$0:Lcern/example/F;")) {
+    		System.out.println(binaryMethodSignature);
+    	}
+    	
     	if("".equals(binaryMethodSignature))return "";
     	
         try {
@@ -170,7 +167,7 @@ public class SignatureMapper {
      */
     public static String toSourceField(String binField) {
     	if (binField == null || binField.length() == 0) {
-    		LOG.warn("Cannot convert field to source format: " + binField);
+    		System.err.println("Cannot convert field to source format: " + binField);
     		return "";
     	}
     	

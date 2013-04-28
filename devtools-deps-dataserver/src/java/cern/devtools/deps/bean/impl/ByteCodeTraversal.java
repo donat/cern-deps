@@ -75,7 +75,7 @@ public class ByteCodeTraversal {
 	 * @return The references or <code>null</code>, if the passed method is not part of the class.
 	 */
 	public List<String> calledMethods(Method m) {
-		return fieldRefs.get(m);
+		return methodRefs.get(m);
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class ByteCodeTraversal {
 	 * @return The references or <code>null</code>, if the passed method is not part of the class.
 	 */
 	public List<String> referencedFields(Method m) {
-		return methodRefs.get(m);
+		return fieldRefs.get(m);
 	}
 
 	/**

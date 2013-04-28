@@ -1,21 +1,20 @@
 package cern.devtools.deps.bean.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Iterator;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import cern.devtools.deps.bean.impl.ByteCodeDescriptor;
-import cern.devtools.deps.bean.impl.JavaStructureParser;
-import cern.devtools.deps.domain.ApiClass;
-import cern.devtools.deps.domain.Product;
+import cern.devtools.depanalysis.repomodel.RClass;
+import cern.devtools.depanalysis.repomodel.RModifier;
+import cern.devtools.depanalysis.repomodel.RProject;
 import cern.devtools.deps.domain.creation.DomainFactory;
 import cern.devtools.deps.memcomp.InMemoryClassLoader;
 import cern.devtools.deps.memcomp.InMemoryCompiler;
@@ -80,15 +79,15 @@ public class JavaStructureParserTest {
 			+ "    public void ff() {  System.out.println(A.a); }                                                 \n"
 			+ "}";
 
-	private Product p;
+	private RProject p;
 
-	private ApiClass A;
-	// private ApiClass B;
-	// private ApiClass C;
-	private ApiClass D;
-	private ApiClass E;
-	// private ApiClass F;
-	private ApiClass FAnon;
+	private RClass A;
+	// private RClass B;
+	// private RClass C;
+	private RClass D;
+	private RClass E;
+	// private RClass F;
+	private RClass FAnon;
 
 	private static InMemoryClassLoader classLoader;
 
@@ -109,7 +108,7 @@ public class JavaStructureParserTest {
 		// check found product
 		p = parser.getProduct();
 
-		Iterator<ApiClass> aci = p.getClasses().iterator();
+		Iterator<RClass> aci = p.getPackages().get(0).getClasses().iterator();
 		FAnon = aci.next();
 		A = aci.next();
 		aci.next();
@@ -123,7 +122,6 @@ public class JavaStructureParserTest {
 	}
 
 	@Test
-	@Ignore
 	public void productDetails() throws Exception {
 
 		assertEquals("name", p.getName());
@@ -132,28 +130,25 @@ public class JavaStructureParserTest {
 		assertEquals("", p.getContainingFolders());
 
 		// check found apiClass
-		assertEquals(7, p.getClasses().size());
+		assertEquals(7, p.getPackages().get(0).getClasses().size());
 	}
 
 	@Test
-	@Ignore
 	public void names() {
-		assertEquals("cern.example.A", A.getFqName());
-		assertEquals("cern.example.D$E", E.getFqName());
-		assertEquals("cern.example.F$1", FAnon.getFqName());
+		assertEquals("cern.example.A", A.fqName());
+		assertEquals("cern.example.D$E", E.fqName());
+		assertEquals("cern.example.F$1", FAnon.fqName());
 	}
 
 	@Test
-	@Ignore
 	public void anon() {
-		assertFalse((Boolean) A.isAnonymous());
-		assertTrue((Boolean) FAnon.isAnonymous());
+		assertFalse((Boolean) A.getModifiers().contains(RModifier.ANONYMOUS));
+		assertTrue((Boolean) FAnon.getModifiers().contains(RModifier.ANONYMOUS));
 	}
 
 	@Test
-	@Ignore
 	public void inheritance() {
 		assertEquals("cern.example.B", D.getExtends());
-		assertEquals("cern.example.C", D.getImplements());
+		assertEquals(Collections.singletonList("cern.example.C"), D.getImplements());
 	}
 }

@@ -150,13 +150,11 @@ public class JavaStructureParser {
 	private RClass parseStream(InputStream classStream) throws IOException {
 		// get class information
 		ByteCodeAnalyser bca = ByteCodeAnalyser.analyseClassStream(creator, classStream, deepScan);
-		String className = bca.getPackageName();
-		if (className == null || "".equals(className)) {
-			className = bca.getSimpleName();
+		String packageName = bca.getPackageName();
+		if (packageName == null) {
+			packageName = "";
 		}
-		else {
-			className += "." + bca.getSimpleName();
-		}
+		
 
 		// get method and field information from the classes
 		List<RMethod> methods = sourceMethods(bca.getMethods());
@@ -167,7 +165,7 @@ public class JavaStructureParser {
 		List<String> impl = findImplements(bca);
 
 		// Create apiclass instance
-		String packageName = bca.getPackageName();
+		String className = bca.getSimpleName();
 		
 		RPackage rp = null;
 		for (RPackage p : product.getPackages()) {
@@ -374,8 +372,8 @@ public class JavaStructureParser {
 		// Cleanup the methods, because they hold the references.
 		for (RMethod m : ac.getMethods()) {
 
-			List<String> referencedMethods = (List<String>) m.getReferencedMethods();
-			List<String> referencedFields = (List<String>) m.getReferencedFields();
+			List<String> referencedMethods =  m.getReferencedMethods();
+			List<String> referencedFields = m.getReferencedFields();
 
 			// Cleanup called methods list.
 			if (referencedMethods != null) {

@@ -234,7 +234,7 @@ public class ByteCodeAnalyser {
 			// Setup called methods and referenced fields.
 			if (deepScan && m.getCode() != null) {
 				rm.getReferencedMethods().addAll(bt.calledMethods(m));
-				rm.getReferencedMethods().addAll(bt.referencedFields(m));
+				rm.getReferencedFields().addAll(bt.referencedFields(m));
 			}
 
 			// Finally add it to the result set.
