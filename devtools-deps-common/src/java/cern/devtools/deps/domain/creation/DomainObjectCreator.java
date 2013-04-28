@@ -17,6 +17,7 @@ import java.util.List;
 import cern.devtools.depanalysis.repomodel.RField;
 import cern.devtools.depanalysis.repomodel.RMethod;
 import cern.devtools.depanalysis.repomodel.RModifier;
+import cern.devtools.depanalysis.repomodel.RProject;
 
 /**
  * Interface describing, how the domain objects should be instantiated.
@@ -148,4 +149,6 @@ public interface DomainObjectCreator {
 	// */
 	// public Dependency createDependency(DependencyType type, CodeElement from, CodeElement to,
 	// Collection<Dependency> transitiveFrom);
+
+	RProject createProject(String name, String version, String containingFolders, String jarPath);
 }

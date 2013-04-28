@@ -17,6 +17,7 @@ import java.util.List;
  *   <li>{@link cern.devtools.depanalysis.repomodel.RClass#getFields <em>Fields</em>}</li>
  *   <li>{@link cern.devtools.depanalysis.repomodel.RClass#getMethods <em>Methods</em>}</li>
  *   <li>{@link cern.devtools.depanalysis.repomodel.RClass#getPackage <em>Package</em>}</li>
+ *   <li>{@link cern.devtools.depanalysis.repomodel.RClass#getReferencedClasses <em>Referenced Classes</em>}</li>
  * </ul>
  * </p>
  *
@@ -130,6 +131,22 @@ public interface RClass extends RStructural {
 	 * @generated
 	 */
 	void setPackage(RPackage value);
+
+	/**
+	 * Returns the value of the '<em><b>Referenced Classes</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Referenced Classes</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Referenced Classes</em>' attribute list.
+	 * @see cern.devtools.depanalysis.repomodel.RepomodelPackage#getRClass_ReferencedClasses()
+	 * @model transient="true"
+	 * @generated
+	 */
+	List<String> getReferencedClasses();
 
 	/**
 	 * <!-- begin-user-doc -->

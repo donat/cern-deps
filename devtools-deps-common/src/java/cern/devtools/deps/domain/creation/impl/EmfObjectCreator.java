@@ -17,6 +17,7 @@ import java.util.List;
 import cern.devtools.depanalysis.repomodel.RField;
 import cern.devtools.depanalysis.repomodel.RMethod;
 import cern.devtools.depanalysis.repomodel.RModifier;
+import cern.devtools.depanalysis.repomodel.RProject;
 import cern.devtools.depanalysis.repomodel.RepomodelFactory;
 import cern.devtools.deps.domain.creation.DomainObjectCreator;
 
@@ -48,6 +49,16 @@ public final class EmfObjectCreator implements DomainObjectCreator {
 		rm.getParameterTypes().addAll(argumentTypes);
 		rm.getModifiers().addAll(modifiers);
 		return rm;
+	}
+	
+	@Override
+	public RProject createProject(String name, String version, String containingFolders, String jarPath) {
+		RProject rp = RepomodelFactory.eINSTANCE.createRProject();
+		rp.setName(name);
+		rp.getVersions().add(version);
+		rp.setContainingFolders(containingFolders);
+		rp.setJarPath(jarPath);
+		return rp;
 	}
 
 	@Override

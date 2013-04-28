@@ -17,6 +17,7 @@ import java.util.List;
  *   <li>{@link cern.devtools.depanalysis.repomodel.RMethod#getClass_ <em>Class</em>}</li>
  *   <li>{@link cern.devtools.depanalysis.repomodel.RMethod#getReferencedFields <em>Referenced Fields</em>}</li>
  *   <li>{@link cern.devtools.depanalysis.repomodel.RMethod#getReferencedMethods <em>Referenced Methods</em>}</li>
+ *   <li>{@link cern.devtools.depanalysis.repomodel.RMethod#getSignature <em>Signature</em>}</li>
  * </ul>
  * </p>
  *
@@ -129,11 +130,29 @@ public interface RMethod extends RStructural {
 	List<String> getReferencedMethods();
 
 	/**
+	 * Returns the value of the '<em><b>Signature</b></em>' attribute.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Signature</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Signature</em>' attribute.
+	 * @see #setSignature(String)
+	 * @see cern.devtools.depanalysis.repomodel.RepomodelPackage#getRMethod_Signature()
 	 * @model
 	 * @generated
 	 */
-	String fqName();
+	String getSignature();
+
+	/**
+	 * Sets the value of the '{@link cern.devtools.depanalysis.repomodel.RMethod#getSignature <em>Signature</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Signature</em>' attribute.
+	 * @see #getSignature()
+	 * @generated
+	 */
+	void setSignature(String value);
 
 } // RMethod

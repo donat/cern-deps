@@ -19,11 +19,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import cern.devtools.depanalysis.repomodel.RClass;
+import cern.devtools.depanalysis.repomodel.RField;
+import cern.devtools.depanalysis.repomodel.RMethod;
+import cern.devtools.depanalysis.repomodel.RModifier;
+import cern.devtools.depanalysis.repomodel.RPackage;
+import cern.devtools.depanalysis.repomodel.RProject;
+import cern.devtools.depanalysis.repomodel.RepomodelFactory;
 import cern.devtools.deps.bean.ArtifactDescriptor;
-import cern.devtools.deps.domain.ApiClass;
-import cern.devtools.deps.domain.Field;
-import cern.devtools.deps.domain.Method;
-import cern.devtools.deps.domain.Product;
 import cern.devtools.deps.domain.creation.DomainObjectCreator;
 
 /**
@@ -46,7 +49,7 @@ public class JavaStructureParser {
 	/**
 	 * The parsed product.
 	 */
-	private Product product;
+	private RProject product;
 
 	/**
 	 * Cache for all methods contained in the product. Used when searching for internal references.
@@ -81,9 +84,18 @@ public class JavaStructureParser {
 			throw new NullPointerException("descriptor can't be null");
 		}
 		this.deepScan = deepScan;
-		this.product = creator.createProduct(descriptor.getName(), descriptor.getVersion(),
-				descriptor.getContainingFolders(), descriptor.getJarPath());
+		
+		String name = descriptor.getName();
+		String version = descriptor.getVersion();
+		String containingFolders= descriptor.getContainingFolders();
+		String jarPath = descriptor.getJarPath();
+		
+		RProject rp = creator.createProject(name, version, containingFolders, jarPath);
+		
+		this.product = rp;
 	}
+
+	
 
 	/**
 	 * Initiates the product parsing.
@@ -107,7 +119,7 @@ public class JavaStructureParser {
 	 * 
 	 * @return The parsed product.
 	 */
-	public Product getProduct() {
+	public RProject getProduct() {
 		return product;
 	}
 
@@ -135,7 +147,7 @@ public class JavaStructureParser {
 	 * @return The {@link ApiClass} representation of the binary.
 	 * @throws IOException If the stream is not well-formed or not accessible.
 	 */
-	private ApiClass parseStream(InputStream classStream) throws IOException {
+	private RClass parseStream(InputStream classStream) throws IOException {
 		// get class information
 		ByteCodeAnalyser bca = ByteCodeAnalyser.analyseClassStream(creator, classStream, deepScan);
 		String className = bca.getPackageName();
@@ -147,28 +159,51 @@ public class JavaStructureParser {
 		}
 
 		// get method and field information from the classes
-		List<Method> methods = sourceMethods(bca.getMethods());
-		List<Field> fields = sourceFields(bca.getFields());
+		List<RMethod> methods = sourceMethods(bca.getMethods());
+		List<RField> fields = sourceFields(bca.getFields());
 
 		// get extended and implemented interfaces
 		String ext = findExtends(bca);
-		String impl = findImplements(bca);
+		List<String> impl = findImplements(bca);
 
 		// Create apiclass instance
-		ApiClass ac = creator.createApiClass(className, ext, impl, bca.getModifiers());
-		ac.setProduct(product);
-		product.getClasses().add(ac);
-		ac.getMethods().addAll(methods);
-		ac.getFields().addAll(fields);
+		String packageName = bca.getPackageName();
+		
+		RPackage rp = null;
+		for (RPackage p : product.getPackages()) {
+			if(p.getName().equals(packageName)) {
+				rp = p;
+				break;
+			}
+		}
+		
+		if (rp == null) {
+			rp = RepomodelFactory.eINSTANCE.createRPackage();
+			rp.setName(packageName);
+			product.getPackages().add(rp);
+		}
+		
+		List<RModifier> modifiers = bca.getModifiers();
+		
+		
+		RClass rc = RepomodelFactory.eINSTANCE.createRClass();
+		rc.setName(className);
+		rc.setPackage(rp); 
+		rc.setExtends(ext);
+		rc.getImplements().addAll(impl);
+		rc.getModifiers().addAll(modifiers);
+		rc.getMethods().addAll(methods);
+		rc.getFields().addAll(fields);
+		
 
 		// set if the class is private on anonymous and adds used classes to the metadata
-		ac.getReferencedClasses().addAll(bca.getUsedClassNames());
-
+		rc.getReferencedClasses().addAll(bca.getUsedClassNames());
+		
 		// convert source metadata
-		sourceApiClassMetadata(ac);
+		sourceApiClassMetadata(rc);
 
 		// return all data
-		return ac;
+		return rc;
 	}
 
 	/**
@@ -177,10 +212,10 @@ public class JavaStructureParser {
 	 * @param list The list of methods.
 	 * @return The converted method list.
 	 */
-	private List<Method> sourceMethods(List<Method> list) {
-		Iterator<Method> it = list.iterator();
+	private List<RMethod> sourceMethods(List<RMethod> list) {
+		Iterator<RMethod> it = list.iterator();
 		while (it.hasNext()) {
-			Method m = it.next();
+			RMethod m = it.next();
 			m.setSignature(SignatureMapper.toSourceSignature(m.getSignature()));
 		}
 		return list;
@@ -192,10 +227,10 @@ public class JavaStructureParser {
 	 * @param list The list of fields to convert.
 	 * @return The converted field list.
 	 */
-	private List<Field> sourceFields(List<Field> list) {
-		Iterator<Field> it = list.iterator();
+	private List<RField> sourceFields(List<RField> list) {
+		Iterator<RField> it = list.iterator();
 		while (it.hasNext()) {
-			Field f = it.next();
+			RField f = it.next();
 			f.setSignature(SignatureMapper.toSourceField(f.getSignature()));
 		}
 		return list;
@@ -225,23 +260,24 @@ public class JavaStructureParser {
 	 * @param bca The {@link ByteCodeAnalyser} instance which holds the class information.
 	 * @return The String containing all the implemented interfaces separated with a space (' ') character.
 	 */
-	private String findImplements(ByteCodeAnalyser bca) {
+	private List<String> findImplements(ByteCodeAnalyser bca) {
+		return bca.getImplements();
 		// Acquire interface names.
-		List<String> li = bca.getImplements();
-		StringBuilder implementz = new StringBuilder();
+//		List<String> li = bca.getImplements();
+//		StringBuilder implementz = new StringBuilder();
 
-		// Check every interfaces.
-		for (String i : li) {
-			// Find out if the interface should be ignored.
-			if (!isIgnoredPackage(i)) {
-				// If not ignored, than add to the result
-				implementz.append(i + " ");
-			}
-		}
-
-		// Remove the trailing ' ' and return.
-		String impl = implementz.toString().trim();
-		return impl;
+//		// Check every interfaces.
+//		for (String i : li) {
+//			// Find out if the interface should be ignored.
+//			if (!isIgnoredPackage(i)) {
+//				// If not ignored, than add to the result
+//				implementz.append(i + " ");
+//			}
+//		}
+//
+//		// Remove the trailing ' ' and return.
+//		String impl = implementz.toString().trim();
+//		return impl;
 	}
 
 	/**
@@ -249,7 +285,7 @@ public class JavaStructureParser {
 	 * 
 	 * @param ac The class which should be converted.
 	 */
-	private void sourceApiClassMetadata(ApiClass ac) {
+	private void sourceApiClassMetadata(RClass ac) {
 		// Don't do the converting, if the references are not extracted..
 		if (!deepScan) {
 			return;
@@ -266,7 +302,7 @@ public class JavaStructureParser {
 		}
 
 		// Format the method call and the field references to source format.
-		for (Method m : ac.getMethods()) {
+		for (RMethod m : ac.getMethods()) {
 			List<String> fields = (List<String>) m.getReferencedFields();
 			List<String> methods = (List<String>) m.getReferencedMethods();
 
@@ -296,13 +332,15 @@ public class JavaStructureParser {
 	 * Remove the referenced from the classes, if they are pointing inside the analysed product.
 	 */
 	private void removeInternalReferences() {
-		for (ApiClass ac : product.getClasses()) {
+		for (RPackage pkg : product.getPackages()) {
+			for (RClass rc : pkg.getClasses()) {
 
-			// Remove unnecessary class references.
-			removeIgnoredClassRefs(ac);
+				// Remove unnecessary class references.
+				removeIgnoredClassRefs(rc);
 
-			// Remove unnecessary method invocations and field references.
-			removeIgnoredMethodsFields(ac);
+				// Remove unnecessary method invocations and field references.
+				removeIgnoredMethodsFields(rc);
+			}
 		}
 	}
 
@@ -311,14 +349,14 @@ public class JavaStructureParser {
 	 * 
 	 * @param ac The instance to cleanup.
 	 */
-	private void removeIgnoredClassRefs(ApiClass ac) {
+	private void removeIgnoredClassRefs(RClass ac) {
 		// The class reference.
 		List<String> usedClasses = (List<String>) ac.getReferencedClasses();
 
 		// The String set which contains all class names inside the project.
 		Iterator<String> iter = usedClasses.iterator();
 
-		// Remove, if the reference points inside.
+		// Remove, if the reference points inside. 
 		while (iter.hasNext()) {
 			String uc = iter.next();
 			if (isIgnoredClassName(uc)) {
@@ -332,9 +370,9 @@ public class JavaStructureParser {
 	 * 
 	 * @param ac The instance to cleanup.
 	 */
-	private void removeIgnoredMethodsFields(ApiClass ac) {
+	private void removeIgnoredMethodsFields(RClass ac) {
 		// Cleanup the methods, because they hold the references.
-		for (Method m : ac.getMethods()) {
+		for (RMethod m : ac.getMethods()) {
 
 			List<String> referencedMethods = (List<String>) m.getReferencedMethods();
 			List<String> referencedFields = (List<String>) m.getReferencedFields();
@@ -391,9 +429,12 @@ public class JavaStructureParser {
 	public Set<String> getClassNameCache() {
 		if (classNameCache == null) {
 			classNameCache = new HashSet<String>();
-			for (ApiClass ac : product.getClasses()) {
-				classNameCache.add(ac.getFqName());
+			for (RPackage pkg : product.getPackages()) {
+				for (RClass ac : pkg.getClasses()) {
+					classNameCache.add(ac.fqName());
+				}
 			}
+			
 		}
 
 		return classNameCache;
@@ -408,11 +449,14 @@ public class JavaStructureParser {
 		// lazy init
 		if (fieldCache == null) {
 			fieldCache = new HashSet<String>();
-			for (ApiClass ac : product.getClasses()) {
-				for (Field f : ac.getFields()) {
-					fieldCache.add(f.getSignature());
+			for (RPackage pkg : product.getPackages()) {
+				for (RClass ac : pkg.getClasses()) {
+					for (RField f : ac.getFields()) {
+						fieldCache.add(f.getSignature());
+					}
 				}
 			}
+			
 		}
 		return fieldCache;
 	}
@@ -426,11 +470,14 @@ public class JavaStructureParser {
 		// lazy init
 		if (methodCache == null) {
 			methodCache = new HashSet<String>();
-			for (ApiClass ac : product.getClasses()) {
-				for (Method m : ac.getMethods()) {
-					methodCache.add(m.getSignature());
+			for (RPackage pkg : product.getPackages()) {
+				for (RClass ac : pkg.getClasses()) {
+					for (RMethod m : ac.getMethods()) {
+						methodCache.add(m.getSignature());
+					}
 				}
 			}
+		
 		}
 		return methodCache;
 	}

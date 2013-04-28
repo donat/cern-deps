@@ -15,6 +15,8 @@ import java.util.List;
  *   <li>{@link cern.devtools.depanalysis.repomodel.RProject#getPackages <em>Packages</em>}</li>
  *   <li>{@link cern.devtools.depanalysis.repomodel.RProject#getDependencies <em>Dependencies</em>}</li>
  *   <li>{@link cern.devtools.depanalysis.repomodel.RProject#getRepository <em>Repository</em>}</li>
+ *   <li>{@link cern.devtools.depanalysis.repomodel.RProject#getContainingFolders <em>Containing Folders</em>}</li>
+ *   <li>{@link cern.devtools.depanalysis.repomodel.RProject#getJarPath <em>Jar Path</em>}</li>
  * </ul>
  * </p>
  *
@@ -84,5 +86,57 @@ public interface RProject extends RVersioned {
 	 * @generated
 	 */
 	void setRepository(RRepository value);
+
+	/**
+	 * Returns the value of the '<em><b>Containing Folders</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Containing Folders</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Containing Folders</em>' attribute.
+	 * @see #setContainingFolders(String)
+	 * @see cern.devtools.depanalysis.repomodel.RepomodelPackage#getRProject_ContainingFolders()
+	 * @model
+	 * @generated
+	 */
+	String getContainingFolders();
+
+	/**
+	 * Sets the value of the '{@link cern.devtools.depanalysis.repomodel.RProject#getContainingFolders <em>Containing Folders</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Containing Folders</em>' attribute.
+	 * @see #getContainingFolders()
+	 * @generated
+	 */
+	void setContainingFolders(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Jar Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Jar Path</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Jar Path</em>' attribute.
+	 * @see #setJarPath(String)
+	 * @see cern.devtools.depanalysis.repomodel.RepomodelPackage#getRProject_JarPath()
+	 * @model
+	 * @generated
+	 */
+	String getJarPath();
+
+	/**
+	 * Sets the value of the '{@link cern.devtools.depanalysis.repomodel.RProject#getJarPath <em>Jar Path</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Jar Path</em>' attribute.
+	 * @see #getJarPath()
+	 * @generated
+	 */
+	void setJarPath(String value);
 
 } // RProject

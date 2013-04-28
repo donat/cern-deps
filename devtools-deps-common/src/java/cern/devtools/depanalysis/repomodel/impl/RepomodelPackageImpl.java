@@ -263,15 +263,6 @@ public class RepomodelPackageImpl extends EPackageImpl implements RepomodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRStructural_Signature() {
-		return (EAttribute)rStructuralEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getRRepository() {
 		return rRepositoryEClass;
 	}
@@ -319,6 +310,24 @@ public class RepomodelPackageImpl extends EPackageImpl implements RepomodelPacka
 	 */
 	public EReference getRProject_Repository() {
 		return (EReference)rProjectEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRProject_ContainingFolders() {
+		return (EAttribute)rProjectEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRProject_JarPath() {
+		return (EAttribute)rProjectEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -407,6 +416,15 @@ public class RepomodelPackageImpl extends EPackageImpl implements RepomodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getRClass_ReferencedClasses() {
+		return (EAttribute)rClassEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getRField() {
 		return rFieldEClass;
 	}
@@ -427,6 +445,15 @@ public class RepomodelPackageImpl extends EPackageImpl implements RepomodelPacka
 	 */
 	public EReference getRField_Class() {
 		return (EReference)rFieldEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRField_Signature() {
+		return (EAttribute)rFieldEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -481,6 +508,15 @@ public class RepomodelPackageImpl extends EPackageImpl implements RepomodelPacka
 	 */
 	public EAttribute getRMethod_ReferencedMethods() {
 		return (EAttribute)rMethodEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRMethod_Signature() {
+		return (EAttribute)rMethodEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -576,7 +612,6 @@ public class RepomodelPackageImpl extends EPackageImpl implements RepomodelPacka
 
 		rStructuralEClass = createEClass(RSTRUCTURAL);
 		createEAttribute(rStructuralEClass, RSTRUCTURAL__MODIFIERS);
-		createEAttribute(rStructuralEClass, RSTRUCTURAL__SIGNATURE);
 
 		rRepositoryEClass = createEClass(RREPOSITORY);
 		createEReference(rRepositoryEClass, RREPOSITORY__PROJECTS);
@@ -585,6 +620,8 @@ public class RepomodelPackageImpl extends EPackageImpl implements RepomodelPacka
 		createEReference(rProjectEClass, RPROJECT__PACKAGES);
 		createEReference(rProjectEClass, RPROJECT__DEPENDENCIES);
 		createEReference(rProjectEClass, RPROJECT__REPOSITORY);
+		createEAttribute(rProjectEClass, RPROJECT__CONTAINING_FOLDERS);
+		createEAttribute(rProjectEClass, RPROJECT__JAR_PATH);
 
 		rPackageEClass = createEClass(RPACKAGE);
 		createEReference(rPackageEClass, RPACKAGE__CLASSES);
@@ -596,10 +633,12 @@ public class RepomodelPackageImpl extends EPackageImpl implements RepomodelPacka
 		createEReference(rClassEClass, RCLASS__FIELDS);
 		createEReference(rClassEClass, RCLASS__METHODS);
 		createEReference(rClassEClass, RCLASS__PACKAGE);
+		createEAttribute(rClassEClass, RCLASS__REFERENCED_CLASSES);
 
 		rFieldEClass = createEClass(RFIELD);
 		createEAttribute(rFieldEClass, RFIELD__TYPE);
 		createEReference(rFieldEClass, RFIELD__CLASS);
+		createEAttribute(rFieldEClass, RFIELD__SIGNATURE);
 
 		rMethodEClass = createEClass(RMETHOD);
 		createEAttribute(rMethodEClass, RMETHOD__RETURN_TYPE);
@@ -607,6 +646,7 @@ public class RepomodelPackageImpl extends EPackageImpl implements RepomodelPacka
 		createEReference(rMethodEClass, RMETHOD__CLASS);
 		createEAttribute(rMethodEClass, RMETHOD__REFERENCED_FIELDS);
 		createEAttribute(rMethodEClass, RMETHOD__REFERENCED_METHODS);
+		createEAttribute(rMethodEClass, RMETHOD__SIGNATURE);
 
 		rDependencyEClass = createEClass(RDEPENDENCY);
 		createEReference(rDependencyEClass, RDEPENDENCY__FROM);
@@ -667,7 +707,6 @@ public class RepomodelPackageImpl extends EPackageImpl implements RepomodelPacka
 
 		initEClass(rStructuralEClass, RStructural.class, "RStructural", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRStructural_Modifiers(), this.getRModifier(), "modifiers", null, 0, -1, RStructural.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRStructural_Signature(), ecorePackage.getEString(), "signature", null, 0, 1, RStructural.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rRepositoryEClass, RRepository.class, "RRepository", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRRepository_Projects(), this.getRProject(), this.getRProject_Repository(), "projects", null, 0, -1, RRepository.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -676,6 +715,8 @@ public class RepomodelPackageImpl extends EPackageImpl implements RepomodelPacka
 		initEReference(getRProject_Packages(), this.getRPackage(), this.getRPackage_Project(), "packages", null, 0, -1, RProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRProject_Dependencies(), this.getRDependency(), null, "dependencies", null, 0, -1, RProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRProject_Repository(), this.getRRepository(), this.getRRepository_Projects(), "repository", null, 1, 1, RProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRProject_ContainingFolders(), ecorePackage.getEString(), "containingFolders", null, 0, 1, RProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRProject_JarPath(), ecorePackage.getEString(), "jarPath", null, 0, 1, RProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rPackageEClass, RPackage.class, "RPackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRPackage_Classes(), this.getRClass(), this.getRClass_Package(), "classes", null, 0, -1, RPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -687,14 +728,14 @@ public class RepomodelPackageImpl extends EPackageImpl implements RepomodelPacka
 		initEReference(getRClass_Fields(), this.getRField(), this.getRField_Class(), "fields", null, 0, -1, RClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRClass_Methods(), this.getRMethod(), this.getRMethod_Class(), "methods", null, 0, -1, RClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRClass_Package(), this.getRPackage(), this.getRPackage_Classes(), "package", null, 1, 1, RClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRClass_ReferencedClasses(), ecorePackage.getEString(), "referencedClasses", null, 0, -1, RClass.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(rClassEClass, ecorePackage.getEString(), "fqName", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(rFieldEClass, RField.class, "RField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRField_Type(), ecorePackage.getEString(), "type", null, 0, 1, RField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRField_Class(), this.getRClass(), this.getRClass_Fields(), "class", null, 1, 1, RField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		addEOperation(rFieldEClass, ecorePackage.getEString(), "fqName", 0, 1, IS_UNIQUE, IS_ORDERED);
+		initEAttribute(getRField_Signature(), ecorePackage.getEString(), "signature", null, 0, 1, RField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rMethodEClass, RMethod.class, "RMethod", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRMethod_ReturnType(), ecorePackage.getEString(), "returnType", null, 0, 1, RMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -702,8 +743,7 @@ public class RepomodelPackageImpl extends EPackageImpl implements RepomodelPacka
 		initEReference(getRMethod_Class(), this.getRClass(), this.getRClass_Methods(), "class", null, 1, 1, RMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRMethod_ReferencedFields(), ecorePackage.getEString(), "referencedFields", null, 0, -1, RMethod.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRMethod_ReferencedMethods(), ecorePackage.getEString(), "referencedMethods", null, 0, -1, RMethod.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		addEOperation(rMethodEClass, ecorePackage.getEString(), "fqName", 0, 1, IS_UNIQUE, IS_ORDERED);
+		initEAttribute(getRMethod_Signature(), ecorePackage.getEString(), "signature", null, 0, 1, RMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rDependencyEClass, RDependency.class, "RDependency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRDependency_From(), this.getRComponent(), this.getRComponent_Outgoing(), "from", null, 1, 1, RDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

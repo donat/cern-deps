@@ -240,22 +240,13 @@ public interface RepomodelPackage extends EPackage {
 	int RSTRUCTURAL__MODIFIERS = RVERSIONED_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Signature</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RSTRUCTURAL__SIGNATURE = RVERSIONED_FEATURE_COUNT + 1;
-
-	/**
 	 * The number of structural features of the '<em>RStructural</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RSTRUCTURAL_FEATURE_COUNT = RVERSIONED_FEATURE_COUNT + 2;
+	int RSTRUCTURAL_FEATURE_COUNT = RVERSIONED_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link cern.devtools.depanalysis.repomodel.impl.RRepositoryImpl <em>RRepository</em>}' class.
@@ -404,13 +395,31 @@ public interface RepomodelPackage extends EPackage {
 	int RPROJECT__REPOSITORY = RVERSIONED_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Containing Folders</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RPROJECT__CONTAINING_FOLDERS = RVERSIONED_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Jar Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RPROJECT__JAR_PATH = RVERSIONED_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>RProject</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RPROJECT_FEATURE_COUNT = RVERSIONED_FEATURE_COUNT + 3;
+	int RPROJECT_FEATURE_COUNT = RVERSIONED_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link cern.devtools.depanalysis.repomodel.impl.RPackageImpl <em>RPackage</em>}' class.
@@ -559,15 +568,6 @@ public interface RepomodelPackage extends EPackage {
 	int RCLASS__MODIFIERS = RSTRUCTURAL__MODIFIERS;
 
 	/**
-	 * The feature id for the '<em><b>Signature</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RCLASS__SIGNATURE = RSTRUCTURAL__SIGNATURE;
-
-	/**
 	 * The feature id for the '<em><b>Extends</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -613,13 +613,22 @@ public interface RepomodelPackage extends EPackage {
 	int RCLASS__PACKAGE = RSTRUCTURAL_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Referenced Classes</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RCLASS__REFERENCED_CLASSES = RSTRUCTURAL_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>RClass</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RCLASS_FEATURE_COUNT = RSTRUCTURAL_FEATURE_COUNT + 5;
+	int RCLASS_FEATURE_COUNT = RSTRUCTURAL_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link cern.devtools.depanalysis.repomodel.impl.RFieldImpl <em>RField</em>}' class.
@@ -686,15 +695,6 @@ public interface RepomodelPackage extends EPackage {
 	int RFIELD__MODIFIERS = RSTRUCTURAL__MODIFIERS;
 
 	/**
-	 * The feature id for the '<em><b>Signature</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RFIELD__SIGNATURE = RSTRUCTURAL__SIGNATURE;
-
-	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -713,13 +713,22 @@ public interface RepomodelPackage extends EPackage {
 	int RFIELD__CLASS = RSTRUCTURAL_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Signature</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFIELD__SIGNATURE = RSTRUCTURAL_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>RField</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RFIELD_FEATURE_COUNT = RSTRUCTURAL_FEATURE_COUNT + 2;
+	int RFIELD_FEATURE_COUNT = RSTRUCTURAL_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link cern.devtools.depanalysis.repomodel.impl.RMethodImpl <em>RMethod</em>}' class.
@@ -786,15 +795,6 @@ public interface RepomodelPackage extends EPackage {
 	int RMETHOD__MODIFIERS = RSTRUCTURAL__MODIFIERS;
 
 	/**
-	 * The feature id for the '<em><b>Signature</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RMETHOD__SIGNATURE = RSTRUCTURAL__SIGNATURE;
-
-	/**
 	 * The feature id for the '<em><b>Return Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -840,13 +840,22 @@ public interface RepomodelPackage extends EPackage {
 	int RMETHOD__REFERENCED_METHODS = RSTRUCTURAL_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Signature</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RMETHOD__SIGNATURE = RSTRUCTURAL_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>RMethod</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RMETHOD_FEATURE_COUNT = RSTRUCTURAL_FEATURE_COUNT + 5;
+	int RMETHOD_FEATURE_COUNT = RSTRUCTURAL_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link cern.devtools.depanalysis.repomodel.impl.RDependencyImpl <em>RDependency</em>}' class.
@@ -1012,17 +1021,6 @@ public interface RepomodelPackage extends EPackage {
 	EAttribute getRStructural_Modifiers();
 
 	/**
-	 * Returns the meta object for the attribute '{@link cern.devtools.depanalysis.repomodel.RStructural#getSignature <em>Signature</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Signature</em>'.
-	 * @see cern.devtools.depanalysis.repomodel.RStructural#getSignature()
-	 * @see #getRStructural()
-	 * @generated
-	 */
-	EAttribute getRStructural_Signature();
-
-	/**
 	 * Returns the meta object for class '{@link cern.devtools.depanalysis.repomodel.RRepository <em>RRepository</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1085,6 +1083,28 @@ public interface RepomodelPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getRProject_Repository();
+
+	/**
+	 * Returns the meta object for the attribute '{@link cern.devtools.depanalysis.repomodel.RProject#getContainingFolders <em>Containing Folders</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Containing Folders</em>'.
+	 * @see cern.devtools.depanalysis.repomodel.RProject#getContainingFolders()
+	 * @see #getRProject()
+	 * @generated
+	 */
+	EAttribute getRProject_ContainingFolders();
+
+	/**
+	 * Returns the meta object for the attribute '{@link cern.devtools.depanalysis.repomodel.RProject#getJarPath <em>Jar Path</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Jar Path</em>'.
+	 * @see cern.devtools.depanalysis.repomodel.RProject#getJarPath()
+	 * @see #getRProject()
+	 * @generated
+	 */
+	EAttribute getRProject_JarPath();
 
 	/**
 	 * Returns the meta object for class '{@link cern.devtools.depanalysis.repomodel.RPackage <em>RPackage</em>}'.
@@ -1184,6 +1204,17 @@ public interface RepomodelPackage extends EPackage {
 	EReference getRClass_Package();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link cern.devtools.depanalysis.repomodel.RClass#getReferencedClasses <em>Referenced Classes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Referenced Classes</em>'.
+	 * @see cern.devtools.depanalysis.repomodel.RClass#getReferencedClasses()
+	 * @see #getRClass()
+	 * @generated
+	 */
+	EAttribute getRClass_ReferencedClasses();
+
+	/**
 	 * Returns the meta object for class '{@link cern.devtools.depanalysis.repomodel.RField <em>RField</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1214,6 +1245,17 @@ public interface RepomodelPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getRField_Class();
+
+	/**
+	 * Returns the meta object for the attribute '{@link cern.devtools.depanalysis.repomodel.RField#getSignature <em>Signature</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Signature</em>'.
+	 * @see cern.devtools.depanalysis.repomodel.RField#getSignature()
+	 * @see #getRField()
+	 * @generated
+	 */
+	EAttribute getRField_Signature();
 
 	/**
 	 * Returns the meta object for class '{@link cern.devtools.depanalysis.repomodel.RMethod <em>RMethod</em>}'.
@@ -1279,6 +1321,17 @@ public interface RepomodelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getRMethod_ReferencedMethods();
+
+	/**
+	 * Returns the meta object for the attribute '{@link cern.devtools.depanalysis.repomodel.RMethod#getSignature <em>Signature</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Signature</em>'.
+	 * @see cern.devtools.depanalysis.repomodel.RMethod#getSignature()
+	 * @see #getRMethod()
+	 * @generated
+	 */
+	EAttribute getRMethod_Signature();
 
 	/**
 	 * Returns the meta object for class '{@link cern.devtools.depanalysis.repomodel.RDependency <em>RDependency</em>}'.
@@ -1444,14 +1497,6 @@ public interface RepomodelPackage extends EPackage {
 		EAttribute RSTRUCTURAL__MODIFIERS = eINSTANCE.getRStructural_Modifiers();
 
 		/**
-		 * The meta object literal for the '<em><b>Signature</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute RSTRUCTURAL__SIGNATURE = eINSTANCE.getRStructural_Signature();
-
-		/**
 		 * The meta object literal for the '{@link cern.devtools.depanalysis.repomodel.impl.RRepositoryImpl <em>RRepository</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1502,6 +1547,22 @@ public interface RepomodelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RPROJECT__REPOSITORY = eINSTANCE.getRProject_Repository();
+
+		/**
+		 * The meta object literal for the '<em><b>Containing Folders</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RPROJECT__CONTAINING_FOLDERS = eINSTANCE.getRProject_ContainingFolders();
+
+		/**
+		 * The meta object literal for the '<em><b>Jar Path</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RPROJECT__JAR_PATH = eINSTANCE.getRProject_JarPath();
 
 		/**
 		 * The meta object literal for the '{@link cern.devtools.depanalysis.repomodel.impl.RPackageImpl <em>RPackage</em>}' class.
@@ -1580,6 +1641,14 @@ public interface RepomodelPackage extends EPackage {
 		EReference RCLASS__PACKAGE = eINSTANCE.getRClass_Package();
 
 		/**
+		 * The meta object literal for the '<em><b>Referenced Classes</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RCLASS__REFERENCED_CLASSES = eINSTANCE.getRClass_ReferencedClasses();
+
+		/**
 		 * The meta object literal for the '{@link cern.devtools.depanalysis.repomodel.impl.RFieldImpl <em>RField</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1604,6 +1673,14 @@ public interface RepomodelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RFIELD__CLASS = eINSTANCE.getRField_Class();
+
+		/**
+		 * The meta object literal for the '<em><b>Signature</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RFIELD__SIGNATURE = eINSTANCE.getRField_Signature();
 
 		/**
 		 * The meta object literal for the '{@link cern.devtools.depanalysis.repomodel.impl.RMethodImpl <em>RMethod</em>}' class.
@@ -1654,6 +1731,14 @@ public interface RepomodelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute RMETHOD__REFERENCED_METHODS = eINSTANCE.getRMethod_ReferencedMethods();
+
+		/**
+		 * The meta object literal for the '<em><b>Signature</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RMETHOD__SIGNATURE = eINSTANCE.getRMethod_Signature();
 
 		/**
 		 * The meta object literal for the '{@link cern.devtools.depanalysis.repomodel.impl.RDependencyImpl <em>RDependency</em>}' class.

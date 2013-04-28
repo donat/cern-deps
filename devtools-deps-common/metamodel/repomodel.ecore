@@ -17,7 +17,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="RStructural" abstract="true" eSuperTypes="#//RVersioned">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="modifiers" upperBound="-1"
         eType="#//RModifier"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="signature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="RModifier">
     <eLiterals name="PUBLIC"/>
@@ -44,6 +43,8 @@
         eType="#//RDependency" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="repository" lowerBound="1"
         eType="#//RRepository" eOpposite="#//RRepository/projects"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="containingFolders" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="jarPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RPackage" eSuperTypes="#//RVersioned">
     <eStructuralFeatures xsi:type="ecore:EReference" name="classes" upperBound="-1"
@@ -62,15 +63,16 @@
         eType="#//RMethod" containment="true" eOpposite="#//RMethod/class"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="package" lowerBound="1"
         eType="#//RPackage" eOpposite="#//RPackage/classes"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="referencedClasses" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" transient="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RField" eSuperTypes="#//RStructural">
-    <eOperations name="fqName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="class" lowerBound="1" eType="#//RClass"
         eOpposite="#//RClass/fields"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="signature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RMethod" eSuperTypes="#//RStructural">
-    <eOperations name="fqName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="returnType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameterTypes" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -84,6 +86,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="referencedMethods" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="signature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RDependency">
     <eStructuralFeatures xsi:type="ecore:EReference" name="from" lowerBound="1" eType="#//RComponent"

@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link cern.devtools.depanalysis.repomodel.impl.RClassImpl#getFields <em>Fields</em>}</li>
  *   <li>{@link cern.devtools.depanalysis.repomodel.impl.RClassImpl#getMethods <em>Methods</em>}</li>
  *   <li>{@link cern.devtools.depanalysis.repomodel.impl.RClassImpl#getPackage <em>Package</em>}</li>
+ *   <li>{@link cern.devtools.depanalysis.repomodel.impl.RClassImpl#getReferencedClasses <em>Referenced Classes</em>}</li>
  * </ul>
  * </p>
  *
@@ -93,6 +94,16 @@ public class RClassImpl extends RStructuralImpl implements RClass {
 	 * @ordered
 	 */
 	protected EList<RMethod> methods;
+
+	/**
+	 * The cached value of the '{@link #getReferencedClasses() <em>Referenced Classes</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getReferencedClasses()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<String> referencedClasses;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -226,6 +237,18 @@ public class RClassImpl extends RStructuralImpl implements RClass {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public List<String> getReferencedClasses() {
+		if (referencedClasses == null) {
+			referencedClasses = new EDataTypeUniqueEList<String>(String.class, this, RepomodelPackage.RCLASS__REFERENCED_CLASSES);
+		}
+		return referencedClasses;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String fqName() {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
@@ -304,6 +327,8 @@ public class RClassImpl extends RStructuralImpl implements RClass {
 			case RepomodelPackage.RCLASS__PACKAGE:
 				if (resolve) return getPackage();
 				return basicGetPackage();
+			case RepomodelPackage.RCLASS__REFERENCED_CLASSES:
+				return getReferencedClasses();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -335,6 +360,10 @@ public class RClassImpl extends RStructuralImpl implements RClass {
 			case RepomodelPackage.RCLASS__PACKAGE:
 				setPackage((RPackage)newValue);
 				return;
+			case RepomodelPackage.RCLASS__REFERENCED_CLASSES:
+				getReferencedClasses().clear();
+				getReferencedClasses().addAll((Collection<? extends String>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -362,6 +391,9 @@ public class RClassImpl extends RStructuralImpl implements RClass {
 			case RepomodelPackage.RCLASS__PACKAGE:
 				setPackage((RPackage)null);
 				return;
+			case RepomodelPackage.RCLASS__REFERENCED_CLASSES:
+				getReferencedClasses().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -384,6 +416,8 @@ public class RClassImpl extends RStructuralImpl implements RClass {
 				return methods != null && !methods.isEmpty();
 			case RepomodelPackage.RCLASS__PACKAGE:
 				return basicGetPackage() != null;
+			case RepomodelPackage.RCLASS__REFERENCED_CLASSES:
+				return referencedClasses != null && !referencedClasses.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -402,6 +436,8 @@ public class RClassImpl extends RStructuralImpl implements RClass {
 		result.append(extends_);
 		result.append(", implements: ");
 		result.append(implements_);
+		result.append(", referencedClasses: ");
+		result.append(referencedClasses);
 		result.append(')');
 		return result.toString();
 	}

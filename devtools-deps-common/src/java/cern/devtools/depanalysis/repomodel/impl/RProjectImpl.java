@@ -36,6 +36,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link cern.devtools.depanalysis.repomodel.impl.RProjectImpl#getPackages <em>Packages</em>}</li>
  *   <li>{@link cern.devtools.depanalysis.repomodel.impl.RProjectImpl#getDependencies <em>Dependencies</em>}</li>
  *   <li>{@link cern.devtools.depanalysis.repomodel.impl.RProjectImpl#getRepository <em>Repository</em>}</li>
+ *   <li>{@link cern.devtools.depanalysis.repomodel.impl.RProjectImpl#getContainingFolders <em>Containing Folders</em>}</li>
+ *   <li>{@link cern.devtools.depanalysis.repomodel.impl.RProjectImpl#getJarPath <em>Jar Path</em>}</li>
  * </ul>
  * </p>
  *
@@ -61,6 +63,46 @@ public class RProjectImpl extends RVersionedImpl implements RProject {
 	 * @ordered
 	 */
 	protected EList<RDependency> dependencies;
+
+	/**
+	 * The default value of the '{@link #getContainingFolders() <em>Containing Folders</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getContainingFolders()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String CONTAINING_FOLDERS_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getContainingFolders() <em>Containing Folders</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getContainingFolders()
+	 * @generated
+	 * @ordered
+	 */
+	protected String containingFolders = CONTAINING_FOLDERS_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getJarPath() <em>Jar Path</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getJarPath()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String JAR_PATH_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getJarPath() <em>Jar Path</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getJarPath()
+	 * @generated
+	 * @ordered
+	 */
+	protected String jarPath = JAR_PATH_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -161,6 +203,48 @@ public class RProjectImpl extends RVersionedImpl implements RProject {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getContainingFolders() {
+		return containingFolders;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setContainingFolders(String newContainingFolders) {
+		String oldContainingFolders = containingFolders;
+		containingFolders = newContainingFolders;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RepomodelPackage.RPROJECT__CONTAINING_FOLDERS, oldContainingFolders, containingFolders));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getJarPath() {
+		return jarPath;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setJarPath(String newJarPath) {
+		String oldJarPath = jarPath;
+		jarPath = newJarPath;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RepomodelPackage.RPROJECT__JAR_PATH, oldJarPath, jarPath));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -222,6 +306,10 @@ public class RProjectImpl extends RVersionedImpl implements RProject {
 			case RepomodelPackage.RPROJECT__REPOSITORY:
 				if (resolve) return getRepository();
 				return basicGetRepository();
+			case RepomodelPackage.RPROJECT__CONTAINING_FOLDERS:
+				return getContainingFolders();
+			case RepomodelPackage.RPROJECT__JAR_PATH:
+				return getJarPath();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -246,6 +334,12 @@ public class RProjectImpl extends RVersionedImpl implements RProject {
 			case RepomodelPackage.RPROJECT__REPOSITORY:
 				setRepository((RRepository)newValue);
 				return;
+			case RepomodelPackage.RPROJECT__CONTAINING_FOLDERS:
+				setContainingFolders((String)newValue);
+				return;
+			case RepomodelPackage.RPROJECT__JAR_PATH:
+				setJarPath((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -267,6 +361,12 @@ public class RProjectImpl extends RVersionedImpl implements RProject {
 			case RepomodelPackage.RPROJECT__REPOSITORY:
 				setRepository((RRepository)null);
 				return;
+			case RepomodelPackage.RPROJECT__CONTAINING_FOLDERS:
+				setContainingFolders(CONTAINING_FOLDERS_EDEFAULT);
+				return;
+			case RepomodelPackage.RPROJECT__JAR_PATH:
+				setJarPath(JAR_PATH_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -285,8 +385,30 @@ public class RProjectImpl extends RVersionedImpl implements RProject {
 				return dependencies != null && !dependencies.isEmpty();
 			case RepomodelPackage.RPROJECT__REPOSITORY:
 				return basicGetRepository() != null;
+			case RepomodelPackage.RPROJECT__CONTAINING_FOLDERS:
+				return CONTAINING_FOLDERS_EDEFAULT == null ? containingFolders != null : !CONTAINING_FOLDERS_EDEFAULT.equals(containingFolders);
+			case RepomodelPackage.RPROJECT__JAR_PATH:
+				return JAR_PATH_EDEFAULT == null ? jarPath != null : !JAR_PATH_EDEFAULT.equals(jarPath);
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (containingFolders: ");
+		result.append(containingFolders);
+		result.append(", jarPath: ");
+		result.append(jarPath);
+		result.append(')');
+		return result.toString();
 	}
 
 } //RProjectImpl

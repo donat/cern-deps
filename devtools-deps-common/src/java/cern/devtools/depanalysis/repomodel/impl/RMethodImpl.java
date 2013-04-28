@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link cern.devtools.depanalysis.repomodel.impl.RMethodImpl#getClass_ <em>Class</em>}</li>
  *   <li>{@link cern.devtools.depanalysis.repomodel.impl.RMethodImpl#getReferencedFields <em>Referenced Fields</em>}</li>
  *   <li>{@link cern.devtools.depanalysis.repomodel.impl.RMethodImpl#getReferencedMethods <em>Referenced Methods</em>}</li>
+ *   <li>{@link cern.devtools.depanalysis.repomodel.impl.RMethodImpl#getSignature <em>Signature</em>}</li>
  * </ul>
  * </p>
  *
@@ -89,6 +90,26 @@ public class RMethodImpl extends RStructuralImpl implements RMethod {
 	 * @ordered
 	 */
 	protected EList<String> referencedMethods;
+
+	/**
+	 * The default value of the '{@link #getSignature() <em>Signature</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSignature()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String SIGNATURE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getSignature() <em>Signature</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSignature()
+	 * @generated
+	 * @ordered
+	 */
+	protected String signature = SIGNATURE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -222,10 +243,20 @@ public class RMethodImpl extends RStructuralImpl implements RMethod {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String fqName() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+	public String getSignature() {
+		return signature;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSignature(String newSignature) {
+		String oldSignature = signature;
+		signature = newSignature;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RepomodelPackage.RMETHOD__SIGNATURE, oldSignature, signature));
 	}
 
 	/**
@@ -291,6 +322,8 @@ public class RMethodImpl extends RStructuralImpl implements RMethod {
 				return getReferencedFields();
 			case RepomodelPackage.RMETHOD__REFERENCED_METHODS:
 				return getReferencedMethods();
+			case RepomodelPackage.RMETHOD__SIGNATURE:
+				return getSignature();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -322,6 +355,9 @@ public class RMethodImpl extends RStructuralImpl implements RMethod {
 				getReferencedMethods().clear();
 				getReferencedMethods().addAll((Collection<? extends String>)newValue);
 				return;
+			case RepomodelPackage.RMETHOD__SIGNATURE:
+				setSignature((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -349,6 +385,9 @@ public class RMethodImpl extends RStructuralImpl implements RMethod {
 			case RepomodelPackage.RMETHOD__REFERENCED_METHODS:
 				getReferencedMethods().clear();
 				return;
+			case RepomodelPackage.RMETHOD__SIGNATURE:
+				setSignature(SIGNATURE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -371,6 +410,8 @@ public class RMethodImpl extends RStructuralImpl implements RMethod {
 				return referencedFields != null && !referencedFields.isEmpty();
 			case RepomodelPackage.RMETHOD__REFERENCED_METHODS:
 				return referencedMethods != null && !referencedMethods.isEmpty();
+			case RepomodelPackage.RMETHOD__SIGNATURE:
+				return SIGNATURE_EDEFAULT == null ? signature != null : !SIGNATURE_EDEFAULT.equals(signature);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -393,6 +434,8 @@ public class RMethodImpl extends RStructuralImpl implements RMethod {
 		result.append(referencedFields);
 		result.append(", referencedMethods: ");
 		result.append(referencedMethods);
+		result.append(", signature: ");
+		result.append(signature);
 		result.append(')');
 		return result.toString();
 	}

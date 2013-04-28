@@ -51,10 +51,6 @@
         <element xmi:type="ecore:EAttribute" href="repomodel.ecore#//RStructural/modifiers"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_6bRPIa7DEeK9aKvMCf024A"/>
       </children>
-      <children xmi:type="notation:Node" xmi:id="_GuUxkK-HEeKP9aY4MQaihQ" type="2001">
-        <element xmi:type="ecore:EAttribute" href="repomodel.ecore#//RStructural/signature"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_GuUxka-HEeKP9aY4MQaihQ"/>
-      </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_5PZR4a7DEeK9aKvMCf024A"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_5PZR4q7DEeK9aKvMCf024A"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_5PZR467DEeK9aKvMCf024A"/>
@@ -125,7 +121,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_7SoU8a7DEeK9aKvMCf024A" fontColor="4210752" fontName="Ubuntu" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EEnum" href="repomodel.ecore#//RModifier"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_7SoU8q7DEeK9aKvMCf024A" x="36" y="288" height="243"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_7SoU8q7DEeK9aKvMCf024A" x="24" y="384" height="243"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_GfcLoK7EEeK9aKvMCf024A" type="1001">
     <children xmi:type="notation:Node" xmi:id="_GfdZwK7EEeK9aKvMCf024A" type="4001"/>
@@ -141,11 +137,19 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_GfcLoa7EEeK9aKvMCf024A" fontColor="4210752" fontName="Ubuntu" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="repomodel.ecore#//RRepository"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_GfcLoq7EEeK9aKvMCf024A" x="48" y="192"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_GfcLoq7EEeK9aKvMCf024A" x="-84" y="192"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_OK5bcK7EEeK9aKvMCf024A" type="1001">
     <children xmi:type="notation:Node" xmi:id="_OK6pkK7EEeK9aKvMCf024A" type="4001"/>
     <children xmi:type="notation:Node" xmi:id="_OK7QoK7EEeK9aKvMCf024A" type="5001">
+      <children xmi:type="notation:Node" xmi:id="_WNZLMK_VEeKP9aY4MQaihQ" type="2001">
+        <element xmi:type="ecore:EAttribute" href="repomodel.ecore#//RProject/containingFolders"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_WNZLMa_VEeKP9aY4MQaihQ"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_XhTqIK_VEeKP9aY4MQaihQ" type="2001">
+        <element xmi:type="ecore:EAttribute" href="repomodel.ecore#//RProject/jarPath"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_XhTqIa_VEeKP9aY4MQaihQ"/>
+      </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_OK7Qoa7EEeK9aKvMCf024A"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_OK7Qoq7EEeK9aKvMCf024A"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_OK7Qo67EEeK9aKvMCf024A"/>
@@ -157,7 +161,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_OK5bca7EEeK9aKvMCf024A" fontColor="4210752" fontName="Ubuntu" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="repomodel.ecore#//RProject"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OK5bcq7EEeK9aKvMCf024A" x="228" y="192"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OK5bcq7EEeK9aKvMCf024A" x="84" y="192"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_UmDhAK7EEeK9aKvMCf024A" type="1001">
     <children xmi:type="notation:Node" xmi:id="_UmEvIK7EEeK9aKvMCf024A" type="4001"/>
@@ -186,6 +190,10 @@
         <element xmi:type="ecore:EAttribute" href="repomodel.ecore#//RClass/implements"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_k_emga7EEeK9aKvMCf024A"/>
       </children>
+      <children xmi:type="notation:Node" xmi:id="_bkRjwK_qEeKP9aY4MQaihQ" type="2001">
+        <element xmi:type="ecore:EAttribute" href="repomodel.ecore#//RClass/referencedClasses"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_bkRjwa_qEeKP9aY4MQaihQ"/>
+      </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_aLzoka7EEeK9aKvMCf024A"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_aLzokq7EEeK9aKvMCf024A"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_aLzok67EEeK9aKvMCf024A"/>
@@ -210,15 +218,15 @@
         <element xmi:type="ecore:EAttribute" href="repomodel.ecore#//RField/type"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_dx03ka7FEeK9aKvMCf024A"/>
       </children>
+      <children xmi:type="notation:Node" xmi:id="_rdeboK_rEeKP9aY4MQaihQ" type="2001">
+        <element xmi:type="ecore:EAttribute" href="repomodel.ecore#//RField/signature"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_rdeboa_rEeKP9aY4MQaihQ"/>
+      </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_OfNpIa7FEeK9aKvMCf024A"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_OfNpIq7FEeK9aKvMCf024A"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_OfNpI67FEeK9aKvMCf024A"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_OfNpJK7FEeK9aKvMCf024A" type="5002">
-      <children xmi:type="notation:Node" xmi:id="_tp-cAK7FEeK9aKvMCf024A" type="2002">
-        <element xmi:type="ecore:EOperation" href="repomodel.ecore#//RField/fqName"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_tp-cAa7FEeK9aKvMCf024A"/>
-      </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_OfNpJa7FEeK9aKvMCf024A"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_OfNpJq7FEeK9aKvMCf024A"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_OfNpJ67FEeK9aKvMCf024A"/>
@@ -246,15 +254,15 @@
         <element xmi:type="ecore:EAttribute" href="repomodel.ecore#//RMethod/referencedMethods"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_I8ac8a-LEeKP9aY4MQaihQ"/>
       </children>
+      <children xmi:type="notation:Node" xmi:id="_GuUxkK-HEeKP9aY4MQaihQ" type="2001">
+        <element xmi:type="ecore:EAttribute" href="repomodel.ecore#//RMethod/signature"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_GuUxka-HEeKP9aY4MQaihQ"/>
+      </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_k4bt4a7FEeK9aKvMCf024A"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_k4bt4q7FEeK9aKvMCf024A"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_k4bt467FEeK9aKvMCf024A"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_k4bt5K7FEeK9aKvMCf024A" type="5002">
-      <children xmi:type="notation:Node" xmi:id="_wlZEQK7FEeK9aKvMCf024A" type="2002">
-        <element xmi:type="ecore:EOperation" href="repomodel.ecore#//RMethod/fqName"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_wlZEQa7FEeK9aKvMCf024A"/>
-      </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_k4bt5a7FEeK9aKvMCf024A"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_k4bt5q7FEeK9aKvMCf024A"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_k4bt567FEeK9aKvMCf024A"/>
@@ -332,7 +340,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_fWjkQa7GEeK9aKvMCf024A" fontColor="4210752" fontName="Ubuntu" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EEnum" href="repomodel.ecore#//RDependencyType"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_fWjkQq7GEeK9aKvMCf024A" x="204" y="312" height="207"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_fWjkQq7GEeK9aKvMCf024A" x="180" y="384" height="207"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_rZ-E0vNjEeGMiKTmdt6KOA"/>
   <element xmi:type="ecore:EPackage" href="repomodel.ecore#/"/>
@@ -373,9 +381,9 @@
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_QKvzUa7EEeK9aKvMCf024A" routing="Rectilinear" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_QKvzUq7EEeK9aKvMCf024A" fontColor="4210752" fontName="Ubuntu" fontHeight="10"/>
     <element xmi:type="ecore:EReference" href="repomodel.ecore#//RRepository/projects"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_QKvzU67EEeK9aKvMCf024A" points="[50, 16, -130, 16]$[130, 16, -50, 16]"/>
-    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_O0vs4K7IEeK9aKvMCf024A" id="(0.5,0.5)"/>
-    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_O0wT8K7IEeK9aKvMCf024A" id="(0.5,0.5)"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_QKvzU67EEeK9aKvMCf024A" points="[50, 16, -163, 5]$[118, 16, -95, 5]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_eYXokK_VEeKP9aY4MQaihQ" id="(0.5,0.5)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_eYXoka_VEeKP9aY4MQaihQ" id="(0.5,0.5)"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_V1XMwK7EEeK9aKvMCf024A" type="3002" source="_OK5bcK7EEeK9aKvMCf024A" target="_UmDhAK7EEeK9aKvMCf024A">
     <children xmi:type="notation:Node" xmi:id="_V1Xz0K7EEeK9aKvMCf024A" type="4011">
@@ -387,9 +395,9 @@
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_V1XMwa7EEeK9aKvMCf024A" routing="Rectilinear" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_V1XMwq7EEeK9aKvMCf024A" fontColor="4210752" fontName="Ubuntu" fontHeight="10"/>
     <element xmi:type="ecore:EReference" href="repomodel.ecore#//RProject/packages"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_V1XMw67EEeK9aKvMCf024A" points="[55, 29, -92, 25]$[135, 29, -12, 25]"/>
-    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_YrZB4K7IEeK9aKvMCf024A" id="(0.45098039215686275,0.19047619047619047)"/>
-    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_YrZo8K7IEeK9aKvMCf024A" id="(0.12745098039215685,0.2857142857142857)"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_V1XMw67EEeK9aKvMCf024A" points="[105, 12, -146, 13]$[239, 12, -12, 13]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_eyrmAK_VEeKP9aY4MQaihQ" id="(0.45098039215686275,0.19047619047619047)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_eyrmAa_VEeKP9aY4MQaihQ" id="(0.12745098039215685,0.2857142857142857)"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_cnfA0K7EEeK9aKvMCf024A" type="3003" source="_UmDhAK7EEeK9aKvMCf024A" target="_cxZnQK7DEeK9aKvMCf024A">
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_cnfA0a7EEeK9aKvMCf024A" routing="Rectilinear" lineColor="4210752"/>
@@ -539,7 +547,7 @@
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_KSWfwa7IEeK9aKvMCf024A" routing="Rectilinear" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_KSWfwq7IEeK9aKvMCf024A" fontColor="4210752" fontName="Ubuntu" fontHeight="10"/>
     <element xmi:type="ecore:EReference" href="repomodel.ecore#//RProject/repository"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_KSXG0K7IEeK9aKvMCf024A" points="[-50, 16, 130, 16]$[-130, 16, 50, 16]"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_KSXG0K7IEeK9aKvMCf024A" points="[-95, 5, 118, 16]$[-163, 5, 50, 16]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_McVrEq7IEeK9aKvMCf024A" id="(0.5,0.5)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_McVrE67IEeK9aKvMCf024A" id="(0.5,0.5)"/>
   </edges>
@@ -548,14 +556,14 @@
       <layoutConstraint xmi:type="notation:Location" xmi:id="_Q33bMa7IEeK9aKvMCf024A" x="6" y="-20"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_Q34CQK7IEeK9aKvMCf024A" type="4012">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_Q34CQa7IEeK9aKvMCf024A" x="6" y="-8"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Q34CQa7IEeK9aKvMCf024A" x="8" y="-24"/>
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_Q320Ia7IEeK9aKvMCf024A" routing="Rectilinear" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_Q320Iq7IEeK9aKvMCf024A" fontColor="4210752" fontName="Ubuntu" fontHeight="10"/>
     <element xmi:type="ecore:EReference" href="repomodel.ecore#//RPackage/project"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Q320I67IEeK9aKvMCf024A" points="[-12, 25, 135, 29]$[-92, 25, 55, 29]"/>
-    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_Q386wK7IEeK9aKvMCf024A" id="(0.12745098039215685,0.2857142857142857)"/>
-    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_Q386wa7IEeK9aKvMCf024A" id="(0.45098039215686275,0.19047619047619047)"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Q320I67IEeK9aKvMCf024A" points="[-12, 13, 239, 12]$[-146, 13, 105, 12]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_lpbQ0K_UEeKP9aY4MQaihQ" id="(0.12745098039215685,0.2857142857142857)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_lpbQ0a_UEeKP9aY4MQaihQ" id="(0.45098039215686275,0.19047619047619047)"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_ayLIMK7IEeK9aKvMCf024A" type="3002" source="_aLxMUK7EEeK9aKvMCf024A" target="_UmDhAK7EEeK9aKvMCf024A">
     <children xmi:type="notation:Node" xmi:id="_ayMWUK7IEeK9aKvMCf024A" type="4011">

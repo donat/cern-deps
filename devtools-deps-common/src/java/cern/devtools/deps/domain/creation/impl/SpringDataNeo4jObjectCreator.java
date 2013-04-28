@@ -17,6 +17,7 @@ import java.util.List;
 import cern.devtools.depanalysis.repomodel.RField;
 import cern.devtools.depanalysis.repomodel.RMethod;
 import cern.devtools.depanalysis.repomodel.RModifier;
+import cern.devtools.depanalysis.repomodel.RProject;
 import cern.devtools.deps.domain.creation.DomainObjectCreator;
 
 /**
@@ -102,6 +103,12 @@ public class SpringDataNeo4jObjectCreator implements DomainObjectCreator {
 	@Override
 	public RMethod createMethod(String name, String signature, String returnType, List<String> argumentTypes,
 			List<RModifier> modifiers) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RProject createProject(String name, String version, String containingFolders, String jarPath) {
 		// TODO Auto-generated method stub
 		return null;
 	}

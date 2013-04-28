@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <ul>
  *   <li>{@link cern.devtools.depanalysis.repomodel.impl.RFieldImpl#getType <em>Type</em>}</li>
  *   <li>{@link cern.devtools.depanalysis.repomodel.impl.RFieldImpl#getClass_ <em>Class</em>}</li>
+ *   <li>{@link cern.devtools.depanalysis.repomodel.impl.RFieldImpl#getSignature <em>Signature</em>}</li>
  * </ul>
  * </p>
  *
@@ -50,6 +51,26 @@ public class RFieldImpl extends RStructuralImpl implements RField {
 	 * @ordered
 	 */
 	protected String type = TYPE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getSignature() <em>Signature</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSignature()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String SIGNATURE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getSignature() <em>Signature</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSignature()
+	 * @generated
+	 * @ordered
+	 */
+	protected String signature = SIGNATURE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -147,10 +168,20 @@ public class RFieldImpl extends RStructuralImpl implements RField {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String fqName() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+	public String getSignature() {
+		return signature;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSignature(String newSignature) {
+		String oldSignature = signature;
+		signature = newSignature;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RepomodelPackage.RFIELD__SIGNATURE, oldSignature, signature));
 	}
 
 	/**
@@ -210,6 +241,8 @@ public class RFieldImpl extends RStructuralImpl implements RField {
 			case RepomodelPackage.RFIELD__CLASS:
 				if (resolve) return getClass_();
 				return basicGetClass();
+			case RepomodelPackage.RFIELD__SIGNATURE:
+				return getSignature();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -227,6 +260,9 @@ public class RFieldImpl extends RStructuralImpl implements RField {
 				return;
 			case RepomodelPackage.RFIELD__CLASS:
 				setClass((RClass)newValue);
+				return;
+			case RepomodelPackage.RFIELD__SIGNATURE:
+				setSignature((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -246,6 +282,9 @@ public class RFieldImpl extends RStructuralImpl implements RField {
 			case RepomodelPackage.RFIELD__CLASS:
 				setClass((RClass)null);
 				return;
+			case RepomodelPackage.RFIELD__SIGNATURE:
+				setSignature(SIGNATURE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -262,6 +301,8 @@ public class RFieldImpl extends RStructuralImpl implements RField {
 				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
 			case RepomodelPackage.RFIELD__CLASS:
 				return basicGetClass() != null;
+			case RepomodelPackage.RFIELD__SIGNATURE:
+				return SIGNATURE_EDEFAULT == null ? signature != null : !SIGNATURE_EDEFAULT.equals(signature);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -278,6 +319,8 @@ public class RFieldImpl extends RStructuralImpl implements RField {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (type: ");
 		result.append(type);
+		result.append(", signature: ");
+		result.append(signature);
 		result.append(')');
 		return result.toString();
 	}

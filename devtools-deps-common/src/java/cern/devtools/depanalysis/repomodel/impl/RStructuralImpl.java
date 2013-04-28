@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
  * The following features are implemented:
  * <ul>
  *   <li>{@link cern.devtools.depanalysis.repomodel.impl.RStructuralImpl#getModifiers <em>Modifiers</em>}</li>
- *   <li>{@link cern.devtools.depanalysis.repomodel.impl.RStructuralImpl#getSignature <em>Signature</em>}</li>
  * </ul>
  * </p>
  *
@@ -41,25 +40,6 @@ public abstract class RStructuralImpl extends RVersionedImpl implements RStructu
 	 * @ordered
 	 */
 	protected EList<RModifier> modifiers;
-
-	/**
-	 * The default value of the '{@link #getSignature() <em>Signature</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSignature()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String SIGNATURE_EDEFAULT = null;
-	/**
-	 * The cached value of the '{@link #getSignature() <em>Signature</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSignature()
-	 * @generated
-	 * @ordered
-	 */
-	protected String signature = SIGNATURE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -97,34 +77,11 @@ public abstract class RStructuralImpl extends RVersionedImpl implements RStructu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getSignature() {
-		return signature;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSignature(String newSignature) {
-		String oldSignature = signature;
-		signature = newSignature;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RepomodelPackage.RSTRUCTURAL__SIGNATURE, oldSignature, signature));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case RepomodelPackage.RSTRUCTURAL__MODIFIERS:
 				return getModifiers();
-			case RepomodelPackage.RSTRUCTURAL__SIGNATURE:
-				return getSignature();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -142,9 +99,6 @@ public abstract class RStructuralImpl extends RVersionedImpl implements RStructu
 				getModifiers().clear();
 				getModifiers().addAll((Collection<? extends RModifier>)newValue);
 				return;
-			case RepomodelPackage.RSTRUCTURAL__SIGNATURE:
-				setSignature((String)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -160,9 +114,6 @@ public abstract class RStructuralImpl extends RVersionedImpl implements RStructu
 			case RepomodelPackage.RSTRUCTURAL__MODIFIERS:
 				getModifiers().clear();
 				return;
-			case RepomodelPackage.RSTRUCTURAL__SIGNATURE:
-				setSignature(SIGNATURE_EDEFAULT);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -177,8 +128,6 @@ public abstract class RStructuralImpl extends RVersionedImpl implements RStructu
 		switch (featureID) {
 			case RepomodelPackage.RSTRUCTURAL__MODIFIERS:
 				return modifiers != null && !modifiers.isEmpty();
-			case RepomodelPackage.RSTRUCTURAL__SIGNATURE:
-				return SIGNATURE_EDEFAULT == null ? signature != null : !SIGNATURE_EDEFAULT.equals(signature);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -195,8 +144,6 @@ public abstract class RStructuralImpl extends RVersionedImpl implements RStructu
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (modifiers: ");
 		result.append(modifiers);
-		result.append(", signature: ");
-		result.append(signature);
 		result.append(')');
 		return result.toString();
 	}
