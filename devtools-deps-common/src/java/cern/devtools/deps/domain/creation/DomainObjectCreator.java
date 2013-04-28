@@ -27,6 +27,10 @@ import cern.devtools.depanalysis.repomodel.RProject;
  */
 public interface DomainObjectCreator {
 
+	RProject createProject(String name);
+	
+	RProject createProject(String name, String version, String containingFolders, String jarPath);
+	
 	RField createField(String name, String signature, String type, List<RModifier> modifiers);
 
 	RMethod createMethod(String name, String signature, String returnType, List<String> argumentTypes,
@@ -150,5 +154,4 @@ public interface DomainObjectCreator {
 	// public Dependency createDependency(DependencyType type, CodeElement from, CodeElement to,
 	// Collection<Dependency> transitiveFrom);
 
-	RProject createProject(String name, String version, String containingFolders, String jarPath);
 }

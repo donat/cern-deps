@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -18,13 +17,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import cern.devtools.deps.bean.CmmnbuildService;
-import cern.devtools.deps.bean.DatabaseDao;
-import cern.devtools.deps.bean.DependencyService;
-import cern.devtools.deps.domain.CodeElement;
-import cern.devtools.deps.domain.Dependency;
-import cern.devtools.deps.domain.DependencyType;
-import cern.devtools.deps.domain.Product;
+import cern.devtools.depanalysis.repomodel.RComponent;
+import cern.devtools.depanalysis.repomodel.RDependency;
+import cern.devtools.depanalysis.repomodel.RProject;
 import cern.devtools.deps.domain.creation.DomainObjectCreator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -49,16 +44,17 @@ public class CmmnbuildServiceTest {
 		ReflectionTestUtils.setField(cmmnbuildService, "service", service);
 		
 		// Specify the results returned by the mocks.
-		when(service.getIncomingDependencies(any(CodeElement.class))).thenReturn(getSampleIncomingDependencies());
-		when(service.getCommittersName(any(Product.class))).thenReturn(Arrays.asList("vbaggiol"));
-		when(db.findProduct(any(Product.class), anyBoolean())).thenReturn(creator.createProduct("", "", "japc/japc", ""));
+		when(service.getIncomingDependencies(any(RComponent.class))).thenReturn(getSampleIncomingDependencies());
+		when(service.getCommittersName(any(RProject.class))).thenReturn(Arrays.asList("vbaggiol"));
+		when(db.findProject(any(RProject.class), anyBoolean())).thenReturn(null);
 	}
 
-	private Collection<Dependency> getSampleIncomingDependencies() {
-		Collection<Dependency> result = new LinkedList<Dependency>();
-		result.add(creator.createDependency(DependencyType.PRODUCT_DEPENDENCY, creator.createProduct("clientA"), null));
-		result.add(creator.createDependency(DependencyType.PRODUCT_DEPENDENCY, creator.createProduct("clientB"), null));
-		return result;
+	private Collection<RDependency> getSampleIncomingDependencies() {
+		return null;
+//		Collection<RDependency> result = new LinkedList<RDependency>();
+//		result.add(creator.createDependency(DependencyType.PRODUCT_DEPENDENCY, creator.createProject("clientA"), null));
+//		result.add(creator.createDependency(DependencyType.PRODUCT_DEPENDENCY, creator.createProject("clientB"), null));
+//		return result;
 	}
 
 	

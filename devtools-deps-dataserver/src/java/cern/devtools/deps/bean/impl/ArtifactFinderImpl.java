@@ -27,7 +27,8 @@ import java.util.Properties;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -193,7 +194,7 @@ public final class ArtifactFinderImpl implements ArtifactFinder {
 	/**
 	 * Logger.
 	 */
-	private static final Logger LOG = Logger.getLogger(ArtifactFinderImpl.class);
+	private static final Log  LOG = LogFactory.getLog(ArtifactFinderImpl.class);
 
 	/**
 	 * If set to <code>true</code>, the implementation will sweep through the repository with file operations and checks
