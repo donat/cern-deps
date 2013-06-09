@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="repository-renderer.xsl"?>
+<!--
+  © Copyright 2013 CERN. This software is distributed under the terms of the GNU General Public Licence version 3 (GPL
+  Version 3), copied verbatim in the file "COPYING". In applying this licence, CERN does not waive the privileges and
+  immunities granted to it by virtue of its status as an Intergovernmental Organization or submit itself to any
+  jurisdiction.
+  
+  If you modify this Program, or any covered work, by linking or combining it with the Eclipse Integrated Development
+  Environment Plugin libraries (or a modified version of these libraries), containing parts covered by the terms of EPL
+  (Eclipse Public licence), the licensors of this Program grant you additional permission to convey the resulting work.
+  Corresponding Source for a non-source form of such a combination shall include the source code for the parts of
+  Eclipse Integrated Development Environment Plugin libraries used as well as that of the covered work.
+-->
+<repository>
+	<product directory="example/tea" name="tea" version="1.0.0">
+
+		<jar>1.0.0/build/dist/tea.jar</jar>
+
+		<desc>Tea maker implementation</desc>
+
+		<dependencies>
+			<dep local="true" product="filter" version="PRO" />
+		</dependencies>
+
+		<info>
+			<keywords>
+				<keyword name="descrption" type="providing">
+					<desc>blablabla</desc>
+				</keyword>
+			</keywords>
+		</info>
+
+		<releaseDate>Friday, June 15, 2012 14:39:30</releaseDate>
+	</product>
+
+	<product directory="example/filter" link="PRO" name="filter" version="0.0.8">
+		<jar>0.0.8/build/dist/filter.jar</jar>
+		<desc>Filter provider for the tea.</desc>
+		<href />
+		<releaseDate>Friday, June 15, 2012 14:37:42</releaseDate>
+	</product>
+
+	<product directory="example/filter"  name="filter" version="0.0.7">
+		<jar>0.0.7/build/dist/filter.jar</jar>
+		<desc>JAR FILE DOES NOT EXIST.</desc>
+		<href />
+		<releaseDate>Friday, June 10, 2012 12:00:00</releaseDate>
+	</product>
+	
+	<product directory="example/filter"  name="filter" version="0.0.6">
+		<jar>0.0.6/build/dist/filter.jar</jar>
+		<desc>OLD VERSION</desc>
+		<href />
+		<releaseDate>Thursday, June 10, 1999 12:00:00</releaseDate>
+	</product>
+
+</repository>
