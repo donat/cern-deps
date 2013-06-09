@@ -72,32 +72,6 @@ public class JavaDepsHandler extends AbstractHandler {
 
     private static final String ON_DEMAND_IMPORTS = "on_demand_imports_exist";
 
-    CodeElement objectToAnalyse;
-
-    Collection<Dependency> dependencies;
-
-    /**
-     * Helper method, joins the strings putting the specified character between the elements
-     * <p>
-     * 
-     * @param arguments the string elements to concatenate, e.g {@code "aa",
-     *            "bb", "cc"}
-     * @param joinChar the character to us as separation, e.g. {@code ';'}
-     * @return the joined string e.g. {@code "aa;bb;cc" }
-     */
-    // non-static for testing
-    static String join(String[] arguments, char joinChar) {
-        if (arguments.length == 0) {
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < arguments.length - 1; i++) {
-            sb.append(arguments[i]).append(joinChar);
-        }
-        sb.append(arguments[arguments.length - 1]);
-        return sb.toString();
-    }
-
     /**
      * Helper method, returns the source type for the specified binary signature character (e.g. B, I, J)
      * 
@@ -128,6 +102,63 @@ public class JavaDepsHandler extends AbstractHandler {
         throw new IllegalArgumentException("unknown primitive signature type '" + sig + "'");
     }
 
+    private static String decodeJdtSource(String jdtType, IType container) throws JavaModelException {
+        String result = Signature.toString(jdtType);
+        boolean isArray = false;
+        int origLength = result.length();
+        if (result.contains("[]")) {
+            result = result.replace("[]", "");
+            isArray = true;
+        }
+        int newLength = result.length();
+        String[][] retTypeArray = container.resolveType(result);
+
+        if (retTypeArray == null) {
+            // TODO: this is an assumption, is the only one that can cause resolveType() to return null.
+            return Signature.toString(jdtType);
+        }
+        result = "";
+        for (String pkg : retTypeArray[0]) {
+            result += pkg + ".";
+        }
+        result = result.substring(0, result.length() - 1);
+
+        if (isArray) {
+            while (newLength < origLength) {
+                result += "[]";
+                newLength += 2;
+            }
+
+        }
+        return result;
+    }
+
+    /**
+     * Helper method, joins the strings putting the specified character between the elements
+     * <p>
+     * 
+     * @param arguments the string elements to concatenate, e.g {@code "aa",
+     *            "bb", "cc"}
+     * @param joinChar the character to us as separation, e.g. {@code ';'}
+     * @return the joined string e.g. {@code "aa;bb;cc" }
+     */
+    // non-static for testing
+    static String join(String[] arguments, char joinChar) {
+        if (arguments.length == 0) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arguments.length - 1; i++) {
+            sb.append(arguments[i]).append(joinChar);
+        }
+        sb.append(arguments[arguments.length - 1]);
+        return sb.toString();
+    }
+
+    Collection<Dependency> dependencies;
+
+    CodeElement objectToAnalyse;
+
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
 
@@ -157,6 +188,15 @@ public class JavaDepsHandler extends AbstractHandler {
         return null;
     }
 
+    public void executeJar(ISelection sel) {
+        if (sel instanceof TreeSelection) {
+            objectToAnalyse = getSelectedProject((TreeSelection) sel);
+            if (objectToAnalyse != null) {
+                startQueryAndDisplayResult();
+            }
+        }
+    }
+
     private ICompilationUnit findCompilationUnit(ExecutionEvent event) throws ExecutionException {
         ICompilationUnit comp = getCompilationUnit(event);
         if (comp == null) {
@@ -175,14 +215,99 @@ public class JavaDepsHandler extends AbstractHandler {
 
     }
 
-    private CodeElement getSelectedProject(TreeSelection sel) {
-        Object selectedItem = sel.getFirstElement();
-        if (selectedItem == null || !(selectedItem instanceof IJavaProject)) {
+    /**
+     * Fully qualify an item which was selected in the editor.
+     */
+    private CodeElement fullyQualify(ICompilationUnit comp, ITextSelection sel) throws JavaModelException {
+        IJavaElement el = comp.getElementAt(sel.getOffset());
+        int elType = el.getElementType();
+        CodeElement result = null;
+        switch (elType) {
+        case IJavaElement.METHOD:
+            IMethod method = (IMethod) el;
+            method.getFlags();
+            EnumSet<Modifiers> mods = EnumSet.noneOf(Modifiers.class);
+            if (Flags.isStatic(method.getFlags())) {
+                mods.add(Modifiers.STATIC);
+            }
+            result = DomainFactory.creator().createMethod(fullyQualify(method), mods);
+
+            // create container object hierarchy
+            IType type = method.getDeclaringType();
+            IJavaProject javaProject = method.getJavaProject();
+            ApiClass ac = DomainFactory.creator().createApiClass(fullyQualify(type), EnumSet.noneOf(Modifiers.class));
+            Product p = DomainFactory.creator().createProduct(javaProject.getElementName());
+            p.getClasses().add(ac);
+            ac.setProduct(p);
+            ((Method) result).setApiClass(ac);
+            ac.getMethods().add((Method) result);
+
+            break;
+        case IJavaElement.FIELD:
+            result = DomainFactory.creator().createField(fullyQualify((IField) el), EnumSet.noneOf(Modifiers.class));
+            type = ((IField) el).getDeclaringType();
+            javaProject = ((IField) el).getJavaProject();
+            ac = DomainFactory.creator().createApiClass(fullyQualify(type), EnumSet.noneOf(Modifiers.class));
+            p = DomainFactory.creator().createProduct(javaProject.getElementName());
+            p.getClasses().add(ac);
+            ac.setProduct(p);
+            ((Field) result).setApiClass(ac);
+            ac.getFields().add((Field) result);
+            break;
+        case IJavaElement.TYPE:
+            result = DomainFactory.creator().createApiClass(fullyQualify((IType) el), EnumSet.noneOf(Modifiers.class));
+            javaProject = ((IType) el).getJavaProject();
+            p = DomainFactory.creator().createProduct(javaProject.getElementName());
+            ((ApiClass) result).setProduct(p);
+            p.getClasses().add((ApiClass) result);
+            break;
+        default:
+            System.err.println("unknown element: " + el);
             return null;
         }
-        IJavaProject project = (IJavaProject) selectedItem;
-        String name = project.getProject().getName();
-        return DomainFactory.creator().createProduct(name);
+        return result;
+    }
+
+    /**
+     * Return a fully qualify name for a Field
+     * 
+     * @param el the field
+     * @return the FQN
+     */
+    private String fullyQualify(IField el) {
+        return fullyQualify((IType) el.getParent()) + "." + el.getElementName();
+    }
+
+    /**
+     * Get fully qualified signature for the selected method.
+     */
+    private String fullyQualify(IMethod method) throws JavaModelException {
+
+        // appends the fully qualified class name
+        IType type = (IType) method.getParent();
+        String result = fullyQualify(type) + "#";
+        result += method.getElementName();
+
+        // process parameter list
+        result += "(";
+        String[] params = method.getParameterTypes();
+        for (int i = 0; i < params.length; ++i) {
+            result += decodeJdtSource(params[i], type);
+
+            if (i != (params.length - 1)) {
+                result += ',';
+            }
+        }
+
+        // end parameter list and add return type
+        result += "):";
+        result += decodeJdtSource(method.getReturnType(), type);
+
+        return result;
+    }
+
+    private String fullyQualify(IType el) {
+        return el.getFullyQualifiedName().replace('$', '.');
     }
 
     /**
@@ -266,134 +391,6 @@ public class JavaDepsHandler extends AbstractHandler {
     }
 
     /**
-     * Fully qualify an item which was selected in the editor.
-     */
-    private CodeElement fullyQualify(ICompilationUnit comp, ITextSelection sel) throws JavaModelException {
-        String packageName = comp.getPackageDeclarations()[0].getElementName();
-        IJavaElement el = comp.getElementAt(sel.getOffset());
-        int elType = el.getElementType();
-        CodeElement result = null;
-        switch (elType) {
-        case IJavaElement.METHOD:
-            IMethod method = (IMethod) el;
-            method.getFlags();
-            EnumSet<Modifiers> mods = EnumSet.noneOf(Modifiers.class);
-            if (Flags.isStatic(method.getFlags())) {
-                mods.add(Modifiers.STATIC);
-            }
-            result = DomainFactory.creator().createMethod(fullyQualify(method, packageName), mods);
-
-            // create container object hierarchy
-            IType type = method.getDeclaringType();
-            IJavaProject javaProject = method.getJavaProject();
-            ApiClass ac = DomainFactory.creator().createApiClass(fullyQualify(type), EnumSet.noneOf(Modifiers.class));
-            Product p = DomainFactory.creator().createProduct(javaProject.getElementName());
-            p.getClasses().add(ac);
-            ac.setProduct(p);
-            ((Method) result).setApiClass(ac);
-            ac.getMethods().add((Method) result);
-
-            break;
-        case IJavaElement.FIELD:
-            result = DomainFactory.creator().createField(fullyQualify((IField) el), EnumSet.noneOf(Modifiers.class));
-            type = ((IField) el).getDeclaringType();
-            javaProject = ((IField) el).getJavaProject();
-            ac = DomainFactory.creator().createApiClass(fullyQualify(type), EnumSet.noneOf(Modifiers.class));
-            p = DomainFactory.creator().createProduct(javaProject.getElementName());
-            p.getClasses().add(ac);
-            ac.setProduct(p);
-            ((Field) result).setApiClass(ac);
-            ac.getFields().add((Field) result);
-            break;
-        case IJavaElement.TYPE:
-            result = DomainFactory.creator().createApiClass(fullyQualify((IType) el), EnumSet.noneOf(Modifiers.class));
-            javaProject = ((IType) el).getJavaProject();
-            p = DomainFactory.creator().createProduct(javaProject.getElementName());
-            ((ApiClass) result).setProduct(p);
-            p.getClasses().add((ApiClass) result);
-            break;
-        default:
-            System.err.println("unknown element: " + el);
-            return null;
-        }
-        return result;
-    }
-
-    /**
-     * Get fully qualified signature for the selected method.
-     */
-    private String fullyQualify(IMethod method, String packageName) throws JavaModelException {
-
-        // appends the fully qualified class name
-        IType type = (IType) method.getParent();
-        String result = fullyQualify(type) + "#";
-        result += method.getElementName();
-
-        // process parameter list
-        result += "(";
-        String[] params = method.getParameterTypes();
-        for (int i = 0; i < params.length; ++i) {
-            result += decodeJdtSource(params[i], type);
-
-            if (i != (params.length - 1)) {
-                result += ',';
-            }
-        }
-
-        // end parameter list and add return type
-        result += "):";
-        result += decodeJdtSource(method.getReturnType(), type);
-
-        System.out.println(result);
-        return result;
-    }
-
-    private static String decodeJdtSource(String jdtType, IType container) throws JavaModelException {
-        String result = Signature.toString(jdtType);
-        boolean isArray = false;
-        int origLength = result.length();
-        if (result.contains("[]")) {
-            result = result.replace("[]", "");
-            isArray = true;
-        }
-        int newLength = result.length();
-        String[][] retTypeArray = container.resolveType(result);
-
-        if (retTypeArray == null) {
-            // TODO: this is an assumption, is the only one that can cause resolveType() to return null.
-            return Signature.toString(jdtType);
-        }
-        result = "";
-        for (String pkg : retTypeArray[0]) {
-            result += pkg + ".";
-        }
-        result = result.substring(0, result.length() - 1);
-
-        if (isArray) {
-            while (newLength < origLength) {
-                result += "[]";
-                newLength += 2;
-            }
-
-        }
-        return result;
-    }
-
-    /**
-     * Return a fully qualify name for a Field
-     * 
-     * @param el the field
-     * @return the FQN
-     */
-    private String fullyQualify(IField el) {
-        return fullyQualify((IType) el.getParent()) + "." + el.getElementName();
-    }
-
-    private String fullyQualify(IType el) {
-        return el.getFullyQualifiedName().replace('$', '.');
-    }
-
-    /**
      * get the compilation unit open in the active Java editor
      * 
      * @param event the Execution Event coming from {@link #execute(ExecutionEvent)}
@@ -413,6 +410,16 @@ public class JavaDepsHandler extends AbstractHandler {
             return (ICompilationUnit) javaEl;
         }
         return null;
+    }
+
+    private CodeElement getSelectedProject(TreeSelection sel) {
+        Object selectedItem = sel.getFirstElement();
+        if (selectedItem == null || !(selectedItem instanceof IJavaProject)) {
+            return null;
+        }
+        IJavaProject project = (IJavaProject) selectedItem;
+        String name = project.getProject().getName();
+        return DomainFactory.creator().createProduct(name);
     }
 
     /**

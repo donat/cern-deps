@@ -20,7 +20,15 @@
 		<module>devtools-deps-eclipse-feature</module>
 		<module>devtools-deps-eclipse-updatesite</module>
 	</modules>
-	
+
+	<repositories>
+		<repository>
+			<id>SDC</id>
+			<layout>p2</layout>
+			<url>http://sdcserver:10080/site/eclipse-discovery/3.7.2</url>
+		</repository>
+	</repositories>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -38,6 +46,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
 
 		<pluginManagement>
 			<plugins>

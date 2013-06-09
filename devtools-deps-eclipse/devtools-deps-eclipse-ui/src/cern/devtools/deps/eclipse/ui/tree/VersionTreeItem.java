@@ -24,28 +24,28 @@ import cern.devtools.deps.eclipse.ui.LoggingUtil;
  */
 public class VersionTreeItem extends GenericTreeItem<String> {
 
-	String releaser = null;
+    String releaser = null;
 
-	public VersionTreeItem(TreeItem parent, String value) {
-		super(TreeItemType.VERSION, parent, value);
-	}
+    public VersionTreeItem(TreeItem parent, String value) {
+        super(TreeItemType.VERSION, parent, value);
+    }
 
-	/**
-	 * Lazily loads and returns the releaser of the specific version of a product instance.
-	 * 
-	 * @return the name of the releaser. E.g.: "dcsikos".
-	 */
-	public String getReleaser() {
-		if (releaser == null) {
-			try {
-				Product product = ((ProductTreeItem) this.getParent()).getValue();
-				releaser = Activator.getDefault().getDependencyRMIService().findReleaser(product, value);
-			} catch (Exception e) {
-				LoggingUtil.logWarn(e.getMessage());
-				releaser = null;
-				return "";
-			}
-		}
-		return releaser;
-	}
+    /**
+     * Lazily loads and returns the releaser of the specific version of a product instance.
+     * 
+     * @return the name of the releaser. E.g.: "dcsikos".
+     */
+    public String getReleaser() {
+        if (releaser == null) {
+            try {
+                Product product = ((ProductTreeItem) this.getParent()).getValue();
+                releaser = Activator.getDefault().getDependencyRMIService().findReleaser(product, value);
+            } catch (Exception e) {
+                LoggingUtil.logWarn(e.getMessage());
+                releaser = null;
+                return "";
+            }
+        }
+        return releaser;
+    }
 }

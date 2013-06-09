@@ -28,30 +28,51 @@ import cern.devtools.deps.eclipse.prefs.PreferenceStore;
  */
 public class Activator extends AbstractUIPlugin {
     /**
+     * The shared instance
+     */
+    private static Activator plugin;
+
+    /**
      * Plugin id.
      */
     public static final String PLUGIN_ID = "cern.devtools.deps.eclipse.ui";
 
     /**
-     * The shared instance
+     * Returns the shared instance
+     * 
+     * @return the shared instance
      */
-    private static Activator plugin;
+    public static Activator getDefault() {
+        return plugin;
+    }
 
     public Activator() {
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Access point to the dependencyService for any plug-in class.
+     * <p>
+     * Classes in the plugin can access to the service by invoking the {@link
+     * Activator.getDefault().getDependencyService()} method.
      * 
-     * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+     * @return The service reference.
+     * @throws Exception
      */
-    @Override
-    public void start(BundleContext context) throws Exception {
-        super.start(context);
-        plugin = this;
-
-        // Log if somebody use the plugin.
-        reportPluginActivation();
+    public DependencyService getDependencyRMIService() throws Exception {
+        String rmiConnectionString = null;
+        try {
+            rmiConnectionString = PreferenceStore.getRmiConnectionString();
+            DependencyService service = null;
+            System.out.println(service);
+            Remote r = Naming.lookup("rmi://cs-ccr-apdev:18080/dependency_service");
+            return (DependencyService) r;
+        } catch (MalformedURLException e) {
+            throw new Exception("Remote location url is not well-formed: " + rmiConnectionString, e);
+        } catch (RemoteException e) {
+            throw new Exception("Remote service registry is not registered under the following address: " + rmiConnectionString, e);
+        } catch (NotBoundException e) {
+            throw new Exception("Service name is not bound with the address: " + rmiConnectionString, e);
+        }
     }
 
     /**
@@ -71,44 +92,25 @@ public class Activator extends AbstractUIPlugin {
     /*
      * (non-Javadoc)
      * 
+     * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+     */
+    @Override
+    public void start(BundleContext context) throws Exception {
+        super.start(context);
+        plugin = this;
+
+        // Log if somebody use the plugin.
+        reportPluginActivation();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
      */
     @Override
     public void stop(BundleContext context) throws Exception {
         plugin = null;
         super.stop(context);
-    }
-
-    /**
-     * Returns the shared instance
-     * 
-     * @return the shared instance
-     */
-    public static Activator getDefault() {
-        return plugin;
-    }
-
-    /**
-     * Access point to the dependencyService for any plug-in class.
-     * <p>
-     * Classes in the plugin can access to the service by invoking the {@link
-     * Activator.getDefault().getDependencyService()} method.
-     * 
-     * @return The service reference.
-     * @throws Exception 
-     */
-    public DependencyService getDependencyRMIService() throws Exception {
-        String rmiConnectionString = null;
-        try {
-            rmiConnectionString = PreferenceStore.getRmiConnectionString();
-            Remote r = Naming.lookup(rmiConnectionString);
-            return (DependencyService) r;
-        } catch (MalformedURLException e) {
-            throw new Exception("Remote location url is not well-formed: " + rmiConnectionString, e);
-        } catch (RemoteException e) {
-            throw new Exception("Remote service registry is not registered under the following address: " + rmiConnectionString, e);
-        } catch (NotBoundException e) {
-            throw new Exception("Service name is not bound with the address: " + rmiConnectionString, e);
-        }
     }
 }

@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/cern.devtools.deps.eclipse.feature_3.0.0.jar" id="cern.devtools.deps.eclipse.feature" version="3.0.0"/>
+   <feature url="features/cern.devtools.deps.eclipse.feature_4.0.3.jar" id="cern.devtools.deps.eclipse.feature" version="4.0.3"/>
 </site>

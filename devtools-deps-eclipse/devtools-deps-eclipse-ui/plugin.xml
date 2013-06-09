@@ -45,16 +45,6 @@
                style="push">
          </command>
       </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
-         <command
-               commandId="cern.devtools.deps.eclipse.javaDepsHandler"
-               icon="src/icons/graph.png"
-               label="Show Incoming Jar Dependencies"
-               style="push">
-         </command>
-      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.views">
@@ -70,6 +60,20 @@
             id="cern.devtools.deps.eclipse.views.dependencyviewcat"
             name="Dependency Management">
       </category>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="cern.devtools.deps.eclipse.ui.popup.jardepspopup"
+            objectClass="org.eclipse.jdt.core.IJavaProject">
+         <action
+               class="cern.devtools.deps.eclipse.ui.handlers.ShowJarDepsAction"
+               icon="src/icons/graph.png"
+               id="cern.devtools.deps.eclipse.ui.popup.showjardeps"
+               label="Show Incoming Project Dependencies">
+         </action>
+      </objectContribution>
    </extension>
    
 </plugin>

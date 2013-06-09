@@ -40,20 +40,12 @@ final class QueryDependenciesJob extends Job implements IJobChangeListener {
      */
     private class CancellableQueryThread extends Thread {
 
-        private final DependencyService service;
         private Exception exception = null;
         Collection<Dependency> result;
+        private final DependencyService service;
 
         public CancellableQueryThread(DependencyService service) {
             this.service = service;
-        }
-
-        public void run() {
-            try {
-                result = service.getIncomingDependencies(javaDepsHandler.objectToAnalyse);
-            } catch (Exception e) {
-                this.exception = e;
-            }
         }
 
         public Exception getExceptionIfHappened() {
@@ -63,13 +55,16 @@ final class QueryDependenciesJob extends Job implements IJobChangeListener {
         public Collection<Dependency> getResult() {
             return result;
         }
+
+        @Override
+        public void run() {
+            try {
+                result = service.getIncomingDependencies(javaDepsHandler.objectToAnalyse);
+            } catch (Exception e) {
+                this.exception = e;
+            }
+        }
     };
-
-    /**
-     * Comment for <code>javaDepsHandler</code>
-     */
-    private final JavaDepsHandler javaDepsHandler;
-
 
     private static DependencyService getDependencyRMIService() throws Exception {
         String rmiConnectionString = null;
@@ -87,9 +82,52 @@ final class QueryDependenciesJob extends Job implements IJobChangeListener {
         }
     }
 
+
+    /**
+     * Comment for <code>javaDepsHandler</code>
+     */
+    private final JavaDepsHandler javaDepsHandler;
+
     public QueryDependenciesJob(JavaDepsHandler javaDepsHandler, String name) {
         super(name);
         this.javaDepsHandler = javaDepsHandler;
+    }
+
+    @Override
+    public void aboutToRun(IJobChangeEvent event) {
+        // do nothing
+    }
+
+    @Override
+    public void awake(IJobChangeEvent event) {
+        // do nothing
+
+    }
+
+    @Override
+    public void done(IJobChangeEvent event) {
+        final IStatus status = event.getResult();
+        UIJob showResults = new UIJob("Query dependencies") {
+
+            @Override
+            public IStatus runInUIThread(IProgressMonitor monitor) {
+                // If the graph finished successfully, then display the results.
+                if (status.equals(Status.OK_STATUS)) {
+                    try {
+                        // DependencyView.updateDependecies(objectToAnalyse, dependencies);
+                        IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+                        DependencyView view = (DependencyView) window.getActivePage().showView(DependencyView.ID);
+                        view.displayNewDependency(javaDepsHandler.objectToAnalyse, javaDepsHandler.dependencies);
+                        PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+                        .showView(DependencyView.ID);
+                    } catch (PartInitException e) {
+                        LoggingUtil.warnAndLog("The plugin could not open the 'Incoming dependencies' view.", e);
+                    }
+                }
+                return Status.OK_STATUS;
+            }
+        };
+        showResults.schedule();
     }
 
     @Override
@@ -137,43 +175,6 @@ final class QueryDependenciesJob extends Job implements IJobChangeListener {
             LoggingUtil.warnAndLog("Thead interrupted during execution", new RuntimeException());
             return Status.CANCEL_STATUS;
         }
-    }
-
-    @Override
-    public void aboutToRun(IJobChangeEvent event) {
-        // do nothing
-    }
-
-    @Override
-    public void awake(IJobChangeEvent event) {
-        // do nothing
-
-    }
-
-    @Override
-    public void done(IJobChangeEvent event) {
-        final IStatus status = event.getResult();
-        UIJob showResults = new UIJob("Query dependencies") {
-
-            @Override
-            public IStatus runInUIThread(IProgressMonitor monitor) {
-                // If the graph finished successfully, then display the results.
-                if (status.equals(Status.OK_STATUS)) {
-                    try {
-                        // DependencyView.updateDependecies(objectToAnalyse, dependencies);
-                        IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-                        DependencyView view = (DependencyView) window.getActivePage().showView(DependencyView.ID);
-                        view.displayNewDependency(javaDepsHandler.objectToAnalyse, javaDepsHandler.dependencies);
-                        PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-                                .showView(DependencyView.ID);
-                    } catch (PartInitException e) {
-                        LoggingUtil.warnAndLog("The plugin could not open the 'Incoming dependencies' view.", e);
-                    }
-                }
-                return Status.OK_STATUS;
-            }
-        };
-        showResults.schedule();
     }
 
     @Override

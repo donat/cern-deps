@@ -20,14 +20,14 @@ import cern.devtools.deps.domain.Method;
  * @author Donat Csikos <dcsikos@cern.ch>
  */
 public class MethodTreeItem extends GenericTreeItem<Method> {
-	private final String representedVersion;
+    private final String representedVersion;
 
-	public MethodTreeItem(TreeItem parent, Method value, String representedVersion) {
-		super(TreeItemType.METHOD, parent, value);
-		this.representedVersion = representedVersion;
-	}
-	
-	public String getRepresentedVersion() {
-		return representedVersion;
-	}
+    public MethodTreeItem(TreeItem parent, Method value, String representedVersion) {
+        super(TreeItemType.METHOD, parent, value);
+        this.representedVersion = representedVersion;
+    }
+
+    public String getRepresentedVersion() {
+        return representedVersion;
+    }
 }

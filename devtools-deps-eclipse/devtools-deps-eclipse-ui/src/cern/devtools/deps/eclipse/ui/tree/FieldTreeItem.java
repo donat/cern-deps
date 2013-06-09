@@ -22,7 +22,7 @@ import cern.devtools.deps.domain.Field;
  */
 public class FieldTreeItem extends GenericTreeItem<Field> {
 
-	public FieldTreeItem(TreeItem parent, Field value) {
-		super(TreeItemType.FIELD, parent, value);
-	}
+    public FieldTreeItem(TreeItem parent, Field value) {
+        super(TreeItemType.FIELD, parent, value);
+    }
 }

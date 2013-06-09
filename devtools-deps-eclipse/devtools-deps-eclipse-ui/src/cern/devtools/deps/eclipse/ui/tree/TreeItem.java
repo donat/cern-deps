@@ -50,109 +50,6 @@ import cern.devtools.deps.eclipse.ui.views.DependencyView;
 public abstract class TreeItem implements IAdaptable {
 
     /**
-     * Node type. Used to determine how to display the current node.
-     */
-    private final TreeItemType type;
-
-    /**
-     * List of the children's node.
-     */
-    private List<TreeItem> children;
-
-    /**
-     * Parent tree node, <code>null</code>, if root node.
-     */
-    private TreeItem parent = null;
-
-    /**
-     * Constructor
-     * 
-     * @param type Node type.
-     * @param parent The parent {@link TreeItem}. Can be <code>null</code> only if it is a root node.
-     */
-    protected TreeItem(TreeItemType type, TreeItem parent) {
-        // Parameter checking.
-        if (type == null) {
-            throw new RuntimeException("The type must be specified");
-        }
-        if (type != TreeItemType.ROOT && parent == null) {
-            throw new RuntimeException("Parent cannot be null (only for a root node).");
-        }
-
-        // setting relationships
-        // Setting the parent and the children references.
-        this.setParent(parent);
-        if (parent != null) {
-            parent.getChildren().add(this);
-        }
-        this.type = type;
-    }
-
-    /**
-     * Returns parent node.
-     * 
-     * @return Parent node.
-     */
-    public TreeItem getParent() {
-        return parent;
-    }
-
-    /**
-     * @param parent parent
-     */
-    public void setParent(TreeItem parent) {
-        this.parent = parent;
-    }
-
-    /**
-     * Returns the type of the node.
-     * 
-     * @return The type of the node.
-     */
-    public TreeItemType getType() {
-        return type;
-    }
-
-    /**
-     * Returns all the nodes below this one.
-     * 
-     * @return All the nodes below this one.
-     */
-    public List<TreeItem> getChildren() {
-        return children == null ? (children = new LinkedList<TreeItem>()) : children;
-    }
-
-    /**
-     * Counts the number of items which does not have a child.
-     */
-    public int leafNumber() {
-        int sum = 0;
-        for (TreeItem child : getChildren()) {
-            if (child.isLeaf()) {
-                sum++;
-            } else {
-                sum += child.leafNumber();
-            }
-        }
-        return sum;
-    }
-
-    /**
-     * Return <code>true</code>, if does not have a child node.
-     * 
-     * @return
-     */
-    public boolean isLeaf() {
-        return getChildren().isEmpty();
-    }
-
-    @Override
-    @SuppressWarnings("rawtypes")
-    public Object getAdapter(Class adapter) {
-        return null;
-    }
-
-    /**
      * Creates a new node.
      * 
      * @param type The Type of the created node.
@@ -183,5 +80,108 @@ public abstract class TreeItem implements IAdaptable {
         default:
             throw new RuntimeException("TreeItemType is not supported for creation: " + type);
         }
+    }
+
+    /**
+     * List of the children's node.
+     */
+    private List<TreeItem> children;
+
+    /**
+     * Parent tree node, <code>null</code>, if root node.
+     */
+    private TreeItem parent = null;
+
+    /**
+     * Node type. Used to determine how to display the current node.
+     */
+    private final TreeItemType type;
+
+    /**
+     * Constructor
+     * 
+     * @param type Node type.
+     * @param parent The parent {@link TreeItem}. Can be <code>null</code> only if it is a root node.
+     */
+    protected TreeItem(TreeItemType type, TreeItem parent) {
+        // Parameter checking.
+        if (type == null) {
+            throw new RuntimeException("The type must be specified");
+        }
+        if (type != TreeItemType.ROOT && parent == null) {
+            throw new RuntimeException("Parent cannot be null (only for a root node).");
+        }
+
+        // setting relationships
+        // Setting the parent and the children references.
+        this.setParent(parent);
+        if (parent != null) {
+            parent.getChildren().add(this);
+        }
+        this.type = type;
+    }
+
+    @Override
+    @SuppressWarnings("rawtypes")
+    public Object getAdapter(Class adapter) {
+        return null;
+    }
+
+    /**
+     * Returns all the nodes below this one.
+     * 
+     * @return All the nodes below this one.
+     */
+    public List<TreeItem> getChildren() {
+        return children == null ? (children = new LinkedList<TreeItem>()) : children;
+    }
+
+    /**
+     * Returns parent node.
+     * 
+     * @return Parent node.
+     */
+    public TreeItem getParent() {
+        return parent;
+    }
+
+    /**
+     * Returns the type of the node.
+     * 
+     * @return The type of the node.
+     */
+    public TreeItemType getType() {
+        return type;
+    }
+
+    /**
+     * Return <code>true</code>, if does not have a child node.
+     * 
+     * @return
+     */
+    public boolean isLeaf() {
+        return getChildren().isEmpty();
+    }
+
+    /**
+     * Counts the number of items which does not have a child.
+     */
+    public int leafNumber() {
+        int sum = 0;
+        for (TreeItem child : getChildren()) {
+            if (child.isLeaf()) {
+                sum++;
+            } else {
+                sum += child.leafNumber();
+            }
+        }
+        return sum;
+    }
+
+    /**
+     * @param parent parent
+     */
+    public void setParent(TreeItem parent) {
+        this.parent = parent;
     }
 }

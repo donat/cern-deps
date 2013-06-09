@@ -12,8 +12,8 @@
 	<artifactId>cern.devtools.deps.eclipse.ui</artifactId>
 	<packaging>eclipse-plugin</packaging>
 	<name>devtools-deps-eclipse ui</name>
-	<version>3.0.0.v20130212</version>
-	
+	<version>3.0.0.v20130430</version>
+
 	<dependencies>
 		<dependency>
 			<groupId>cern.devtools.deps</groupId>
@@ -47,6 +47,7 @@
 					<stripVersion>true</stripVersion>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 </project>

@@ -22,8 +22,8 @@ import cern.devtools.deps.domain.CodeElement;
  */
 public class NoDependenciesTreeItem extends GenericTreeItem<CodeElement> {
 
-	public NoDependenciesTreeItem(TreeItem parent, CodeElement value) {
-		super(TreeItemType.NO_DEPENDENCIES, parent, value);
-	}
+    public NoDependenciesTreeItem(TreeItem parent, CodeElement value) {
+        super(TreeItemType.NO_DEPENDENCIES, parent, value);
+    }
 
 }

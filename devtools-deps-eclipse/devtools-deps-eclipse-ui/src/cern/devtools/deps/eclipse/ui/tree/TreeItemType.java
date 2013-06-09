@@ -24,51 +24,51 @@ import cern.devtools.deps.domain.Product;
  */
 public enum TreeItemType {
 
-	/**
-	 * Root of the tree which won't be visible in the viewer.
-	 */
-	ROOT,
+    /**
+     * Class.
+     */
+    CLASS,
 
-	/**
-	 * The node represents a sorting by the type of the dependencies.
-	 */
-	DEPENDENCY_TYPE,
+    /**
+     * The node represents a sorting by the type of the dependencies.
+     */
+    DEPENDENCY_TYPE,
 
-	/**
-	 * Product node type. Underlying data: a {@link Product} instance.
-	 * @see TreeItem#getData()
-	 */
-	PRODUCT,
+    /**
+     * Field.
+     */
+    FIELD,
 
-	/**
-	 * Class.
-	 */
-	CLASS,
+    /**
+     * Method.
+     */
+    METHOD,
 
-	/**
-	 * Method.
-	 */
-	METHOD,
+    /**
+     * This node should be present, when no dependencies are associated for the selected code element.
+     */
+    NO_DEPENDENCIES,
 
-	/**
-	 * Field.
-	 */
-	FIELD,
+    /**
+     * Package.
+     */
+    PACKAGE,
 
-	/**
-	 * Version..
-	 */
-	VERSION,
+    /**
+     * Product node type. Underlying data: a {@link Product} instance.
+     * @see TreeItem#getData()
+     */
+    PRODUCT,
 
-	/**
-	 * Package. 
-	 */
-	PACKAGE, 
-	/**
-	 * This node should be present, when no dependencies are associated for the selected code element.
-	 */
-	NO_DEPENDENCIES,
-	
-	
+    /**
+     * Root of the tree which won't be visible in the viewer.
+     */
+    ROOT,
+    /**
+     * Version..
+     */
+    VERSION,
+
+
 
 }

@@ -12,7 +12,7 @@
 	<artifactId>cern.devtools.deps.eclipse.prefs</artifactId>
 	<packaging>eclipse-plugin</packaging>
 	<name>devtools-deps-eclipse preferences</name>
-	<version>3.0.0.v20130212</version>
+	<version>3.0.0.v20130430</version>
 
 	<build>
 		<plugins>

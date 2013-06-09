@@ -22,8 +22,8 @@ import cern.devtools.deps.domain.DependencyType;
  */
 public class DependencyTypeTreeItem extends GenericTreeItem<DependencyType> {
 
-	public DependencyTypeTreeItem(TreeItem parent, DependencyType value) {
-		super(TreeItemType.DEPENDENCY_TYPE, parent, value);
-	}
-	
+    public DependencyTypeTreeItem(TreeItem parent, DependencyType value) {
+        super(TreeItemType.DEPENDENCY_TYPE, parent, value);
+    }
+
 }

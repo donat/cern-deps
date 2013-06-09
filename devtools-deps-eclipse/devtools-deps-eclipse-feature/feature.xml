@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="cern.devtools.deps.eclipse.feature"
-      label="devtools-deps-eclipse-feature"
-      version="4.0.0"
+      label="Dependency Analysis Feature"
+      version="4.0.3"
       provider-name="CERN">
 
    <description url="http://http://wikis/display/depan/Usage">
@@ -39,14 +39,14 @@ as well as that of the covered work.
          id="cern.devtools.deps.eclipse.prefs"
          download-size="0"
          install-size="0"
-         version="3.0.0.v20130327"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="cern.devtools.deps.eclipse.ui"
          download-size="0"
          install-size="0"
-         version="3.0.0.v20130327"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>

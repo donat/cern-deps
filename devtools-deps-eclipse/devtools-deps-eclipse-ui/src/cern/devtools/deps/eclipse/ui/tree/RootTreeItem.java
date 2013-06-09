@@ -22,8 +22,8 @@ import cern.devtools.deps.domain.CodeElement;
  */
 public class RootTreeItem extends GenericTreeItem<CodeElement> {
 
-	public RootTreeItem(TreeItem parent, CodeElement value) {
-		super(TreeItemType.ROOT, parent, value);
-	}
+    public RootTreeItem(TreeItem parent, CodeElement value) {
+        super(TreeItemType.ROOT, parent, value);
+    }
 
 }

@@ -22,14 +22,14 @@ import cern.devtools.deps.domain.ApiClass;
  */
 public class ApiClassTreeItem extends GenericTreeItem<ApiClass> {
 
-	private final String representedVersion;
+    private final String representedVersion;
 
-	public ApiClassTreeItem(TreeItem parent, ApiClass value, String representedVersion) {
-		super(TreeItemType.CLASS, parent, value);
-		this.representedVersion = representedVersion;
-	}
-	
-	public String getRepresentedVersion() {
-		return representedVersion;
-	}
+    public ApiClassTreeItem(TreeItem parent, ApiClass value, String representedVersion) {
+        super(TreeItemType.CLASS, parent, value);
+        this.representedVersion = representedVersion;
+    }
+
+    public String getRepresentedVersion() {
+        return representedVersion;
+    }
 }

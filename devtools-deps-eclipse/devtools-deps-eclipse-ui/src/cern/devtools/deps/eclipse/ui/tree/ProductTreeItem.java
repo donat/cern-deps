@@ -26,26 +26,26 @@ import cern.devtools.deps.eclipse.ui.LoggingUtil;
  */
 public class ProductTreeItem extends GenericTreeItem<Product> {
 
-	private Collection<String> committers = null;
+    private Collection<String> committers = null;
 
-	public ProductTreeItem(TreeItem parent, Product p) {
-		super(TreeItemType.PRODUCT, parent, p);
-	}
+    public ProductTreeItem(TreeItem parent, Product p) {
+        super(TreeItemType.PRODUCT, parent, p);
+    }
 
-	/**
-	 * Lazily loads and returns the committers of the represented project. E.g. {"lmestre", "vbaggiol", "eroux", "arey", "rgorbono", "vlezhebo"}.
-	 * @return
-	 */
-	public Collection<String> getCommitters() {
-		if (committers == null) {
-			try {
-				committers = Activator.getDefault().getDependencyRMIService().getCommittersName(super.value);
-			} catch (Exception e) {
-				LoggingUtil.logWarn(e.getMessage());
-				committers = null;
-				return Collections.emptyList();
-			}
-		}
-		return committers;
-	}
+    /**
+     * Lazily loads and returns the committers of the represented project. E.g. {"lmestre", "vbaggiol", "eroux", "arey", "rgorbono", "vlezhebo"}.
+     * @return
+     */
+    public Collection<String> getCommitters() {
+        if (committers == null) {
+            try {
+                committers = Activator.getDefault().getDependencyRMIService().getCommittersName(super.value);
+            } catch (Exception e) {
+                LoggingUtil.logWarn(e.getMessage());
+                committers = null;
+                return Collections.emptyList();
+            }
+        }
+        return committers;
+    }
 }

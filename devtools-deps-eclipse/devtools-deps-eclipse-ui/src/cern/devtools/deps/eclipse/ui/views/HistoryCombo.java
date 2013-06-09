@@ -37,6 +37,16 @@ import cern.devtools.deps.domain.Dependency;
 public class HistoryCombo extends Composite {
 
     /**
+     * Clear button control.
+     */
+    private final Button btnClear;
+
+    /**
+     * Combo box control.
+     */
+    private final Combo cmbHistory;
+
+    /**
      * The items queried from the editor.
      */
     private final LinkedList<CodeElement> queriedItems = new LinkedList<CodeElement>();
@@ -45,16 +55,6 @@ public class HistoryCombo extends Composite {
      * The result of the queries. Items at the same index in the queried items points is the source of the stored result.
      */
     private final LinkedList<Collection<Dependency>> resultSets = new LinkedList<Collection<Dependency>>();
-
-    /**
-     * Combo box control.
-     */
-    private Combo cmbHistory;
-
-    /**
-     * Clear button control.
-     */
-    private Button btnClear;
 
     /**
      * Create the composite.
@@ -87,19 +87,26 @@ public class HistoryCombo extends Composite {
         btnClear.setText("Clear");
     }
 
-    /**
-     * @return <code>true</code>, if there are results stored in this composite.
-     */
-    public boolean isEmpty() {
-        return queriedItems.isEmpty();
-    }
-
     public void add(CodeElement queriedItem, Collection<Dependency> resultSet) {
         queriedItems.add(queriedItem);
         resultSets.add(resultSet);
         cmbHistory.add(queriedItem.getDisplayName() + " (" + resultSet.size() + " dependencies total)");
         cmbHistory.select(cmbHistory.getItemCount() - 1);
         // FIXME: put new function into the interface to display readable name (toString() is for debugging).
+    }
+
+    public void addSelectionListenerToButton(SelectionListener listener) {
+        btnClear.addSelectionListener(listener);
+    }
+
+    public void addSelectionListenerToCombo(SelectionListener listener) {
+        cmbHistory.addSelectionListener(listener);
+    }
+
+    public void clear() {
+        queriedItems.clear();
+        resultSets.clear();
+        cmbHistory.removeAll();
     }
 
     public CodeElement currentQueriedItem() {
@@ -112,17 +119,10 @@ public class HistoryCombo extends Composite {
         return resultSets.get(index);
     }
 
-    public void clear() {
-        queriedItems.clear();
-        resultSets.clear();
-        cmbHistory.removeAll();
-    }
-
-    public void addSelectionListenerToCombo(SelectionListener listener) {
-        cmbHistory.addSelectionListener(listener);
-    }
-
-    public void addSelectionListenerToButton(SelectionListener listener) {
-        btnClear.addSelectionListener(listener);
+    /**
+     * @return <code>true</code>, if there are results stored in this composite.
+     */
+    public boolean isEmpty() {
+        return queriedItems.isEmpty();
     }
 }
