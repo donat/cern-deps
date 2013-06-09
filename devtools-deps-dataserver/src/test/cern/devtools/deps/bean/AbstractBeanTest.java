@@ -12,18 +12,18 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public abstract class AbstractBeanTest {
 
-	/**
-	 * Spring context
-	 */
-	protected ClassPathXmlApplicationContext context;
+    /**
+     * Spring context
+     */
+    protected ClassPathXmlApplicationContext context;
 
-	@Before
-	public void setup() {
-		context = new ClassPathXmlApplicationContext("classpath:/ctx-test.xml");
-	}
+    @Before
+    public void setup() {
+        context = new ClassPathXmlApplicationContext("classpath:/res/ctx/ctx-test-dbdao-oracledev.xml");
+    }
 
-	@After
-	public void tearDown() {
-		context.close();
-	}
+    @After
+    public void tearDown() {
+        context.close();
+    }
 }

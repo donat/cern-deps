@@ -16,25 +16,25 @@ import cern.devtools.deps.bean.DatabaseException;
 import cern.devtools.deps.domain.creation.DomainObjectCreator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/ctx-test.xml")
+@ContextConfiguration("classpath:/res/ctx/ctx-test-discovery-oracledev.xml")
 public class DatabaseDaoTransactionSuccessTest {
 
-	@Autowired
-	private DatabaseDao db;
+    @Autowired
+    DomainObjectCreator creator;
 
-	@Autowired
-	DomainObjectCreator creator;
+    @Autowired
+    private DatabaseDao db;
 
-	@Test
-	@Rollback(false)
-	@Transactional
-	public void test() throws DatabaseException {
-		db.saveProduct(creator.createProduct("project-name"));
-	}
+    @AfterTransaction
+    public void checkTransactionResult() throws DatabaseException {
+        assertNotNull(db.findProduct(creator.createProduct("project-name"), false));
+        db.deleteProduct(creator.createProduct("project-name"));
+    }
 
-	@AfterTransaction
-	public void checkTransactionResult() throws DatabaseException {
-		assertNotNull(db.findProduct(creator.createProduct("project-name"), false));
-		db.deleteProduct(creator.createProduct("project-name"));
-	}
+    @Test
+    @Rollback(false)
+    @Transactional
+    public void test() throws DatabaseException {
+        db.saveProduct(creator.createProduct("project-name"));
+    }
 }

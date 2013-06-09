@@ -24,37 +24,17 @@ import cern.devtools.deps.domain.Product;
 import cern.devtools.deps.domain.creation.DomainObjectCreator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/ctx-test.xml")
+@ContextConfiguration("classpath:/res/ctx/ctx-test-dbdao-oracledev.xml")
 @Transactional
 public class DatabaseDaoTest {
 
-    @Autowired
-    private DatabaseDao db;
+    private static final String PRODUCT_PATH = "/tmp/testproduct.jar";
 
     @Autowired
     DomainObjectCreator creator;
 
-    private static final String PRODUCT_PATH = "/tmp/testproduct.jar";
-
-    @Before
-    public void init() throws DatabaseException {
-        Product p = getProduct();
-        db.saveProduct(p);
-    }
-
-    public Product getProduct() {
-        Product p = creator.createProduct("name", "1.0.0", "test/testproduct", PRODUCT_PATH);
-        ApiClass ac = creator.createApiClass("MyClass", EnumSet.noneOf(Modifiers.class));
-        Method m = creator.createMethod("cern.example.MyClass#foo()", EnumSet.of(Modifiers.STATIC));
-        Field f = creator.createField("cern.example.MyClass.FIELD", EnumSet.noneOf(Modifiers.class));
-        ac.getMethods().add(m);
-        m.setApiClass(ac);
-        ac.getFields().add(f);
-        f.setApiClass(ac);
-        p.getClasses().add(ac);
-        ac.setProduct(p);
-        return p;
-    }
+    @Autowired
+    private DatabaseDao db;
 
     @Test
     public void findProduct() throws DatabaseException {
@@ -72,5 +52,25 @@ public class DatabaseDaoTest {
         // find non-existing product
         product = db.findProduct(creator.createProduct(""), true);
         assertNull(product);
+    }
+
+    public Product getProduct() {
+        Product p = creator.createProduct("name", "1.0.0", "test/testproduct", PRODUCT_PATH);
+        ApiClass ac = creator.createApiClass("MyClass", EnumSet.noneOf(Modifiers.class));
+        Method m = creator.createMethod("cern.example.MyClass#foo()", EnumSet.of(Modifiers.STATIC));
+        Field f = creator.createField("cern.example.MyClass.FIELD", EnumSet.noneOf(Modifiers.class));
+        ac.getMethods().add(m);
+        m.setApiClass(ac);
+        ac.getFields().add(f);
+        f.setApiClass(ac);
+        p.getClasses().add(ac);
+        ac.setProduct(p);
+        return p;
+    }
+
+    @Before
+    public void init() throws DatabaseException {
+        Product p = getProduct();
+        db.saveProduct(p);
     }
 }
