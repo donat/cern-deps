@@ -24,3 +24,4 @@ test-db
 
 # sample jar files
 jarrepo/*.jar
+/.settings
