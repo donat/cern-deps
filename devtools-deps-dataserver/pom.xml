@@ -209,5 +209,17 @@
 		</plugins>
 	</build>
 
+	<distributionManagement>
+		<repository>
+			<id>artifactory</id>
+			<name>cs-ccr-ap1.cern.ch-releases</name>
+			<url>http://artifactory/beco-release-local</url>
+		</repository>
+		<snapshotRepository>
+			<id>artifactory</id>
+			<name>cs-ccr-ap1.cern.ch-snapshots</name>
+			<url>http://artifactory/beco-development-local</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 </project>
