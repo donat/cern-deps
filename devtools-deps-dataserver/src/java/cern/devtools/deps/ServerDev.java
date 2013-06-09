@@ -22,6 +22,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class ServerDev {
     public static void main(String[] args) {
-        new ClassPathXmlApplicationContext("classpath:/config/ctx-server-dev.xml");
+        new ClassPathXmlApplicationContext("classpath:/res/ctx/ctx-server-dev.xml");
     }
 }

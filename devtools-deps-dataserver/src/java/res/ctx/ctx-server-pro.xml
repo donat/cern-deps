@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:neo4j="http://www.springframework.org/schema/data/neo4j"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/data/neo4j http://www.springframework.org/schema/data/neo4j/spring-neo4j-2.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<context:property-placeholder location="classpath:/res/ctx/oraclepro.properties" />
+
+	<!-- Production Oracle database -->
+	<import resource="ctx-reldb.xml" />
+	<bean id="oracle_data_source"
+		class="org.springframework.jdbc.datasource.SingleConnectionDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="password" value="${password}" />
+		<property name="username" value="${username}" />
+		<property name="url" value="${url}" />
+	</bean>
+
+	<!-- Development mail sending bean, which sends all the mails to the dcsikos@cern.ch 
+		address. -->
+	<bean id="mail_sender" class="cern.devtools.deps.bean.impl.DevelopmentMailSender">
+		<constructor-arg>
+			<list>
+				<value>Donat.Csikos@cern.ch</value>
+				<value>Pavel.Tarasenko@cern.ch</value>
+				<value>Vito.Baggiolini@cern.ch</value>
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- Right now I don't want to release the production mail delivery functionality -->
+	<!-- If the integration is ready, than I will uncomment the production version. -->
+	<!-- <bean id="mail_sender_factory" class="cern.accsoft.io.mail.MailSenderFactory" 
+		factory-method="newInstance"> <property name="from" value="donotreply@cern.ch" 
+		/> </bean> <bean id="mail_sender" class=" cern.accsoft.io.mail.MailSender" 
+		factory-bean="mail_sender_factory" factory-method="newMailSender" /> -->
+
+	<!-- The commonbuild service will send a summary email to everyone every 
+		morning at 08:00 -->
+	<bean id="cmmnbuild_service" class="cern.devtools.deps.bean.impl.CmmnbuildServiceImpl">
+		<property name="cacheNotification" value="true" />
+		<property name="notifTimeHours" value="8" />
+		<property name="notifTimeMinutes" value="0" />
+	</bean>
+
+	<!-- Import the rest -->
+	<import resource="ctx-common.xml" />
+</beans>

@@ -21,7 +21,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * 
  */
 public class ServerPro {
-	public static void main(String[] args) {
-		new ClassPathXmlApplicationContext("classpath:/config/ctx-server-pro.xml");
-	}
+    public static void main(String[] args) {
+        new ClassPathXmlApplicationContext("classpath:/res/ctx/ctx-server-pro.xml");
+    }
 }

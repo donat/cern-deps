@@ -31,7 +31,7 @@
 		
 		<!-- copy deployment.xml into the root of the tar.gz file  -->
 		<file>
-			<source>src/java/log4j.properties</source>
+			<source>src/java/log4j.xml</source>
 			<outputDirectory>/conf/</outputDirectory>
 			<lineEnding>unix</lineEnding>
 			<fileMode>0644</fileMode>
