@@ -29,79 +29,92 @@ import cern.devtools.deps.bean.CmmnbuildNotificationCache;
 
 public class CmmnbuildNotificationCacheImpl implements CmmnbuildNotificationCache {
 
-	File file;
+    private String cacheFile = "./target/cmmnbuild-releases.cache";
 
-	public CmmnbuildNotificationCacheImpl() {
-		try {
-			// try to create or access to the file which will be use as a storage.
-			file = new File(CACHE_LOC);
-			file.createNewFile();
-		} catch (IOException e) {
-			// The clas should access to this file.
-			throw new RuntimeException(e);
-		}
-	}
+    File file;
 
-	public void addEntry(String releaserName, String productName, String oldVersion, String newVersion,
-			String releaseType) {
-		try {
-			String entry = StringUtils.arrayToCommaDelimitedString(new String[] { releaserName, productName,
-					oldVersion, newVersion, releaseType });
-			PrintWriter appender = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));
-			appender.println(entry);
-			appender.close();
-		} catch (IOException e) {
-			throw new RuntimeException("This should not happen as the constructor check the acces for the file", e);
-		}
-	}
+    public CmmnbuildNotificationCacheImpl() {
+        try {
+            // try to create or access to the file which will be use as a storage.
+            file = new File(getCacheFile());
+            file.createNewFile();
+        } catch (IOException e) {
+            // The clas should access to this file.
+            throw new RuntimeException(e);
+        }
+    }
 
-	public void addEntry(Hashtable<String, String> entry) {
-		addEntry(entry.get(KEY_RELEASER_NAME), entry.get(KEY_PRODUCT_NAME), entry.get(KEY_OLD_VERSION),
-				entry.get(KEY_NEW_VERSION), entry.get(KEY_RELEASE_TYPE));
-	}
+    @Override
+    public void addEntry(Hashtable<String, String> entry) {
+        addEntry(entry.get(KEY_RELEASER_NAME), entry.get(KEY_PRODUCT_NAME), entry.get(KEY_OLD_VERSION),
+                entry.get(KEY_NEW_VERSION), entry.get(KEY_RELEASE_TYPE));
+    }
 
-	public Collection<Hashtable<String, String>> popAllEntries() {
-		try {
-			// Read all entries from the file and convert them to String[] format.
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-			String line = null;
-			Collection<Hashtable<String, String>> entries = new LinkedList<Hashtable<String, String>>();
-			while ((line = reader.readLine()) != null) {
-				String[] lineArray = StringUtils.commaDelimitedListToStringArray(line);
-				Hashtable<String, String> entry = createProperty(lineArray);
-				entries.add(entry);
-			}
-			reader.close();
+    @Override
+    public void addEntry(String releaserName, String productName, String oldVersion, String newVersion,
+            String releaseType) {
+        try {
+            String entry = StringUtils.arrayToCommaDelimitedString(new String[] { releaserName, productName,
+                    oldVersion, newVersion, releaseType });
+            PrintWriter appender = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));
+            appender.println(entry);
+            appender.close();
+        } catch (IOException e) {
+            throw new RuntimeException("This should not happen as the constructor check the acces for the file", e);
+        }
+    }
 
-			// Delete the file content.
-			PrintWriter appender = new PrintWriter(new BufferedWriter(new FileWriter(file, false)));
-			appender.print("");
-			appender.close();
-			file.delete();
-			file = new File(CACHE_LOC);
-			file.createNewFile();
+    private Hashtable<String, String> createProperty(String[] data) {
+        if (data.length <= 4) {
+            throw new RuntimeException("Argument is too small");
+        }
 
-			// Return the array.
-			return entries;
+        Hashtable<String, String> result = new Hashtable<String, String>();
+        result.put(KEY_RELEASER_NAME, data[0]);
+        result.put(KEY_PRODUCT_NAME, data[1]);
+        result.put(KEY_OLD_VERSION, data[2]);
+        result.put(KEY_NEW_VERSION, data[3]);
+        result.put(KEY_RELEASE_TYPE, data[4]);
 
-		} catch (IOException e) {
-			throw new RuntimeException("This should not happen as the constructor check the acces for the file", e);
-		}
-	}
+        return result;
+    }
 
-	private Hashtable<String, String> createProperty(String[] data) {
-		if (data.length <= 4) {
-			throw new RuntimeException("Argument is too small");
-		}
+    public String getCacheFile() {
+        return cacheFile;
+    }
 
-		Hashtable<String, String> result = new Hashtable<String, String>();
-		result.put(KEY_RELEASER_NAME, data[0]);
-		result.put(KEY_PRODUCT_NAME, data[1]);
-		result.put(KEY_OLD_VERSION, data[2]);
-		result.put(KEY_NEW_VERSION, data[3]);
-		result.put(KEY_RELEASE_TYPE, data[4]);
+    @Override
+    public Collection<Hashtable<String, String>> popAllEntries() {
+        try {
+            // Read all entries from the file and convert them to String[] format.
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line = null;
+            Collection<Hashtable<String, String>> entries = new LinkedList<Hashtable<String, String>>();
+            while ((line = reader.readLine()) != null) {
+                String[] lineArray = StringUtils.commaDelimitedListToStringArray(line);
+                Hashtable<String, String> entry = createProperty(lineArray);
+                entries.add(entry);
+            }
+            reader.close();
 
-		return result;
-	}
+            // Delete the file content.
+            PrintWriter appender = new PrintWriter(new BufferedWriter(new FileWriter(file, false)));
+            appender.print("");
+            appender.close();
+            file.delete();
+            file = new File(getCacheFile());
+            file.createNewFile();
+
+            // Return the array.
+            return entries;
+
+        } catch (IOException e) {
+            throw new RuntimeException("This should not happen as the constructor check the acces for the file", e);
+        }
+    }
+
+    public void setCacheFile(String cacheFile) {
+        this.cacheFile = cacheFile;
+    }
 
 }

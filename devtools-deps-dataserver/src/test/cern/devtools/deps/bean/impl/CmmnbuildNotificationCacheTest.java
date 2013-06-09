@@ -22,25 +22,23 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import cern.devtools.deps.bean.CmmnbuildNotificationCache;
-
 public class CmmnbuildNotificationCacheTest {
 
-    CmmnbuildNotificationCache cache;
 
+    CmmnbuildNotificationCacheImpl cache;
 
     @SuppressWarnings("resource")
     @Test
     public void addEntryWorks() throws FileNotFoundException, IOException {
         cache.addEntry("releaser", "product", "oldversion", "newversion", "PRO");
-        String content = new BufferedReader(new FileReader(new File(CmmnbuildNotificationCache.CACHE_LOC))).readLine();
+        String content = new BufferedReader(new FileReader(new File(cache.getCacheFile()))).readLine();
         assertEquals("releaser,product,oldversion,newversion,PRO", content);
     }
 
     @After
     public void cleanup() {
         cache.popAllEntries();
-        new File(CmmnbuildNotificationCache.CACHE_LOC).delete();
+        new File(cache.getCacheFile()).delete();
     }
 
     @Test
@@ -76,6 +74,6 @@ public class CmmnbuildNotificationCacheTest {
 
     @Test
     public void testFileCreatedInConstrucor() {
-        assertTrue(new File(CmmnbuildNotificationCache.CACHE_LOC).exists());
+        assertTrue(new File(cache.getCacheFile()).exists());
     }
 }
