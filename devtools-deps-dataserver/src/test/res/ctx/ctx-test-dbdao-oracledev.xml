@@ -19,6 +19,36 @@
 		http://www.springframework.org/schema/data/neo4j http://www.springframework.org/schema/data/neo4j/spring-neo4j-2.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<import resource="ctx-test-dbdao-neo4j.xml" />
-	<import resource="ctx-test-discovery-common.xml" />
+	<context:property-placeholder location="classpath:/res/ctx/oracledev.properties"/>
+
+	<!-- Configure context for autowiring -->
+	<context:annotation-config />
+	<context:spring-configured />
+	<context:component-scan base-package="cern.devtools.deps" />
+
+	<!-- Oracle data backend -->
+	<bean id="oracle_data_source" class="org.springframework.jdbc.datasource.SingleConnectionDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="password" value="${password}" />
+		<property name="username" value="${username}" />
+		<property name="url" value="${url}" />
+	</bean>
+	<bean id="jdbc_template" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg ref="oracle_data_source" />
+	</bean>
+	<bean id="oracle_utils" class="cern.devtools.deps.bean.impl.OracleUtils">
+		<constructor-arg ref="jdbc_template" />
+	</bean>
+	<bean id="database_dao" class="cern.devtools.deps.bean.impl.OracleDatabaseDao">
+		<constructor-arg ref="oracle_utils" />
+	</bean>
+
+	<!-- Transaction configuration -->
+	<tx:annotation-driven mode="proxy" />
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="oracle_data_source" />
+	</bean>
+
+	<!-- Domain instance factory -->
+	<bean id="domain_creator" class="cern.devtools.deps.domain.creation.impl.JavaBeanObjectCreator" />
 </beans>

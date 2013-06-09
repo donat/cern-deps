@@ -1,7 +1,5 @@
 package cern.devtools.deps.bean.impl;
 
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -12,12 +10,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cern.devtools.deps.bean.ArtifactDescriptor;
 import cern.devtools.deps.bean.DatabaseDao;
 import cern.devtools.deps.bean.DepBeanException;
 import cern.devtools.deps.bean.DependencyExtractor;
-import cern.devtools.deps.bean.impl.ByteCodeDescriptor;
 import cern.devtools.deps.domain.creation.DomainObjectCreator;
 import cern.devtools.deps.memcomp.InMemoryClassLoader;
 import cern.devtools.deps.memcomp.InMemoryCompiler;
@@ -45,7 +44,7 @@ import cern.devtools.deps.memcomp.InMemoryCompiler;
  * @author Donat Csikos <dcsikos@cern.ch>
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/ctx-test-discovery-oracledev.xml")
+@ContextConfiguration("classpath:/res/ctx/ctx-test-discovery-oracledev.xml")
 public abstract class AbstractDependencyDiscoveryTest {
     /**
      * Holder class for the details of the source code.
@@ -54,8 +53,8 @@ public abstract class AbstractDependencyDiscoveryTest {
      */
     public static class Source {
         private final List<String> names;
-        private final List<String> sources;
         private final String pkg;
+        private final List<String> sources;
 
         /**
          * @param names Names of the class without the package name.
@@ -72,12 +71,12 @@ public abstract class AbstractDependencyDiscoveryTest {
             return names;
         }
 
-        public List<String> sources() {
-            return sources;
-        }
-
         public String pkg() {
             return pkg;
+        }
+
+        public List<String> sources() {
+            return sources;
         }
     }
 
@@ -86,6 +85,9 @@ public abstract class AbstractDependencyDiscoveryTest {
      */
     private static InMemoryClassLoader classLoader;
 
+    @Autowired
+    private DomainObjectCreator creator;
+
     /**
      * Database object.
      */
@@ -93,19 +95,33 @@ public abstract class AbstractDependencyDiscoveryTest {
     protected DatabaseDao db;
 
     @Autowired
-    private DomainObjectCreator creator;
-
-    @Autowired
     private DependencyExtractor extractor;
 
+    @After
+    public final void cleanup() throws Exception {
+        db.deleteProduct(creator.createProduct("example-from", "", "", "example-from"));
+        db.deleteProduct(creator.createProduct("example-to", "", "", "example-to"));
+        db.deleteProduct(creator.createProduct("example-trans", "", "", "example-trans"));
+    }
+
+    private void compile(Source from, Source to, Source trans) {
+        ArrayList<String> sources = new ArrayList<String>();
+        sources.addAll(from.sources());
+        sources.addAll(to.sources());
+        if (trans != null) {
+            sources.addAll(trans.sources());
+        }
+
+        ArrayList<String> names = new ArrayList<String>();
+        names.addAll(from.names());
+        names.addAll(to.names());
+        if (trans != null) {
+            names.addAll(trans.names());
+        }
+        classLoader = InMemoryCompiler.compileClasses(sources.toArray(new String[0]), names.toArray(new String[0]));
+    }
+
     public abstract Source from();
-
-    public abstract Source to();
-
-    public abstract Source trans();
-
-    @Test
-    public abstract void test() throws Exception;
 
     @Before
     public final void init() throws DepBeanException {
@@ -136,27 +152,10 @@ public abstract class AbstractDependencyDiscoveryTest {
         extractor.executeAnalysis(lad);
     }
 
-    private void compile(Source from, Source to, Source trans) {
-        ArrayList<String> sources = new ArrayList<String>();
-        sources.addAll(from.sources());
-        sources.addAll(to.sources());
-        if (trans != null) {
-            sources.addAll(trans.sources());
-        }
+    @Test
+    public abstract void test() throws Exception;
 
-        ArrayList<String> names = new ArrayList<String>();
-        names.addAll(from.names());
-        names.addAll(to.names());
-        if (trans != null) {
-            names.addAll(trans.names());
-        }
-        classLoader = InMemoryCompiler.compileClasses(sources.toArray(new String[0]), names.toArray(new String[0]));
-    }
+    public abstract Source to();
 
-    @After
-    public final void cleanup() throws Exception {
-        db.deleteProduct(creator.createProduct("example-from", "", "", "example-from"));
-        db.deleteProduct(creator.createProduct("example-to", "", "", "example-to"));
-        db.deleteProduct(creator.createProduct("example-trans", "", "", "example-trans"));
-    }
+    public abstract Source trans();
 }

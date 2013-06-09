@@ -19,24 +19,6 @@
 		http://www.springframework.org/schema/data/neo4j http://www.springframework.org/schema/data/neo4j/spring-neo4j-2.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<!-- Configure context for autowiring -->
-	<context:annotation-config />
-	<context:spring-configured />
-	<context:component-scan base-package="cern.devtools.deps" />
-
-	<!-- Spring data backend -->
-	<neo4j:config graphDatabaseService="graphDatabaseService" />
-	<neo4j:repositories base-package="cern.devtools.deps.springdata.repos" />
-	<bean id="graphDatabaseService" class="org.neo4j.test.ImpermanentGraphDatabase" />
-	<bean id="database_dao" class="cern.devtools.deps.bean.impl.SpringDataNeo4jDatabaseDao" />
-
-	<!-- Transactions are driven by annotations -->
-	<tx:annotation-driven mode="proxy" />
-	<bean id="transactionManager" class="org.neo4j.kernel.impl.transaction.SpringTransactionManager">
-		<constructor-arg ref="graphDatabaseService" />
-	</bean>
-
-	<!-- Domain instance factory -->
-	<bean id="domain_creator" class="cern.devtools.deps.domain.creation.impl.SpringDataNeo4jObjectCreator" />
-	
+	<import resource="ctx-test-dbdao-oracledev.xml" />
+	<import resource="ctx-test-discovery-common.xml" />
 </beans>
