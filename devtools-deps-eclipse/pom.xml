@@ -28,15 +28,6 @@
 			<layout>p2</layout>
 			<url>http://sdcserver:10080/site/eclipse-discovery/3.7.2</url>
 		</repository>
-		<repository>
-			<id>B3</id>
-			<layout>p2</layout>
-			<url>http://bewww.cern.ch/ap/dist/eclipse/b3/updates/</url>
-		</repository>
-		<repository>
-			<id>eclipse.org</id>
-			<url>http://download.eclipse.org/eclipse/updates/3.7</url>
-		</repository>
 	</repositories>
 
 	<build>

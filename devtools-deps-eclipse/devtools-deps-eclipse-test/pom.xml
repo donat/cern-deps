@@ -14,4 +14,13 @@
 	<name>devtools-deps-eclipse test</name>
 	<version>1.0.0.20130609</version>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<extensions>true</extensions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

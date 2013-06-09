@@ -2,8 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: cern.devtools.deps.eclipse.test
 Bundle-Version: 1.0.0.20130609
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.junit4;bundle-version="4.8.1"
+Require-Bundle: org.junit4,
+ cern.devtools.deps.eclipse.ui;bundle-version="3.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
