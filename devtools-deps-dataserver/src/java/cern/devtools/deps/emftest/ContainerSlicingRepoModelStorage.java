@@ -26,17 +26,29 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-import cern.devtools.deps.repomodel.RField;
 import cern.devtools.deps.repomodel.RProject;
 import cern.devtools.deps.repomodel.RRepository;
 import cern.devtools.deps.repomodel.RepomodelFactory;
 
 public class ContainerSlicingRepoModelStorage {
 
-    private File location;
-    private ResourceSet resourceSet;
-    private Map<String, Resource> resources;
     private static final String RESOURCE_EXT = ".repomodel";
+    @SuppressWarnings("unchecked")
+    public static void main(String[] args) throws IOException {
+        ContainerSlicingRepoModelStorage s = new ContainerSlicingRepoModelStorage("./tmpstorage");
+        RRepository repo = RepomodelFactory.eINSTANCE.createRRepository();
+        RProject project = RepomodelFactory.eINSTANCE.createRProject();
+        repo.getRProjects().add(project);
+        System.out.println(project.eContainer());
+
+        s.addRRepositoryItem(repo);
+        s.addRRepositoryItem(project);
+        s.saveAll();
+    }
+    private final File location;
+    private final Map<String, Resource> resources;
+
+    private final ResourceSet resourceSet;
 
     public ContainerSlicingRepoModelStorage(String locationFolder) {
         location = new File(locationFolder);
@@ -46,7 +58,7 @@ public class ContainerSlicingRepoModelStorage {
 
         resourceSet = new ResourceSetImpl();
         resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
-                .put("repomodel", new XMIResourceFactoryImpl());
+        .put("repomodel", new XMIResourceFactoryImpl());
         resources = new HashMap<String, Resource>();
     }
 
@@ -54,22 +66,6 @@ public class ContainerSlicingRepoModelStorage {
         String resourceName = constructResourceNameForObject(eo);
         Resource resource = getOrCreateResource(resourceName);
         resource.getContents().add(eo);
-    }
-
-    public void saveAll() throws IOException {
-        for (Resource r : resources.values()) {
-            r.save(Collections.EMPTY_MAP);
-        }
-    }
-
-    private Resource getOrCreateResource(String resourceName) {
-        Resource result = resources.get(resourceName);
-        if (result == null) {
-            result = resourceSet.createResource(URI.createFileURI(location.getAbsolutePath() + File.separator
-                    + resourceName + RESOURCE_EXT));
-            resources.put(resourceName, result);
-        }
-        return result;
     }
 
     private String constructResourceNameForObject(EObject eo) {
@@ -82,16 +78,19 @@ public class ContainerSlicingRepoModelStorage {
         return result;
     }
 
-    @SuppressWarnings("unchecked")
-    public static void main(String[] args) throws IOException {
-        ContainerSlicingRepoModelStorage s = new ContainerSlicingRepoModelStorage("./tmpstorage");
-        RRepository repo = RepomodelFactory.eINSTANCE.createRRepository();
-        RProject project = RepomodelFactory.eINSTANCE.createRProject();
-        repo.getRProjects().add(project);
-        System.out.println(project.eContainer());
+    private Resource getOrCreateResource(String resourceName) {
+        Resource result = resources.get(resourceName);
+        if (result == null) {
+            result = resourceSet.createResource(URI.createFileURI(location.getAbsolutePath() + File.separator
+                    + resourceName + RESOURCE_EXT));
+            resources.put(resourceName, result);
+        }
+        return result;
+    }
 
-        s.addRRepositoryItem(repo);
-        s.addRRepositoryItem(project);
-        s.saveAll();
+    public void saveAll() throws IOException {
+        for (Resource r : resources.values()) {
+            r.save(Collections.EMPTY_MAP);
+        }
     }
 }
