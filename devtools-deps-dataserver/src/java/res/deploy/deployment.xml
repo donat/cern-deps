@@ -20,7 +20,7 @@
 
 		<!-- Deployment on the development (cwe-513-vml065) server. -->
 		<application name="deps-server-development">
-			<deployment installLocation="/opt/deps">
+			<deployment installLocation="/local/deps">
 				<directory name="conf">
 				</directory>
 				<notification>
@@ -30,7 +30,7 @@
 			<startscript name="DEPS-TEST">
 				<main-class name="cern.devtools.deps.ServerDev" />
 				<java-vm-args>-Xmx2G</java-vm-args>
-				<property name="log4j.configuration" value="file:conf/log4j.properties" />
+				<property name="log4j.configuration" value="file:conf/log4j.xml" />
 			</startscript>
 		</application>
 	</product>

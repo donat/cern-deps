@@ -10,7 +10,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<tycho.version>0.15.0</tycho.version>
+		<tycho.version>0.18.0</tycho.version>
 		<maven.depplugin.version>2.3</maven.depplugin.version>
 	</properties>
 
@@ -20,22 +20,7 @@
 		<module>devtools-deps-eclipse-feature</module>
 		<module>devtools-deps-eclipse-updatesite</module>
 	</modules>
-
-	<repositories>
-		<repository>
-			<id>internal-eclipse-plugin-repo</id>
-			<layout>p2</layout>
-			<url>http://bewww.cern.ch/ap/dist/eclipse/b3/updates/</url>
-		</repository>
-
-		<repository>
-			<id>external-eclipse-plugin-repo</id>
-			<url>http://download.eclipse.org/eclipse/updates/3.7</url>
-		</repository>
-	</repositories>
-
-
-
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -53,7 +38,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-
 
 		<pluginManagement>
 			<plugins>
