@@ -4,4 +4,3 @@ mvn install:install-file -Dfile=org.eclipse.emf.common_2.7.0.jar -DgroupId=org.e
 mvn install:install-file -Dfile=org.eclipse.emf.ecore_2.7.0.jar -DgroupId=org.eclipse.emf -DartifactId=emf-ecore -Dpackaging=jar -Dversion=2.7.0
 mvn install:install-file -Dfile=org.eclipse.emf.ecore.change_2.7.1.jar -DgroupId=org.eclipse.emf -DartifactId=emf-ecore-change -Dpackaging=jar -Dversion=2.7.1
 mvn install:install-file -Dfile=org.eclipse.emf.ecore.xmi_2.7.0.jar -DgroupId=org.eclipse.emf -DartifactId=emf-ecore-xmi -Dpackaging=jar -Dversion=2.7.0
-mvn install:install-file -Dfile=cp3model.jar -DgroupId=hu.bme.incquery.deps -DartifactId=cp3model -Dpackaging=jar -Dversion=1.0.0
