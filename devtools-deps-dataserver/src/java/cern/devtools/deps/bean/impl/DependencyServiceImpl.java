@@ -27,8 +27,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
-import org.neo4j.helpers.Pair;
 
+import cern.accsoft.commons.util.value.Pair;
 import cern.devtools.deps.bean.Controller;
 import cern.devtools.deps.bean.Controller.DependencyUpdateListener;
 import cern.devtools.deps.bean.DatabaseDao;
@@ -48,225 +48,221 @@ import cern.devtools.deps.domain.Product;
  */
 public class DependencyServiceImpl implements DependencyService {
 
-	/**
-	 * Listener which puts a null every time an update is initiated. In this way the {@link DependencyServiceImpl} can
-	 * cache the releaselog file's content until the database itself is refreshed.
-	 */
-	private DependencyUpdateListener listener = new DependencyUpdateListener() {
-		public void onUpdate() {
-			releaseLog = null;
-		}
-	};
+    /**
+     * Logger instance..
+     */
+    private static final Logger LOG = Logger.getLogger(DependencyServiceImpl.class);
 
-	/**
-	 * Database bean.
-	 */
-	private final DatabaseDao db;
+    private final Controller controller;
 
-	/**
-	 * Logger instance..
-	 */
-	private static final Logger LOG = Logger.getLogger(DependencyServiceImpl.class);
+    /**
+     * Database bean.
+     */
+    private final DatabaseDao db;
 
-	/**
-	 * The cache of the commonbuild repository's log.
-	 */
-	private Map<Pair<String, String>, String> releaseLog;
+    /**
+     * Listener which puts a null every time an update is initiated. In this way the {@link DependencyServiceImpl} can
+     * cache the releaselog file's content until the database itself is refreshed.
+     */
+    private final DependencyUpdateListener listener = new DependencyUpdateListener() {
+        public void onUpdate() {
+            releaseLog = null;
+        }
+    };
 
-	private final Controller controller;
+    /**
+     * The cache of the commonbuild repository's log.
+     */
+    private Map<Pair<String, String>, String> releaseLog;
 
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param db DataBase access bean.
-	 */
-	public DependencyServiceImpl(DatabaseDao db, Controller controller) {
-		this.db = db;
-		this.controller = controller;
-		controller.addDependencyUpdateListener(listener);
-	}
+    /**
+     * Constructor.
+     * 
+     * @param db DataBase access bean.
+     */
+    public DependencyServiceImpl(DatabaseDao db, Controller controller) {
+        this.db = db;
+        this.controller = controller;
+        controller.addDependencyUpdateListener(listener);
+    }
 
-	public Collection<Dependency> getIncomingDependencies(CodeElement element) throws DepBeanException {
-		// Log the query
-		LOG.info("Analyse  dependencies <" + element + ">.");
+    /**
+     * Finalizer method called by the Spring framework on closing.
+     */
+    public void close() {
+        controller.removeDependencyUpdateListener(listener);
+    }
 
-		// Do the query based on the type of the instance.
-		try {
-			Collection<Dependency> result;
-			if (element instanceof ApiClass) {
-				result = db.findClassDependencies((ApiClass) element);
-			} else if (element instanceof Method) {
-				result = db.findMethodDependencies((Method) element);
-			} else if (element instanceof Field) {
-				result = db.findFieldDependencies((Field) element);
-			} else if (element instanceof Product) {
-				result = db.findProductDependencies((Product) element);
-			} else {
-				throw new IllegalArgumentException("This type of element cannot be analysed: " + element.getClass());
-			}
+    private void debugLogDependencies(Collection<Dependency> result) {
+        String log = debugLogDependencies("", result);
+        LOG.debug("\n" + log);
+    }
 
-			// Log the incoming dependencies list if the logger is set to collect debug information.
-			debugLogDependencies(result);
+    private String debugLogDependencies(String indent, Collection<Dependency> result) {
+        StringBuffer sb = new StringBuffer();
+        for (Dependency d : result) {
+            sb.append(d.toString());
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
 
-			return result;
-		} catch (Exception e) {
-			// On error log it and throw a Service-level exception.
-			LOG.warn("getIncomingDependencies() failed. Reason is: " + e.getMessage());
-			throw new DepBeanException(e);
-		}
-	}
+    public String findReleaser(Product p, String version) throws DepBeanException {
+        try {
+            // If the releaselog file is not cached
+            if (releaseLog == null) {
+                releaseLog = parseReleaseLog();
+            }
 
-	private void debugLogDependencies(Collection<Dependency> result) {
-		String log = debugLogDependencies("", result);
-		LOG.debug("\n" + log);
-	}
+            Pair<String, String> key = Pair.newInstance(p.getContainingFolders(), version);
+            String committer = releaseLog.get(key);
+            if (committer == null) {
+                // If committer not found then something is not OK => exception.
+                throw new RuntimeException("Releaser not found in the log file");
+            } else {
+                return committer;
+            }
+        } catch (Exception e) {
+            // On error log it and throw a Service-level exception.
+            LOG.warn("findReleaser() failed. Reason is: " + e.getMessage());
+            throw new DepBeanException(e);
+        }
+    }
 
-	private String debugLogDependencies(String indent, Collection<Dependency> result) {
-		StringBuffer sb = new StringBuffer();
-		for (Dependency d : result) {
-			sb.append(d.toString());
-			sb.append("\n");
-		}
-		return sb.toString();
-	}
+    public Collection<String> getCommittersName(Product p) throws DepBeanException {
+        BufferedReader reader = null;
+        StringBuilder peoplePath = null;
+        try {
+            // Obtain commonbuild root.
+            String path;
+            if (BeanUtils.IS_LINUX) {
+                path = ConstantStore.PCROPS_LINUX_LOC;
+            } else {
+                path = ConstantStore.PCROPS_WINDOWS_LOC;
+            }
 
-	public Collection<String> getCommittersName(Product p) throws DepBeanException {
-		BufferedReader reader = null;
-		StringBuilder peoplePath = null;
-		try {
-			// Obtain commonbuild root.
-			String path;
-			if (BeanUtils.IS_LINUX) {
-				path = ConstantStore.PCROPS_LINUX_LOC;
-			} else {
-				path = ConstantStore.PCROPS_WINDOWS_LOC;
-			}
+            // append the location of the "people file"
+            peoplePath = new StringBuilder(path);
+            peoplePath.append(File.separatorChar);
+            peoplePath.append(p.getContainingFolders().replace('/', File.separatorChar)
+                    .replace('\\', File.separatorChar));
+            peoplePath.append(File.separatorChar);
+            peoplePath.append("PRO");
+            peoplePath.append(File.separatorChar);
+            peoplePath.append("people");
 
-			// append the location of the "people file"
-			peoplePath = new StringBuilder(path);
-			peoplePath.append(File.separatorChar);
-			peoplePath.append(p.getContainingFolders().replace('/', File.separatorChar)
-					.replace('\\', File.separatorChar));
-			peoplePath.append(File.separatorChar);
-			peoplePath.append("PRO");
-			peoplePath.append(File.separatorChar);
-			peoplePath.append("people");
+            // Check if the people file exists.
+            File people = new File(peoplePath.toString());
+            if (!people.exists()) {
+                String msg = "People file not exist in path " + people.getAbsolutePath();
+                LOG.warn(msg);
+                throw new DepBeanException(msg);
+            }
 
-			// Check if the people file exists.
-			File people = new File(peoplePath.toString());
-			if (!people.exists()) {
-				String msg = "People file not exist in path " + people.getAbsolutePath();
-				LOG.warn(msg);
-				throw new DepBeanException(msg);
-			}
+            // Read the contents of the people file.
+            List<String> result = new LinkedList<String>();
+            reader = new BufferedReader(new FileReader(people));
+            String r = null;
+            while ((r = reader.readLine()) != null) {
+                result.add(r.trim());
+            }
 
-			// Read the contents of the people file.
-			List<String> result = new LinkedList<String>();
-			reader = new BufferedReader(new FileReader(people));
-			String r = null;
-			while ((r = reader.readLine()) != null) {
-				result.add(r.trim());
-			}
+            // On success return the contents in a list.
+            return result;
 
-			// On success return the contents in a list.
-			return result;
+        } catch (Exception e) {
+            // On error log it and throw a Service-level exception.
+            LOG.warn("getCommittersName() failed. Reason: " + e.getMessage());
+            throw new DepBeanException(e);
+        } finally {
+            // Close reader if it is possible.
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    LOG.warn("File reader object for " + peoplePath + " could not be closed. Reason: " + e.getMessage());
+                }
+            }
+        }
+    }
 
-		} catch (Exception e) {
-			// On error log it and throw a Service-level exception.
-			LOG.warn("getCommittersName() failed. Reason: " + e.getMessage());
-			throw new DepBeanException(e);
-		} finally {
-			// Close reader if it is possible.
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch (IOException e) {
-					LOG.warn("File reader object for " + peoplePath + " could not be closed. Reason: " + e.getMessage());
-				}
-			}
-		}
-	}
+    public Collection<Dependency> getIncomingDependencies(CodeElement element) throws DepBeanException {
+        // Log the query
+        LOG.info("Analyse  dependencies <" + element + ">.");
 
-	public String findReleaser(Product p, String version) throws DepBeanException {
-		try {
-			// If the releaselog file is not cached
-			if (releaseLog == null) {
-				releaseLog = parseReleaseLog();
-			}
+        // Do the query based on the type of the instance.
+        try {
+            Collection<Dependency> result;
+            if (element instanceof ApiClass) {
+                result = db.findClassDependencies((ApiClass) element);
+            } else if (element instanceof Method) {
+                result = db.findMethodDependencies((Method) element);
+            } else if (element instanceof Field) {
+                result = db.findFieldDependencies((Field) element);
+            } else if (element instanceof Product) {
+                result = db.findProductDependencies((Product) element);
+            } else {
+                throw new IllegalArgumentException("This type of element cannot be analysed: " + element.getClass());
+            }
 
-			Pair<String, String> key = Pair.of(p.getContainingFolders(), version);
-			String committer = releaseLog.get(key);
-			if (committer == null) {
-				// If committer not found then something is not OK => exception.
-				throw new RuntimeException("Releaser not found in the log file");
-			} else {
-				return committer;
-			}
-		} catch (Exception e) {
-			// On error log it and throw a Service-level exception.
-			LOG.warn("findReleaser() failed. Reason is: " + e.getMessage());
-			throw new DepBeanException(e);
-		}
-	}
+            // Log the incoming dependencies list if the logger is set to collect debug information.
+            debugLogDependencies(result);
 
-	public void reportClientActivation(String user, String host) throws DepBeanException {
-		LOG.info("Client activation. Username: " + user + ", host: " + host + ".");
-	}
-	
-	private Map<Pair<String, String>, String> parseReleaseLog() throws Exception {
-		List<String> log = readReleaseLog();
-		return parseReleaseLog(log);
-	}
+            return result;
+        } catch (Exception e) {
+            // On error log it and throw a Service-level exception.
+            LOG.warn("getIncomingDependencies() failed. Reason is: " + e.getMessage());
+            throw new DepBeanException(e);
+        }
+    }
 
-	private List<String> readReleaseLog() throws IOException {
+    private Map<Pair<String, String>, String> parseReleaseLog() throws Exception {
+        List<String> log = readReleaseLog();
+        return parseReleaseLog(log);
+    }
 
-		BufferedReader reader = null;
-		try {
-			List<String> log = new LinkedList<String>();
-			final URL releaseLogURL = new URL(ConstantStore.CMMNBUILD_RELEASELOG_URL);
-			String r = null;
-			reader = new BufferedReader(new InputStreamReader(releaseLogURL.openStream()));
-			while ((r = reader.readLine()) != null) {
-				log.add(r.trim());
-			}
-			reader.close();
-			return log;
-		} finally {
-			if (reader != null) {
-				reader.close();
-			}
-		}
-	}
+    Map<Pair<String, String>, String> parseReleaseLog(List<String> releaseLog) {
+        Map<Pair<String, String>, String> result = new HashMap<Pair<String, String>, String>();
+        Pattern pattern = Pattern
+                .compile("^\t?\t?([a-zA-Z0-9\\-\\_\\/\\.]*)\t\t([0-9\\.\\-\\_a-zA-Z\\=]*|Qfix)\t.*\t([a-z]*)\tPREVIOUS.*$");
 
-	Map<Pair<String, String>, String> parseReleaseLog(List<String> releaseLog) {
-		Map<Pair<String, String>, String> result = new HashMap<Pair<String, String>, String>();
-		Pattern pattern = Pattern
-				.compile("^\t?\t?([a-zA-Z0-9\\-\\_\\/\\.]*)\t\t([0-9\\.\\-\\_a-zA-Z\\=]*|Qfix)\t.*\t([a-z]*)\tPREVIOUS.*$");
+        for (String log : releaseLog) {
+            Matcher m = pattern.matcher(log);
+            if (!m.find()) {
+                continue;
+            } else {
+                String cf = m.group(1);
+                String ver = m.group(2);
+                String releaser = m.group(3);
+                result.put(Pair.newInstance(cf, ver), releaser);
+            }
+        }
+        return result;
+    }
 
-		for (String log : releaseLog) {
-			Matcher m = pattern.matcher(log);
-			if (!m.find()) {
-				continue;
-			} else {
-				String cf = m.group(1);
-				String ver = m.group(2);
-				String releaser = m.group(3);
-				result.put(Pair.of(cf, ver), releaser);
-			}
-		}
-		return result;
-	}
+    private List<String> readReleaseLog() throws IOException {
 
-	/**
-	 * Finalizer method called by the Spring framework on closing.
-	 */
-	public void close() {
-		controller.removeDependencyUpdateListener(listener);
-	}
+        BufferedReader reader = null;
+        try {
+            List<String> log = new LinkedList<String>();
+            final URL releaseLogURL = new URL(ConstantStore.CMMNBUILD_RELEASELOG_URL);
+            String r = null;
+            reader = new BufferedReader(new InputStreamReader(releaseLogURL.openStream()));
+            while ((r = reader.readLine()) != null) {
+                log.add(r.trim());
+            }
+            reader.close();
+            return log;
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
+    }
 
-	public Object getCompactedServerModelFor(List<String> projects) {
-		return db.findCp3ModelForDirectDeps(projects);
-	}
+    public void reportClientActivation(String user, String host) throws DepBeanException {
+        LOG.info("Client activation. Username: " + user + ", host: " + host + ".");
+    }
 
 }

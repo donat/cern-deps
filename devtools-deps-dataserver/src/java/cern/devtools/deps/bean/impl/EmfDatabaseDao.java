@@ -12,17 +12,9 @@
  **********************************************************************************************************************/
 package cern.devtools.deps.bean.impl;
 
-import hu.bme.incquery.deps.cp3model.Cp3modelPackage;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -36,29 +28,20 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
-import org.springframework.expression.spel.ast.Projection;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import cern.devtools.deps.bean.DatabaseDao;
 import cern.devtools.deps.bean.DatabaseException;
-import cern.devtools.deps.bean.DepBeanException;
 import cern.devtools.deps.bean.DependencyExtractor;
 import cern.devtools.deps.domain.ApiClass;
 import cern.devtools.deps.domain.CodeElement;
@@ -80,9 +63,6 @@ import cern.devtools.deps.repomodel.RProject;
 import cern.devtools.deps.repomodel.RRepository;
 import cern.devtools.deps.repomodel.RepomodelFactory;
 import cern.devtools.deps.repomodel.RepomodelPackage;
-import cern.devtools.deps.transformer.cp3.SubCp3ModelFinder;
-import cern.devtools.deps.transformer.cp3.TransformRepoToCP3;
-import cern.devtools.deps.transformer.cp3.TransformRepoToCP3withSaxParser;
 
 /**
  * In-memory database dao.
@@ -94,14 +74,118 @@ public final class EmfDatabaseDao implements DatabaseDao {
     // id generator
     private static long idSeq = 0l;
 
-    //
-    private String file = "";
+    // log
+    private static final Logger LOG = Logger.getLogger(DependencyExtractor.class);
 
     // Extension definition
     private static final String OUTPUT_FILE_EXT = "repomodel";
 
-    // log
-    private static final Logger LOG = Logger.getLogger(DependencyExtractor.class);
+    private static void addIncomingDeps(RCodeElement to, Collection<Dependency> resultHolder) {
+        Collection<Dependency> result = new LinkedList<Dependency>();
+        Map<String, RProject> projects = new HashMap<String, RProject>();
+        Map<String, RClass> classes = new HashMap<String, RClass>();
+        Map<String, RMethod> methods = new HashMap<String, RMethod>();
+
+        for (Object incDepObject : to.getRIncoming()) {
+            RDependency incDep = (RDependency) incDepObject;
+            RCodeElement from = (RCodeElement) incDep.getFrom();
+
+            RClass fromClass = null;
+            RMethod fromMethod = null;
+            RProject fromProject = null;
+
+            if (RepomodelPackage.eINSTANCE.getRMethod().isSuperTypeOf(from.eClass())) {
+                fromMethod = (RMethod) from;
+                fromClass = (RClass) fromMethod.getApiClass();
+                fromProject = (RProject) fromClass.getProduct();
+            } else if (RepomodelPackage.eINSTANCE.getRClass().isSuperTypeOf(from.eClass())) {
+                fromClass = (RClass) from;
+                fromProject = (RProject) fromClass.getProduct();
+            } else {
+                throw new RuntimeException("Unsupported type: " + from.eClass());
+            }
+
+            RProject rp = projects.get(fromProject.getName());
+            if (rp == null) {
+                rp = (RProject) copyAttributes(fromProject);
+                projects.put(fromProject.getName(), rp);
+            }
+
+            RClass rc = classes.get(fromClass.getFqName());
+            if (rc == null) {
+                rc = (RClass) copyAttributes(fromClass);
+                classes.put(fromClass.getFqName(), rc);
+            }
+
+            RMethod rm = null;
+            if (fromMethod != null) {
+                rm = methods.get(fromMethod.getSignature());
+                if (rm == null) {
+                    rm = (RMethod) copyAttributes(fromMethod);
+                    methods.put(fromMethod.getSignature(), rm);
+                }
+            }
+
+            // connect elements
+            if (!rp.getClasses().contains(rc)) {
+                rp.getClasses().add(rc);
+                rc.setProduct(rp);
+
+            }
+
+            if (rm != null && !rc.getMethods().contains(rm)) {
+                rc.getMethods().add(rm);
+                rm.setApiClass(rc);
+            }
+
+            // create dependency
+            DomainObjectCreator creator = new EmfObjectCreator();
+            if (RepomodelPackage.eINSTANCE.getRMethod().isSuperTypeOf(from.eClass())) {
+                RMethod rmf = methods.get(fromMethod.getSignature());
+                Dependency dep = creator.createDependency(incDep.getType(), methods.get(fromMethod.getSignature()),
+                        null);
+                result.add(dep);
+
+            } else if (RepomodelPackage.eINSTANCE.getRClass().isSuperTypeOf(from.eClass())) {
+                RClass rcf = classes.get(fromClass.getFqName());
+                Dependency dep = creator.createDependency(incDep.getType(), classes.get(fromClass.getFqName()), null);
+                result.add(dep);
+            }
+
+        }
+
+        resultHolder.addAll(result);
+    }
+
+    public static EObject copyAttributes(EObject source) {
+        Copier copier = new Copier() {
+            @Override
+            protected void copyContainment(EReference eReference, EObject eObject, EObject copyEObject) {
+                // We need just to copy the attributes
+            }
+
+            @Override
+            protected void copyReference(EReference eReference, EObject eObject, EObject copyEObject) {
+                // We need just to copy the attributes
+            }
+        };
+
+        return copier.copy(source);
+    }
+
+    public static EmfDatabaseDao fromFile(String repoModelLoc, String cp3ModelLoc) throws Exception {
+        EmfDatabaseDao dao = new EmfDatabaseDao(repoModelLoc, cp3ModelLoc);
+        dao.fillCaches();
+        return dao;
+    }
+
+    public static void main(String[] args) {
+        DomainFactory.setDomainObjectCreator(new EmfObjectCreator());
+        RProject p1 = (RProject) DomainFactory.creator().createProduct("p1");
+        RClass c1 = (RClass) DomainFactory.creator().createApiClass("ApiClass", EnumSet.noneOf(Modifiers.class));
+        p1.getClasses().add(c1);
+        System.out.println(((RProject) copyAttributes(p1)).getClasses());
+    }
 
     // class cache
     private final Map<String, List<ApiClass>> cacheClass = new HashMap<String, List<ApiClass>>();
@@ -112,12 +196,15 @@ public final class EmfDatabaseDao implements DatabaseDao {
     // method cache
     private final Map<String, List<Method>> cacheMethod = new HashMap<String, List<Method>>();
 
-    // model root
-    RRepository root = RepomodelFactory.eINSTANCE.createRRepository();
+    private Resource cp3Modelres;
+
+    //
+    private final String file = "";
 
     private Resource repoModelRes;
 
-    private Resource cp3Modelres;
+    // model root
+    RRepository root = RepomodelFactory.eINSTANCE.createRRepository();
 
     private EmfDatabaseDao(String repoModelLoc, String cp3ModelLoc) {
         try {
@@ -127,70 +214,20 @@ public final class EmfDatabaseDao implements DatabaseDao {
         }
     }
 
-    public static EmfDatabaseDao fromFile(String repoModelLoc, String cp3ModelLoc) throws Exception {
-        EmfDatabaseDao dao = new EmfDatabaseDao(repoModelLoc, cp3ModelLoc);
-        dao.fillCaches();
-        return dao;
-    }
-
-    private void fillCaches() {
-        // Obtain root object.
-        EList<EObject> contents = repoModelRes.getContents();
-        if (contents.isEmpty()) {
-            return;
-        } else {
-            root = (RRepository) contents.get(0);
+    private void addContainerProjectsToSet(EList rIncoming, Set<RProject> foundProjects) {
+        for (Object inc : rIncoming) {
+            RDependency dep = (RDependency) inc;
+            CodeElement from = dep.getFrom();
+            if (from instanceof RClass) {
+                RClass ic = (RClass) from;
+                foundProjects.add(ic.getProduct());
+            } else if (from instanceof RMethod) {
+                RMethod im = (RMethod) from;
+                foundProjects.add((RProject) im.getApiClass().getProduct());
+            } else
+                throw new RuntimeException("Wrong type as incoming dep:" + inc.getClass());
         }
 
-        // Fill caches.
-        for (Object rpo : root.getRProjects()) {
-            RProject rp = (RProject) rpo;
-            for (ApiClass ac : rp.getClasses()) {
-                cacheApiClass(ac);
-                for (Method m : ac.getMethods()) {
-                    cacheMethod(m);
-                }
-                for (Field f : ac.getFields()) {
-                    cacheField(f);
-                }
-            }
-        }
-    }
-
-    /*
-     * returns repo and cp3 models.
-     */
-    private void loadRepoModelRes(String repoModelLoc, String cp3ModelLoc) throws IOException {
-        ResourceSet resourceSet = new ResourceSetImpl();
-        resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
-                .put("repomodel", new XMIResourceFactoryImpl());
-        resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
-                .put("cp3model", new XMIResourceFactoryImpl());
-        EPackage.Registry.INSTANCE.put(RepomodelPackage.eNS_URI, RepomodelPackage.eINSTANCE);
-        EPackage.Registry.INSTANCE.put(Cp3modelPackage.eNS_URI, Cp3modelPackage.eINSTANCE);
-
-        repoModelRes = resourceSet.createResource(URI.createFileURI(repoModelLoc));
-        cp3Modelres = resourceSet.createResource(URI.createFileURI(cp3ModelLoc));
-
-        Map loadOptions = ((XMLResourceImpl) repoModelRes).getDefaultLoadOptions();
-        loadOptions.put(XMLResource.OPTION_DEFER_ATTACHMENT, Boolean.TRUE);
-        loadOptions.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
-        loadOptions.put(XMLResource.OPTION_USE_DEPRECATED_METHODS, Boolean.TRUE);
-        loadOptions.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
-        loadOptions.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap());
-
-        ((XMLResourceImpl) repoModelRes).setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
-        ((XMLResourceImpl) cp3Modelres).setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
-
-        if (!new File(repoModelLoc).exists()) {
-            repoModelRes.save(Collections.EMPTY_MAP);
-        }
-        if (!new File(cp3ModelLoc).exists()) {
-            cp3Modelres.save(Collections.EMPTY_MAP);
-        }
-        
-        repoModelRes.load(loadOptions);
-        cp3Modelres.load(loadOptions);
     }
 
     private void addNewVersionToProduct(Product oldProduct, Product newProduct, String version) {
@@ -238,6 +275,32 @@ public final class EmfDatabaseDao implements DatabaseDao {
 
     }
 
+    private void addProjectsToResource(Set<RProject> projects, Resource targetResource) {
+        RRepository root = RepomodelFactory.eINSTANCE.createRRepository();
+
+        root.getRProjects().addAll(projects);
+        for (RProject rp : projects) {
+            for (Object rco : rp.getClasses()) {
+                RClass rc = (RClass) rco;
+                root.getRDependencies().addAll(rc.getRIncoming());
+                root.getRDependencies().addAll(rc.getROutgoing());
+                // for (Object rmo : rc.getMethods()) {
+                // RMethod rm = (RMethod) rmo;
+                // root.getRDependencies().addAll(rm.getRIncoming());
+                // root.getRDependencies().addAll(rm.getROutgoing());
+                // }
+                //
+                // for (Object rfo : rc.getFields()) {
+                // RField rf = (RField) rfo;
+                // root.getRDependencies().addAll(rf.getRIncoming());
+                // root.getRDependencies().addAll(rf.getROutgoing());
+                // }
+            }
+        }
+
+        targetResource.getContents().add(root);
+    }
+
     private void cacheApiClass(ApiClass ac) {
         List<ApiClass> lac = cacheClass.get(ac.getFqName());
         if (lac == null) {
@@ -264,6 +327,17 @@ public final class EmfDatabaseDao implements DatabaseDao {
             cacheMethod.put(m.getSignature(), lm);
         }
         lm.add(m);
+    }
+
+    private void clearMetadata(Product product) {
+        for (ApiClass ac : product.getClasses()) {
+            ac.getReferencedClasses().clear();
+            for (Method m : ac.getMethods()) {
+                m.getReferencedFields().clear();
+                m.getReferencedMethods().clear();
+            }
+        }
+
     }
 
     private void copyMethodsAndFields(ApiClass oldClass, ApiClass newClass, String version) {
@@ -319,6 +393,15 @@ public final class EmfDatabaseDao implements DatabaseDao {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    private void createDependency(CodeElement dbSource, CodeElement dbTarget, DependencyType type) {
+        RDependency d = (RDependency) RepomodelFactory.eINSTANCE.createRDependency();
+        d.setRFrom((RCodeElement) dbSource);
+        d.setRTo((RCodeElement) dbTarget);
+        d.setDepType(type.value());
+        root.getRDependencies().add(d);
+    }
+
     private void createNewProduct(Product newProduct) {
         // newProduct.setId(++idSeq);
 
@@ -343,14 +426,6 @@ public final class EmfDatabaseDao implements DatabaseDao {
         }
     }
 
-    public void reset() {
-        idSeq = 0l;
-        cacheClass.clear();
-        cacheField.clear();
-        cacheMethod.clear();
-        root = RepomodelFactory.eINSTANCE.createRRepository();
-    }
-
     public void deleteProduct(Product product) throws DatabaseException {
         for (Product p : (List<Product>) root.getRProjects()) {
             if (p.getName().equals(product.getName())) {
@@ -359,6 +434,30 @@ public final class EmfDatabaseDao implements DatabaseDao {
             }
         }
 
+    }
+
+    private void fillCaches() {
+        // Obtain root object.
+        EList<EObject> contents = repoModelRes.getContents();
+        if (contents.isEmpty()) {
+            return;
+        } else {
+            root = (RRepository) contents.get(0);
+        }
+
+        // Fill caches.
+        for (Object rpo : root.getRProjects()) {
+            RProject rp = (RProject) rpo;
+            for (ApiClass ac : rp.getClasses()) {
+                cacheApiClass(ac);
+                for (Method m : ac.getMethods()) {
+                    cacheMethod(m);
+                }
+                for (Field f : ac.getFields()) {
+                    cacheField(f);
+                }
+            }
+        }
     }
 
     public int findAndSaveDependencyRelation(CodeElement sDbItem, Collection<? extends CodeElement> tCand,
@@ -464,135 +563,6 @@ public final class EmfDatabaseDao implements DatabaseDao {
         return found.size();
     }
 
-    @SuppressWarnings("unchecked")
-    private void createDependency(CodeElement dbSource, CodeElement dbTarget, DependencyType type) {
-        RDependency d = (RDependency) RepomodelFactory.eINSTANCE.createRDependency();
-        d.setRFrom((RCodeElement) dbSource);
-        d.setRTo((RCodeElement) dbTarget);
-        d.setDepType(type.value());
-        root.getRDependencies().add(d);
-    }
-
-    public Product findProduct(Product product, boolean deep) throws DatabaseException {
-        Product result = null;
-        for (Product p : (List<Product>) root.getRProjects()) {
-            if (p.getName().equals(product.getName())) {
-                result = p;
-                break;
-            }
-        }
-        return result;
-    }
-
-    public void flush(String file) throws IOException {
-        if (!repoModelRes.getContents().contains(root)) {
-            repoModelRes.getContents().add(root);
-        }
-        
-        repoModelRes.save(Collections.EMPTY_MAP);
-        cp3Modelres.save(Collections.EMPTY_MAP);
-    }
-
-    public void saveProduct(Product newProduct) throws DatabaseException {
-        clearMetadata(newProduct);
-
-        Product old = null;
-        for (Product p : (List<Product>) root.getRProjects()) {
-            if (p.getName().equals(newProduct.getName())) {
-                old = p;
-                break;
-            }
-        }
-
-        if (old == null) {
-            createNewProduct(newProduct);
-        } else {
-            addNewVersionToProduct(old, newProduct, newProduct.getVersions().get(0));
-        }
-    }
-
-    private void clearMetadata(Product product) {
-        for (ApiClass ac : product.getClasses()) {
-            ac.getReferencedClasses().clear();
-            for (Method m : ac.getMethods()) {
-                m.getReferencedFields().clear();
-                m.getReferencedMethods().clear();
-            }
-        }
-
-    }
-
-    /**
-     * Testing purposes: prints out the products' structure to the stdout.
-     */
-    @SuppressWarnings("unchecked")
-    public void printStructure() {
-        System.out.println("Structure");
-        int productNum = 0;
-        int classNum = 0;
-        int methodNum = 0;
-        int fieldNUm = 0;
-
-        for (Product p : (List<Product>) root.getRProjects()) {
-            productNum++;
-            System.out.println(">>>product: " + p.getName() + "<<<");
-            for (ApiClass ac : p.getClasses()) {
-                classNum++;
-                System.out.println("Class " + ac.getFqName());
-                for (Field f : ac.getFields()) {
-                    fieldNUm++;
-                    System.out.println("  field: " + f.getSignature());
-                }
-                for (Method m : ac.getMethods()) {
-                    methodNum++;
-                    System.out.println("  method: " + m.getSignature());
-                }
-            }
-        }
-        System.out.println(productNum);
-        System.out.println(classNum);
-        System.out.println(methodNum);
-        System.out.println(fieldNUm);
-    }
-
-    /**
-     * Testing purposes: prints out the dependencies to the stdout.
-     */
-    public void printDeps() {
-        for (Object dObj : root.getRDependencies()) {
-            Dependency d = (Dependency) dObj;
-            String from = null;
-            String to = null;
-            if (d.getType().equals(DependencyType.CLASS_INHERITANCE)) {
-                from = ((ApiClass) d.getFrom()).getFqName();
-                to = ((ApiClass) d.getTo()).getFqName();
-            } else if (d.getType().equals(DependencyType.METHOD_CALL)) {
-                from = ((Method) d.getFrom()).getSignature();
-                to = ((Method) d.getTo()).getSignature();
-            } else if (d.getType().equals(DependencyType.FIELD_REFERENCE)) {
-                from = ((Method) d.getFrom()).getSignature();
-                to = ((Field) d.getTo()).getSignature();
-            } else if (d.getType().equals(DependencyType.CLASS_USAGE)) {
-                from = ((ApiClass) d.getFrom()).getFqName();
-                to = ((ApiClass) d.getTo()).getFqName();
-            } else if (d.getType().equals(DependencyType.METHOD_OVERRIDE)) {
-                from = ((Method) d.getFrom()).getSignature();
-                to = ((Method) d.getTo()).getSignature();
-            }
-            System.out.print(d.getType().toString().substring(0, 11) + " ");
-            System.out.print(from);
-            System.out.print(" ----> ");
-            System.out.println(to);
-        }
-        for (int i = 0; i < root.getRDependencies().size(); ++i) {
-
-        }
-    }
-
-    public int getDepsNum() {
-        return root.getRDependencies().size();
-    }
-
     public Collection<cern.devtools.deps.domain.Dependency> findClassDependencies(ApiClass element) {
         // find container
         Product p = element.getProduct();
@@ -610,138 +580,6 @@ public final class EmfDatabaseDao implements DatabaseDao {
                     if (element.getFqName().equals(dbAc.getFqName())) {
                         addIncomingDeps((RClass) dbAc, result);
                         return result;
-                    }
-                }
-            }
-        }
-
-        return result;
-    }
-
-    private static void addIncomingDeps(RCodeElement to, Collection<Dependency> resultHolder) {
-        Collection<Dependency> result = new LinkedList<Dependency>();
-        Map<String, RProject> projects = new HashMap<String, RProject>();
-        Map<String, RClass> classes = new HashMap<String, RClass>();
-        Map<String, RMethod> methods = new HashMap<String, RMethod>();
-
-        for (Object incDepObject : to.getRIncoming()) {
-            RDependency incDep = (RDependency) incDepObject;
-            RCodeElement from = (RCodeElement) incDep.getFrom();
-
-            RClass fromClass = null;
-            RMethod fromMethod = null;
-            RProject fromProject = null;
-
-            if (RepomodelPackage.eINSTANCE.getRMethod().isSuperTypeOf(from.eClass())) {
-                fromMethod = (RMethod) from;
-                fromClass = (RClass) fromMethod.getApiClass();
-                fromProject = (RProject) fromClass.getProduct();
-            } else if (RepomodelPackage.eINSTANCE.getRClass().isSuperTypeOf(from.eClass())) {
-                fromClass = (RClass) from;
-                fromProject = (RProject) fromClass.getProduct();
-            } else {
-                throw new RuntimeException("Unsupported type: " + from.eClass());
-            }
-
-            RProject rp = projects.get(fromProject.getName());
-            if (rp == null) {
-                rp = (RProject) copyAttributes(fromProject);
-                projects.put(fromProject.getName(), rp);
-            }
-
-            RClass rc = classes.get(fromClass.getFqName());
-            if (rc == null) {
-                rc = (RClass) copyAttributes(fromClass);
-                classes.put(fromClass.getFqName(), rc);
-            }
-
-            RMethod rm = null;
-            if (fromMethod != null) {
-                rm = methods.get(fromMethod.getSignature());
-                if (rm == null) {
-                    rm = (RMethod) copyAttributes(fromMethod);
-                    methods.put(fromMethod.getSignature(), rm);
-                }
-            }
-
-            // connect elements
-            if (!rp.getClasses().contains(rc)) {
-                rp.getClasses().add(rc);
-                rc.setProduct(rp);
-
-            }
-
-            if (rm != null && !rc.getMethods().contains(rm)) {
-                rc.getMethods().add(rm);
-                rm.setApiClass(rc);
-            }
-
-            // create dependency
-            DomainObjectCreator creator = new EmfObjectCreator();
-            if (RepomodelPackage.eINSTANCE.getRMethod().isSuperTypeOf(from.eClass())) {
-                RMethod rmf = methods.get(fromMethod.getSignature());
-                Dependency dep = creator.createDependency(incDep.getType(), methods.get(fromMethod.getSignature()),
-                        null);
-                result.add(dep);
-
-            } else if (RepomodelPackage.eINSTANCE.getRClass().isSuperTypeOf(from.eClass())) {
-                RClass rcf = classes.get(fromClass.getFqName());
-                Dependency dep = creator.createDependency(incDep.getType(), classes.get(fromClass.getFqName()), null);
-                result.add(dep);
-            }
-
-        }
-
-        resultHolder.addAll(result);
-    }
-
-    public static void main(String[] args) {
-        DomainFactory.setDomainObjectCreator(new EmfObjectCreator());
-        RProject p1 = (RProject) DomainFactory.creator().createProduct("p1");
-        RClass c1 = (RClass) DomainFactory.creator().createApiClass("ApiClass", EnumSet.noneOf(Modifiers.class));
-        p1.getClasses().add(c1);
-        System.out.println(((RProject) copyAttributes(p1)).getClasses());
-    }
-
-    public static EObject copyAttributes(EObject source) {
-        Copier copier = new Copier() {
-            @Override
-            protected void copyContainment(EReference eReference, EObject eObject, EObject copyEObject) {
-                // We need just to copy the attributes
-            }
-
-            @Override
-            protected void copyReference(EReference eReference, EObject eObject, EObject copyEObject) {
-                // We need just to copy the attributes
-            }
-        };
-
-        return copier.copy(source);
-    }
-
-    public Collection<cern.devtools.deps.domain.Dependency> findMethodDependencies(Method element) {
-        // find containers
-        ApiClass ac = element.getApiClass();
-        Product p = ac.getProduct();
-
-        // results
-        Collection<Dependency> result = new LinkedList<Dependency>();
-
-        // find class
-        EList projects = root.getRProjects();
-        for (Object dbProjectObject : projects) {
-            RProject dbProject = (RProject) dbProjectObject;
-
-            if (dbProject.getName().equals(p.getName())) {
-                for (ApiClass dbAc : dbProject.getClasses()) {
-                    if (ac.getFqName().equals(dbAc.getFqName())) {
-
-                        for (Method dbMethod : dbAc.getMethods()) {
-                            if (dbMethod.getSignature().equals(element.getSignature())) {
-                                addIncomingDeps((RMethod) dbMethod, result);
-                                return result;
-                            }
-                        }
                     }
                 }
             }
@@ -780,50 +618,50 @@ public final class EmfDatabaseDao implements DatabaseDao {
         return result;
     }
 
-    public void updateProduct(Product product) throws DatabaseException {
-        // TODO
+    public Collection<cern.devtools.deps.domain.Dependency> findMethodDependencies(Method element) {
+        // find containers
+        ApiClass ac = element.getApiClass();
+        Product p = ac.getProduct();
+
+        // results
+        Collection<Dependency> result = new LinkedList<Dependency>();
+
+        // find class
+        EList projects = root.getRProjects();
+        for (Object dbProjectObject : projects) {
+            RProject dbProject = (RProject) dbProjectObject;
+
+            if (dbProject.getName().equals(p.getName())) {
+                for (ApiClass dbAc : dbProject.getClasses()) {
+                    if (ac.getFqName().equals(dbAc.getFqName())) {
+
+                        for (Method dbMethod : dbAc.getMethods()) {
+                            if (dbMethod.getSignature().equals(element.getSignature())) {
+                                addIncomingDeps((RMethod) dbMethod, result);
+                                return result;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public Product findProduct(Product product, boolean deep) throws DatabaseException {
+        Product result = null;
+        for (Product p : (List<Product>) root.getRProjects()) {
+            if (p.getName().equals(product.getName())) {
+                result = p;
+                break;
+            }
+        }
+        return result;
     }
 
     public Collection<Dependency> findProductDependencies(Product element) throws DatabaseException {
         throw new UnsupportedOperationException("Auto-generated method stub; not implemented yet.");
-    }
-
-    public long getNumOfDeps() {
-        return root.getRDependencies().size();
-    }
-
-    // TODO: add it again when possible.
-    // final SubCp3ModelFinder sc;
-
-    public Object findCp3ModelForDirectDeps(List<String> projects) {
-        SubModelFinder finder = new SubModelFinder(repoModelRes, cp3Modelres);
-        return finder.findSubModel(projects);
-    }
-
-    private void addProjectsToResource(Set<RProject> projects, Resource targetResource) {
-        RRepository root = RepomodelFactory.eINSTANCE.createRRepository();
-
-        root.getRProjects().addAll(projects);
-        for (RProject rp : projects) {
-            for (Object rco : rp.getClasses()) {
-                RClass rc = (RClass) rco;
-                root.getRDependencies().addAll(rc.getRIncoming());
-                root.getRDependencies().addAll(rc.getROutgoing());
-                // for (Object rmo : rc.getMethods()) {
-                // RMethod rm = (RMethod) rmo;
-                // root.getRDependencies().addAll(rm.getRIncoming());
-                // root.getRDependencies().addAll(rm.getROutgoing());
-                // }
-                //
-                // for (Object rfo : rc.getFields()) {
-                // RField rf = (RField) rfo;
-                // root.getRDependencies().addAll(rf.getRIncoming());
-                // root.getRDependencies().addAll(rf.getROutgoing());
-                // }
-            }
-        }
-
-        targetResource.getContents().add(root);
     }
 
     private Set<RProject> findProjectsToRetrieve(List<String> projects) {
@@ -849,20 +687,156 @@ public final class EmfDatabaseDao implements DatabaseDao {
         return foundProjects;
     }
 
-    private void addContainerProjectsToSet(EList rIncoming, Set<RProject> foundProjects) {
-        for (Object inc : rIncoming) {
-            RDependency dep = (RDependency) inc;
-            CodeElement from = dep.getFrom();
-            if (from instanceof RClass) {
-                RClass ic = (RClass) from;
-                foundProjects.add(ic.getProduct());
-            } else if (from instanceof RMethod) {
-                RMethod im = (RMethod) from;
-                foundProjects.add((RProject) im.getApiClass().getProduct());
-            } else
-                throw new RuntimeException("Wrong type as incoming dep:" + inc.getClass());
+    public void flush(String file) throws IOException {
+        if (!repoModelRes.getContents().contains(root)) {
+            repoModelRes.getContents().add(root);
         }
 
+        repoModelRes.save(Collections.EMPTY_MAP);
+        cp3Modelres.save(Collections.EMPTY_MAP);
+    }
+
+    public int getDepsNum() {
+        return root.getRDependencies().size();
+    }
+
+    public long getNumOfDeps() {
+        return root.getRDependencies().size();
+    }
+
+    /*
+     * returns repo and cp3 models.
+     */
+    private void loadRepoModelRes(String repoModelLoc, String cp3ModelLoc) throws IOException {
+        ResourceSet resourceSet = new ResourceSetImpl();
+        resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
+        .put("repomodel", new XMIResourceFactoryImpl());
+        resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
+        .put("cp3model", new XMIResourceFactoryImpl());
+        EPackage.Registry.INSTANCE.put(RepomodelPackage.eNS_URI, RepomodelPackage.eINSTANCE);
+
+        repoModelRes = resourceSet.createResource(URI.createFileURI(repoModelLoc));
+        cp3Modelres = resourceSet.createResource(URI.createFileURI(cp3ModelLoc));
+
+        Map loadOptions = ((XMLResourceImpl) repoModelRes).getDefaultLoadOptions();
+        loadOptions.put(XMLResource.OPTION_DEFER_ATTACHMENT, Boolean.TRUE);
+        loadOptions.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
+        loadOptions.put(XMLResource.OPTION_USE_DEPRECATED_METHODS, Boolean.TRUE);
+        loadOptions.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
+        loadOptions.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap());
+
+        ((XMLResourceImpl) repoModelRes).setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
+        ((XMLResourceImpl) cp3Modelres).setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
+
+        if (!new File(repoModelLoc).exists()) {
+            repoModelRes.save(Collections.EMPTY_MAP);
+        }
+        if (!new File(cp3ModelLoc).exists()) {
+            cp3Modelres.save(Collections.EMPTY_MAP);
+        }
+
+        repoModelRes.load(loadOptions);
+        cp3Modelres.load(loadOptions);
+    }
+
+    /**
+     * Testing purposes: prints out the dependencies to the stdout.
+     */
+    public void printDeps() {
+        for (Object dObj : root.getRDependencies()) {
+            Dependency d = (Dependency) dObj;
+            String from = null;
+            String to = null;
+            if (d.getType().equals(DependencyType.CLASS_INHERITANCE)) {
+                from = ((ApiClass) d.getFrom()).getFqName();
+                to = ((ApiClass) d.getTo()).getFqName();
+            } else if (d.getType().equals(DependencyType.METHOD_CALL)) {
+                from = ((Method) d.getFrom()).getSignature();
+                to = ((Method) d.getTo()).getSignature();
+            } else if (d.getType().equals(DependencyType.FIELD_REFERENCE)) {
+                from = ((Method) d.getFrom()).getSignature();
+                to = ((Field) d.getTo()).getSignature();
+            } else if (d.getType().equals(DependencyType.CLASS_USAGE)) {
+                from = ((ApiClass) d.getFrom()).getFqName();
+                to = ((ApiClass) d.getTo()).getFqName();
+            } else if (d.getType().equals(DependencyType.METHOD_OVERRIDE)) {
+                from = ((Method) d.getFrom()).getSignature();
+                to = ((Method) d.getTo()).getSignature();
+            }
+            System.out.print(d.getType().toString().substring(0, 11) + " ");
+            System.out.print(from);
+            System.out.print(" ----> ");
+            System.out.println(to);
+        }
+        for (int i = 0; i < root.getRDependencies().size(); ++i) {
+
+        }
+    }
+
+    // TODO: add it again when possible.
+    // final SubCp3ModelFinder sc;
+
+    /**
+     * Testing purposes: prints out the products' structure to the stdout.
+     */
+    @SuppressWarnings("unchecked")
+    public void printStructure() {
+        System.out.println("Structure");
+        int productNum = 0;
+        int classNum = 0;
+        int methodNum = 0;
+        int fieldNUm = 0;
+
+        for (Product p : (List<Product>) root.getRProjects()) {
+            productNum++;
+            System.out.println(">>>product: " + p.getName() + "<<<");
+            for (ApiClass ac : p.getClasses()) {
+                classNum++;
+                System.out.println("Class " + ac.getFqName());
+                for (Field f : ac.getFields()) {
+                    fieldNUm++;
+                    System.out.println("  field: " + f.getSignature());
+                }
+                for (Method m : ac.getMethods()) {
+                    methodNum++;
+                    System.out.println("  method: " + m.getSignature());
+                }
+            }
+        }
+        System.out.println(productNum);
+        System.out.println(classNum);
+        System.out.println(methodNum);
+        System.out.println(fieldNUm);
+    }
+
+    public void reset() {
+        idSeq = 0l;
+        cacheClass.clear();
+        cacheField.clear();
+        cacheMethod.clear();
+        root = RepomodelFactory.eINSTANCE.createRRepository();
+    }
+
+    public void saveProduct(Product newProduct) throws DatabaseException {
+        clearMetadata(newProduct);
+
+        Product old = null;
+        for (Product p : (List<Product>) root.getRProjects()) {
+            if (p.getName().equals(newProduct.getName())) {
+                old = p;
+                break;
+            }
+        }
+
+        if (old == null) {
+            createNewProduct(newProduct);
+        } else {
+            addNewVersionToProduct(old, newProduct, newProduct.getVersions().get(0));
+        }
+    }
+
+    public void updateProduct(Product product) throws DatabaseException {
+        // TODO
     }
 
 }
