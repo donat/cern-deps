@@ -14,40 +14,4 @@
 	<name>devtools-deps-eclipse test</name>
 	<version>1.0.0.20130609</version>
 
-	<dependencies>
-		<dependency>
-			<groupId>cern.devtools.deps</groupId>
-			<artifactId>devtools-deps-common</artifactId>
-			<version>3.0.0-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>process-sources</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<includeArtifactIds>devtools-deps-common</includeArtifactIds>
-					<excludeTransitive>true</excludeTransitive>
-					<outputDirectory>${project.basedir}/lib</outputDirectory>
-					<stripVersion>true</stripVersion>
-				</configuration>
-			</plugin>
-
-		</plugins>
-	</build>
 </project>
