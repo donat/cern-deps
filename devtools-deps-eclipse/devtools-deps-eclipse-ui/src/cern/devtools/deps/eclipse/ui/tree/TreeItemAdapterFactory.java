@@ -106,6 +106,8 @@ public class TreeItemAdapterFactory implements IAdapterFactory {
                     return Images.ICON_VERSION.descriptor();
                 case PACKAGE:
                     return Images.ICON_PACKAGE.descriptor();
+                default:
+                    break;
                 }
             }
             return null;
