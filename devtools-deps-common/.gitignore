@@ -3,3 +3,4 @@ build/*
 target/*
 .settings/*
 /target
+/.settings
