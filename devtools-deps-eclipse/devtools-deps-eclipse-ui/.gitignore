@@ -4,3 +4,4 @@ target
 
 # remove lib folder content
 lib/*.jar
+/lib
