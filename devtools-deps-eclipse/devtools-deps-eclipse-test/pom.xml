@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>cern.devtools.deps</groupId>
+		<artifactId>devtools-deps-eclipse-parent</artifactId>
+		<version>3.0.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<artifactId>cern.devtools.deps.eclipse.test</artifactId>
+	<packaging>eclipse-test-plugin</packaging>
+	<name>devtools-deps-eclipse test</name>
+	<version>1.0.0.20130609</version>
+
+	<dependencies>
+		<dependency>
+			<groupId>cern.devtools.deps</groupId>
+			<artifactId>devtools-deps-common</artifactId>
+			<version>3.0.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<includeArtifactIds>devtools-deps-common</includeArtifactIds>
+					<excludeTransitive>true</excludeTransitive>
+					<outputDirectory>${project.basedir}/lib</outputDirectory>
+					<stripVersion>true</stripVersion>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>

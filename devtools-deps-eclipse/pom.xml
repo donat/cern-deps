@@ -17,6 +17,7 @@
 	<modules>
 		<module>devtools-deps-eclipse-prefs</module>
 		<module>devtools-deps-eclipse-ui</module>
+		<module>devtools-deps-eclipse-test</module>
 		<module>devtools-deps-eclipse-feature</module>
 		<module>devtools-deps-eclipse-updatesite</module>
 	</modules>
