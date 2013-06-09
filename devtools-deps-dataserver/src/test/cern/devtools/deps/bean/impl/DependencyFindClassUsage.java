@@ -13,7 +13,7 @@ import cern.devtools.deps.domain.Dependency;
 import cern.devtools.deps.domain.DependencyType;
 import cern.devtools.deps.domain.Modifiers;
 import cern.devtools.deps.domain.TransitiveDependency;
-import cern.devtools.deps.domain.creation.impl.SpringDataNeo4jObjectCreator;
+import cern.devtools.deps.domain.creation.DomainFactory;
 
 /**
  * One class uses (initiates an instance) an another.
@@ -35,6 +35,18 @@ public class DependencyFindClassUsage extends AbstractDependencyDiscoveryTest {
     }
 
     @Override
+    public void test() throws Exception {
+        Collection<Dependency> result = db.findClassDependencies(DomainFactory.creator().createApiClass(
+                "cern.to.To", EnumSet.noneOf(Modifiers.class)));
+        Iterator<Dependency> it = result.iterator();
+        Dependency rh = it.next();
+        assertEquals(DependencyType.CLASS_USAGE, rh.getType());
+        assertEquals("cern.from.From", ((ApiClass) rh.getFrom()).getFqName());
+        assertFalse(rh instanceof TransitiveDependency);
+        assertFalse(it.hasNext());
+    }
+
+    @Override
     public Source to() {
         String source = ""
                 + "package cern.to;                                                                                 \n"
@@ -48,17 +60,5 @@ public class DependencyFindClassUsage extends AbstractDependencyDiscoveryTest {
     @Override
     public Source trans() {
         return null;
-    }
-
-    @Override
-    public void test() throws Exception {
-        Collection<Dependency> result = db.findClassDependencies(new SpringDataNeo4jObjectCreator().createApiClass(
-                "cern.to.To", EnumSet.noneOf(Modifiers.class)));
-        Iterator<Dependency> it = result.iterator();
-        Dependency rh = it.next();
-        assertEquals(DependencyType.CLASS_USAGE, rh.getType());
-        assertEquals("cern.from.From", ((ApiClass) rh.getFrom()).getFqName());
-        assertFalse(rh instanceof TransitiveDependency);
-        assertFalse(it.hasNext());
     }
 }
