@@ -12,7 +12,7 @@
 				</notification>
 			</deployment>
 			<startscript name="DEPS-SERVER">
-				<main-class name="cern.devtools.depanalysis.ServerPro" />
+				<main-class name="cern.devtools.dep.ServerPro" />
 				<java-vm-args>-Xmx2G</java-vm-args>
 				<property name="log4j.configuration" value="file:conf/log4j.properties" />
 			</startscript>
@@ -28,7 +28,7 @@
 				</notification>
 			</deployment>
 			<startscript name="DEPS-TEST">
-				<main-class name="cern.devtools.depanalysis.ServerDev" />
+				<main-class name="cern.devtools.deps.ServerDev" />
 				<java-vm-args>-Xmx2G</java-vm-args>
 				<property name="log4j.configuration" value="file:conf/log4j.properties" />
 			</startscript>
