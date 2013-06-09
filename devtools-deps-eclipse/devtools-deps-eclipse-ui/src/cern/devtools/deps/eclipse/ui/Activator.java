@@ -62,9 +62,8 @@ public class Activator extends AbstractUIPlugin {
         String rmiConnectionString = null;
         try {
             rmiConnectionString = PreferenceStore.getRmiConnectionString();
-            DependencyService service = null;
-            System.out.println(service);
-            Remote r = Naming.lookup("rmi://cs-ccr-apdev:18080/dependency_service");
+            System.out.println(rmiConnectionString);
+            Remote r = Naming.lookup(rmiConnectionString);
             return (DependencyService) r;
         } catch (MalformedURLException e) {
             throw new Exception("Remote location url is not well-formed: " + rmiConnectionString, e);
